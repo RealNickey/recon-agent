@@ -186,4 +186,52 @@ describe("tier2Fuzzy", () => {
     ]);
     expect(t2.outcomes.filter((o) => o.status === "matched")).toHaveLength(0);
   });
+
+  it("does not subset-sum many-to-one across unrelated vendors without vendor overlap", () => {
+    const t2 = tier2Fuzzy([
+      rec("L1", "ledger", 40, "2026-06-01", "INV-11", "Acme Corp invoice"),
+      rec("L2", "ledger", 60, "2026-06-01", "INV-12", "Initech LLC invoice"),
+      rec("B1", "bank", 100, "2026-06-02", "BATCH-9", "Globex Ltd batch payment"),
+    ]);
+    expect(t2.outcomes.filter((o) => o.status === "matched")).toHaveLength(0);
+  });
+
+  it("does not subset-sum one-to-many across unrelated vendors without vendor overlap", () => {
+    const t2 = tier2Fuzzy([
+      rec("L1", "ledger", 100, "2026-06-01", "INV-11", "Acme Corp invoice"),
+      rec("B1", "bank", 40, "2026-06-01", "TX-1", "Initech LLC installment"),
+      rec("B2", "bank", 60, "2026-06-02", "TX-2", "Globex Ltd installment"),
+    ]);
+    expect(t2.outcomes.filter((o) => o.status === "matched")).toHaveLength(0);
+  });
+
+  it("auto-commits wide timing drift (up to 20 days) with exact invoice and amount", () => {
+    const t2 = tier2Fuzzy([
+      rec("L1", "ledger", 500, "2026-06-01", "INV-8899", "Acme Corp invoice INV-8899"),
+      rec("B1", "bank", 500, "2026-06-12", "INV-8899", "Acme Corp payment INV-8899"),
+    ]);
+    expect(t2.residual).toHaveLength(0);
+    expect(t2.outcomes.every((o) => o.status === "matched")).toBe(true);
+    expect(t2.outcomes[0]?.reasonCode).toBe("timing_gap");
+  });
+
+  it("auto-commits weak identity matching via embedded PO# in description", () => {
+    const t2 = tier2Fuzzy([
+      rec("L1", "ledger", 3200, "2026-06-07", "PO-937478", "Hooli monthly retainer PO-937478"),
+      rec("B1", "bank", 3200, "2026-06-08", "WIRE-2367", "HOOLI RET PO#937478"),
+    ]);
+    expect(t2.residual).toHaveLength(0);
+    expect(t2.outcomes.every((o) => o.status === "matched")).toBe(true);
+  });
+
+  it("auto-commits cross-currency FX pairs with shared vendor in settlement window", () => {
+    const t2 = tier2Fuzzy([
+      rec("L1", "ledger", 2288.09, "2026-06-09", "TX-INT-27097", "Aperture Science overseas consulting", "USD"),
+      rec("B1", "bank", 2031.53, "2026-06-10", "WIRE-SEPA-94244", "APERTURE SCIENCE EUR SETTLE", "EUR"),
+    ]);
+    expect(t2.residual).toHaveLength(0);
+    expect(t2.outcomes.every((o) => o.status === "matched")).toBe(true);
+    expect(t2.outcomes[0]?.reasonCode).toBe("currency_mismatch");
+  });
 });
+
