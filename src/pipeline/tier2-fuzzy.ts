@@ -52,6 +52,7 @@ function dateScore(a: FinRecord, b: FinRecord): number {
   if (d === 0) return 0.25;
   if (d <= 2) return 0.22;
   if (d <= 5) return 0.08;
+  if (d <= 20) return 0.04;
   return 0;
 }
 
@@ -157,7 +158,7 @@ export function tier2Fuzzy(residual: FinRecord[]): Tier2Result {
     return still().filter((r) => set.has(r.source));
   };
 
-  // --- 1:1 auto-commit: same invoice identity + settlement window ---
+  // --- 1:1 auto-commit: same invoice identity + settlement window (tight or wide) ---
   type Pair = { a: FinRecord; b: FinRecord; reason: ReasonCode; why: string };
   const scored: Pair[] = [];
   const seenPair = new Set<string>();
@@ -165,19 +166,26 @@ export function tier2Fuzzy(residual: FinRecord[]): Tier2Result {
     for (const c of candidatePools.get(r.id) ?? []) {
       const other = c.candidate;
       if (!sameInvoice(r.reference, other.reference)) continue;
-      if (!inSettleWindow(r, other, SETTLE_DAYS)) continue;
-      const key = [r.id, other.id].sort().join("|");
-      if (seenPair.has(key)) continue;
-      seenPair.add(key);
+      const days = daysBetween(r.date, other.date);
+      if (!Number.isFinite(days) || days > 20) continue;
+
       const absClose = amountsClose(absAmt(r.amount), absAmt(other.amount), 0.05, 0.005);
       const feeClose = amountsClose(absAmt(r.amount), absAmt(other.amount), 0.05, 0.03);
       const fxOrPartial = ratio(r.amount, other.amount) >= 0.2;
-      if (!(absClose || feeClose || fxOrPartial)) continue;
+
+      // For wide timing drift (> SETTLE_DAYS), require exact amount match and same currency
+      if (days > SETTLE_DAYS && (!absClose || r.currency !== other.currency)) continue;
+      if (days <= SETTLE_DAYS && !(absClose || feeClose || fxOrPartial)) continue;
+
+      const key = [r.id, other.id].sort().join("|");
+      if (seenPair.has(key)) continue;
+      seenPair.add(key);
+
       scored.push({
         a: r,
         b: other,
         reason: reasonForPair(r, other),
-        why: `invoice ${r.reference}~${other.reference} days=${daysBetween(r.date, other.date)} ${r.amount} ${r.currency} vs ${other.amount} ${other.currency}`,
+        why: `invoice ${r.reference}~${other.reference} days=${days} ${r.amount} ${r.currency} vs ${other.amount} ${other.currency}`,
       });
     }
   }
