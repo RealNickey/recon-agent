@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { serveStatic } from "hono/bun";
-import { readFileSync, existsSync, readdirSync } from "node:fs";
+import { readFileSync, existsSync } from "node:fs";
 import { runPipeline } from "./pipeline/run";
 
 const app = new Hono();
@@ -36,7 +36,7 @@ app.get("/api/traces", (c) => {
   return c.json({ traces });
 });
 
-app.use("/*", serveStatic({ root: "./public" }));
+app.get("/*", serveStatic({ root: "./public" }));
 
 export default {
   port: 3000,

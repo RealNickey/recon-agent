@@ -1,12 +1,13 @@
 /**
  * Eval harness — THE CORE DELIVERABLE.
- * Compares results/latest-run.json against the answer key and prints/saves metrics.
+ * Compares a pipeline run against the answer key and prints/saves metrics.
  *
  * Usage: bun run scripts/eval.ts [--results FILE] [--data DIR]
  *
  * Answer key resolution order:
- *   1. process.env.GROUND_TRUTH_PATH  (points OUTSIDE this repo — preferred)
- *   2. <dataDir>/ground-truth.json    (dev convenience fallback)
+ *   1. process.env.GROUND_TRUTH_PATH        (points OUTSIDE this repo — preferred)
+ *      For a holdout eval, point GROUND_TRUTH_HOLDOUT_PATH at the holdout key.
+ *   2. <dataDir>/ground-truth.json          (dev convenience fallback)
  *
  * FITNESS (the number the improvement loop optimizes):
  *   fitness = recall - 2 * falsePositiveRate
@@ -24,9 +25,12 @@ function argVal(flag: string, dflt: string): string {
 }
 const RESULTS = argVal("--results", "results/latest-run.json");
 const DATA = argVal("--data", "data");
+const IS_HOLDOUT = DATA.includes("holdout");
 
 function loadTruth(dataDir: string): { truth: GroundTruth; origin: string } {
-  const envPath = process.env.GROUND_TRUTH_PATH;
+  const envPath = IS_HOLDOUT
+    ? process.env.GROUND_TRUTH_HOLDOUT_PATH ?? process.env.GROUND_TRUTH_PATH
+    : process.env.GROUND_TRUTH_PATH;
   if (envPath && existsSync(envPath)) {
     return { truth: GroundTruthSchema.parse(JSON.parse(readFileSync(envPath, "utf8"))), origin: "env" };
   }
@@ -114,7 +118,7 @@ for (const p of truth.pairs) {
   if (pairCorrect) correctPairs++;
 }
 
-// also catch claimed matches on records the key says nothing about (shouldn't happen, but count them)
+// also catch claimed matches on records the key says nothing about
 for (const o of run.outcomes) {
   if (o.status === "matched" && !matchable.has(o.recordId) && !truth.pairs.some((p) => [p.bankId, ...p.ledgerIds, p.processorId].includes(o.recordId))) {
     falsePositives++;
@@ -133,6 +137,7 @@ for (const o of run.outcomes) if (o.status === "matched") tierCounts[o.tier]++;
 
 const report = {
   ts: new Date().toISOString(),
+  dataset: IS_HOLDOUT ? "holdout" : "dev",
   truthOrigin: origin,
   truthHash: contentHash(JSON.stringify(truth.pairs)),
   resultsFile: RESULTS,
@@ -157,7 +162,7 @@ mkdirSync("logs", { recursive: true });
 appendFileSync("logs/eval-history.jsonl", JSON.stringify(report) + "\n");
 
 console.log("\n=== RECONCILIATION EVAL ===");
-console.log(`answer key: ${origin} (hash ${report.truthHash})  results: ${RESULTS}`);
+console.log(`dataset: ${report.dataset}  answer key: ${origin} (hash ${report.truthHash})  results: ${RESULTS}`);
 console.log(`fitness=${report.fitness}  recall=${report.recall}  precision=${report.precision}  FPR=${report.falsePositiveRate}`);
 console.log(`pairs: ${correctPairs}/${totalPairs} correct, ${falsePositives} false positives`);
 console.log(`tiers: T1=${tierCounts[1]} T2=${tierCounts[2]} T3=${tierCounts[3]}  |  tier3 calls=${run.stats.tier3Calls} tokens=${run.stats.tier3Tokens}  |  ${report.recordsPerSec} rec/s`);
