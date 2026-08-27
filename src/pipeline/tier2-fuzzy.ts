@@ -321,6 +321,32 @@ export function tier2Fuzzy(residual: FinRecord[]): Tier2Result {
     );
   }
 
+  // --- cross-currency FX matching without explicit invoice tokens ---
+  for (const b of unused("bank")) {
+    if (b.currency === "USD") continue;
+    const cands: Array<{ l: FinRecord; d: number; v: number; r: number }> = [];
+    for (const l of unused("ledger")) {
+      if (l.currency === b.currency) continue;
+      const d = daysBetween(b.date, l.date);
+      if (d > SETTLE_DAYS) continue;
+      const v = vendorOverlap(b.description, l.description);
+      if (v < 0.8) continue;
+      const r = ratio(b.amount, l.amount);
+      if (r < 0.80 || r > 1.25) continue;
+      cands.push({ l, d, v, r });
+    }
+    cands.sort((x, y) => x.d - y.d || Math.abs(1 - y.r) - Math.abs(1 - x.r));
+    if (cands.length > 0) {
+      const best = cands[0]!.l;
+      pushGroup(
+        [b, best],
+        0.95,
+        "currency_mismatch",
+        `cross-currency FX match: bank ${b.amount} ${b.currency} on ${b.date} vs ledger ${best.amount} ${best.currency} on ${best.date} (vendor overlap ${cands[0]!.v})`
+      );
+    }
+  }
+
   for (const r of still()) {
     const pool = candidatePools.get(r.id) ?? [];
     const have = new Set(pool.map((c) => c.candidate.id));
