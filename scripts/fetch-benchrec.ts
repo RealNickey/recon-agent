@@ -3,7 +3,15 @@
  * Uses Kaggle API v1 over plain HTTPS with basic auth — no Python/CLI needed.
  * Silently no-ops if creds are missing or anything fails.
  *
- * First run inspects the CSV and prints its actual columns, then maps defensively.
+ * BenchRec structure (verified against the live dataset):
+ *   - BenchRec_cash_v1.0_eval.csv      — the records, split into A_* and B_* sides (never both in one row)
+ *   - BenchRec_cash_v1.0_solution.csv  — B_id -> targetAllocation (the match label)
+ *   - Join key: B's targetAllocation == A's A_allocation (normalized whitespace)
+ *   - ~94% of B records join; ~47% of joins are genuine many-to-one groups
+ *
+ * We reconstruct real match groups (one B record + its A-side group) and merge a
+ * sample into our three-source dataset as category "benchrec_real", with the
+ * answer key updated so eval scores them like everything else.
  */
 import { writeFileSync, existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -15,12 +23,19 @@ import type { FinRecord, GroundTruth } from "../src/types";
 const user = process.env.KAGGLE_USERNAME;
 const key = process.env.KAGGLE_KEY;
 const DATA = "data";
-const SAMPLE = 15;
+const SAMPLE = 20; // real match groups to mix in
 
 if (!user || !key) {
   console.log("no KAGGLE_USERNAME/KAGGLE_KEY — skipping BenchRec (synthetic-only is fine)");
   process.exit(0);
 }
+
+const norm = (s: string | undefined) => (s ?? "").replace(/\s+/g, " ").trim();
+const cleanAmt = (s: string | undefined) => {
+  const n = parseFloat((s ?? "").replace(/[^0-9.\-]/g, ""));
+  return Number.isFinite(n) ? round2(Math.abs(n)) : null;
+};
+const cleanDate = (s: string | undefined) => (s ?? "").slice(0, 10) || "2023-01-01";
 
 const url = "https://www.kaggle.com/api/v1/datasets/download/benchmarkteam/benchrec-real-world-cash-reconciliation-dataset";
 try {
@@ -29,50 +44,84 @@ try {
     redirect: "follow",
   });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  const zip = new Uint8Array(await res.arrayBuffer());
-  const files = unzipSync(zip);
-  const csvName = Object.keys(files).find((f) => f.toLowerCase().endsWith(".csv"));
-  if (!csvName) throw new Error("no csv in archive");
-  const text = new TextDecoder().decode(files[csvName]);
-  const parsed = Papa.parse<Record<string, string>>(text, { header: true, skipEmptyLines: true });
-  const rows = parsed.data;
-  const cols = parsed.meta.fields ?? [];
-  console.log(`benchrec: ${rows.length} rows`);
-  console.log(`columns: ${cols.join(" | ")}`);
-  console.log(`sample row: ${JSON.stringify(rows[0])}`);
+  const files = unzipSync(new Uint8Array(await res.arrayBuffer()));
+  const dec = (f: string) => Papa.parse<Record<string, string>>(new TextDecoder().decode(files[f]), { header: true, skipEmptyLines: true }).data;
 
-  // Column mapping — defensive: match by normalized header substring.
-  const get = (r: Record<string, string>, ...names: string[]) => {
-    for (const n of names) {
-      const k = Object.keys(r).find((h) => h.toLowerCase().replace(/[^a-z0-9]/g, "").includes(n));
-      if (k && r[k] !== undefined && r[k] !== "") return r[k];
+  const evalRows = dec("BenchRec_cash_v1.0_eval.csv");
+  const solution = dec("BenchRec_cash_v1.0_solution.csv");
+
+  const A = evalRows.filter((r) => norm(r.A_id) !== "");
+  const B = evalRows.filter((r) => norm(r.B_id) !== "");
+  const bById = new Map(B.map((r) => [norm(r.B_id), r]));
+  const aByAlloc = new Map<string, typeof A>();
+  for (const r of A) {
+    const k = norm(r.A_allocation);
+    if (k) {
+      const arr = aByAlloc.get(k) ?? [];
+      arr.push(r);
+      aByAlloc.set(k, arr);
     }
-    return "";
-  };
+  }
 
-  const rng = mulberry32(1234);
-  const shuffled = [...rows].sort(() => rng() - 0.5);
+  // Build real match groups: one B record + its A-side group
+  interface Group { b: (typeof B)[number]; aGroup: typeof A }
+  const groups: Group[] = [];
+  for (const s of solution) {
+    const k = norm(s.targetAllocation);
+    const aGroup = aByAlloc.get(k);
+    const bRow = bById.get(norm(s.B_id));
+    if (aGroup && bRow) groups.push({ b: bRow, aGroup });
+  }
+  console.log(`benchrec: ${A.length} A records, ${B.length} B records, ${groups.length} reconstructable match groups`);
+
+  // Sample a mix: prefer some many-to-one (aGroup>1) and some 1:1
+  const rng = mulberry32(2024);
+  const shuffled = [...groups].sort(() => rng() - 0.5);
+  const mto = shuffled.filter((g) => g.aGroup.length > 1);
+  const oto = shuffled.filter((g) => g.aGroup.length === 1);
+  const picked = [...mto.slice(0, Math.ceil(SAMPLE / 2)), ...oto.slice(0, Math.floor(SAMPLE / 2))];
+
   const bank: FinRecord[] = [];
   const ledger: FinRecord[] = [];
   const pairs: GroundTruth["pairs"] = [];
   let bSeq = 70000, lSeq = 71000;
 
-  for (const r of shuffled) {
-    if (bank.length >= SAMPLE) break;
-    const amtRaw = get(r, "amount", "amt", "value", "debit", "credit");
-    const amt = parseFloat(String(amtRaw).replace(/[^0-9.\-]/g, ""));
-    if (!isFinite(amt) || amt === 0) continue;
-    const date = get(r, "date", "postingdate", "valuedate", "transactiondate").slice(0, 10) || "2026-06-15";
-    const desc = (get(r, "description", "narrative", "memo", "details", "reference") || "benchrec txn").slice(0, 80);
-    const ref = (get(r, "reference", "ref", "transactionid", "id", "checknumber") || `BR${bSeq}`).slice(0, 30);
-    const absAmt = round2(Math.abs(amt));
-    const b: FinRecord = { id: `B${bSeq++}`, source: "bank", date, amount: absAmt, currency: "USD", description: desc, reference: ref };
-    const l: FinRecord = { id: `L${lSeq++}`, source: "ledger", date, amount: absAmt, currency: "USD", description: desc, reference: ref };
-    bank.push(b); ledger.push(l);
-    pairs.push({ bankId: b.id, ledgerIds: [l.id], processorId: null, category: "exact" });
+  for (const g of picked) {
+    const bAmt = cleanAmt(g.b.B_amount);
+    if (bAmt === null) continue;
+    const bId = `B${bSeq++}`;
+    const bRef = norm(g.b.B_transactionReferences).slice(0, 40) || bId;
+    bank.push({
+      id: bId,
+      source: "bank",
+      date: cleanDate(g.b.B_valueDate),
+      amount: bAmt,
+      currency: norm(g.b.B_currencyCode) || "USD",
+      description: norm(g.b.B_transactionAttributes).slice(0, 80) || "benchrec bank txn",
+      reference: bRef,
+    });
+    const ledgerIds: string[] = [];
+    for (const a of g.aGroup) {
+      const aAmt = cleanAmt(a.A_amount);
+      if (aAmt === null) continue;
+      const lId = `L${lSeq++}`;
+      ledger.push({
+        id: lId,
+        source: "ledger",
+        date: cleanDate(a.A_valueDate),
+        amount: aAmt,
+        currency: norm(a.A_currencyCode) || "USD",
+        description: norm(a.A_transactionAttributes).slice(0, 80) || "benchrec ledger txn",
+        reference: norm(a.A_transactionReferences).slice(0, 40) || lId,
+      });
+      ledgerIds.push(lId);
+    }
+    if (ledgerIds.length > 0) {
+      pairs.push({ bankId: bId, ledgerIds, processorId: null, category: "benchrec_real" });
+    }
   }
 
-  if (bank.length === 0) throw new Error("no usable rows mapped — check column mapping against the printed columns above");
+  if (bank.length === 0) throw new Error("no usable groups reconstructed");
 
   const bankFile = join(DATA, "bank-statement.json");
   const ledgerFile = join(DATA, "internal-ledger.json");
@@ -83,10 +132,12 @@ try {
     const et = JSON.parse(readFileSync(truthFile, "utf8")) as GroundTruth;
     writeFileSync(bankFile, JSON.stringify([...eb, ...bank], null, 2));
     writeFileSync(ledgerFile, JSON.stringify([...el, ...ledger], null, 2));
-    et.pairs.push(...pairs);
-    et.meta.counts["benchrec_real"] = bank.length;
+    for (const p of pairs) et.pairs.push(p);
+    et.meta.counts["benchrec_real"] = pairs.length;
     writeFileSync(truthFile, JSON.stringify(et, null, 2));
-    console.log(`mixed ${bank.length} real records into dataset (category: exact, tagged benchrec_real in key)`);
+    console.log(`mixed ${pairs.length} real match groups (${bank.length} bank + ${ledger.length} ledger records) into dataset`);
+    const mtoCount = pairs.filter((p) => p.ledgerIds.length > 1).length;
+    console.log(`  of which many-to-one: ${mtoCount}, one-to-one: ${pairs.length - mtoCount}`);
   } else {
     console.log("synthetic dataset not generated yet — run bun run gen first; skipping merge");
   }

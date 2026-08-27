@@ -89,6 +89,7 @@ export const GroundTruthSchema = z.object({
         "many_to_one",
         "duplicate",
         "unmatchable",
+        "benchrec_real",
       ]),
     })
   ),
