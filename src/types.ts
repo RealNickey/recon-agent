@@ -68,6 +68,7 @@ export const RunResultSchema = z.object({
     exceptions: z.number(),
     tier3Calls: z.number(),
     tier3Tokens: z.number(),
+    tier3CostUsd: z.number(),
   }),
 });
 export type RunResult = z.infer<typeof RunResultSchema>;

@@ -2,6 +2,8 @@
  * Optional: mix real reconciliation data (Kaggle BenchRec) into the synthetic set.
  * Uses Kaggle API v1 over plain HTTPS with basic auth — no Python/CLI needed.
  * Silently no-ops if creds are missing or anything fails.
+ *
+ * First run inspects the CSV and prints its actual columns, then maps defensively.
  */
 import { writeFileSync, existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -34,41 +36,44 @@ try {
   const text = new TextDecoder().decode(files[csvName]);
   const parsed = Papa.parse<Record<string, string>>(text, { header: true, skipEmptyLines: true });
   const rows = parsed.data;
-  console.log(`benchrec: ${rows.length} rows, columns: ${parsed.meta.fields?.join(", ")}`);
+  const cols = parsed.meta.fields ?? [];
+  console.log(`benchrec: ${rows.length} rows`);
+  console.log(`columns: ${cols.join(" | ")}`);
+  console.log(`sample row: ${JSON.stringify(rows[0])}`);
 
-  // BenchRec has bank/book sides — map loosely onto our shape. Column names are
-  // normalized defensively since the dataset's exact headers may vary.
+  // Column mapping — defensive: match by normalized header substring.
+  const get = (r: Record<string, string>, ...names: string[]) => {
+    for (const n of names) {
+      const k = Object.keys(r).find((h) => h.toLowerCase().replace(/[^a-z0-9]/g, "").includes(n));
+      if (k && r[k] !== undefined && r[k] !== "") return r[k];
+    }
+    return "";
+  };
+
   const rng = mulberry32(1234);
-  const shuffled = [...rows].sort(() => rng() - 0.5).slice(0, SAMPLE * 2);
+  const shuffled = [...rows].sort(() => rng() - 0.5);
   const bank: FinRecord[] = [];
   const ledger: FinRecord[] = [];
   const pairs: GroundTruth["pairs"] = [];
   let bSeq = 70000, lSeq = 71000;
 
-  const get = (r: Record<string, string>, ...names: string[]) => {
-    for (const n of names) {
-      const k = Object.keys(r).find((h) => h.toLowerCase().replace(/[^a-z0-9]/g, "").includes(n));
-      if (k && r[k]) return r[k];
-    }
-    return "";
-  };
-
   for (const r of shuffled) {
-    const amt = parseFloat(get(r, "amount", "amt", "value"));
-    if (!isFinite(amt)) continue;
-    const date = get(r, "date", "postingdate", "valuedate").slice(0, 10) || "2026-06-15";
-    const desc = get(r, "description", "narrative", "memo", "reference") || "benchrec txn";
-    const ref = get(r, "reference", "ref", "transactionid", "id") || `BR${bSeq}`;
-    const b: FinRecord = { id: `B${bSeq++}`, source: "bank", date, amount: round2(Math.abs(amt)), currency: "USD", description: desc.slice(0, 80), reference: ref.slice(0, 30) };
-    const l: FinRecord = { id: `L${lSeq++}`, source: "ledger", date, amount: b.amount, currency: "USD", description: b.description, reference: b.reference };
+    if (bank.length >= SAMPLE) break;
+    const amtRaw = get(r, "amount", "amt", "value", "debit", "credit");
+    const amt = parseFloat(String(amtRaw).replace(/[^0-9.\-]/g, ""));
+    if (!isFinite(amt) || amt === 0) continue;
+    const date = get(r, "date", "postingdate", "valuedate", "transactiondate").slice(0, 10) || "2026-06-15";
+    const desc = (get(r, "description", "narrative", "memo", "details", "reference") || "benchrec txn").slice(0, 80);
+    const ref = (get(r, "reference", "ref", "transactionid", "id", "checknumber") || `BR${bSeq}`).slice(0, 30);
+    const absAmt = round2(Math.abs(amt));
+    const b: FinRecord = { id: `B${bSeq++}`, source: "bank", date, amount: absAmt, currency: "USD", description: desc, reference: ref };
+    const l: FinRecord = { id: `L${lSeq++}`, source: "ledger", date, amount: absAmt, currency: "USD", description: desc, reference: ref };
     bank.push(b); ledger.push(l);
     pairs.push({ bankId: b.id, ledgerIds: [l.id], processorId: null, category: "exact" });
-    if (bank.length >= SAMPLE) break;
   }
 
-  if (bank.length === 0) throw new Error("no usable rows mapped");
+  if (bank.length === 0) throw new Error("no usable rows mapped — check column mapping against the printed columns above");
 
-  // merge into existing dataset
   const bankFile = join(DATA, "bank-statement.json");
   const ledgerFile = join(DATA, "internal-ledger.json");
   const truthFile = join(DATA, "ground-truth.json");
@@ -81,7 +86,7 @@ try {
     et.pairs.push(...pairs);
     et.meta.counts["benchrec_real"] = bank.length;
     writeFileSync(truthFile, JSON.stringify(et, null, 2));
-    console.log(`mixed ${bank.length} real records into dataset`);
+    console.log(`mixed ${bank.length} real records into dataset (category: exact, tagged benchrec_real in key)`);
   } else {
     console.log("synthetic dataset not generated yet — run bun run gen first; skipping merge");
   }

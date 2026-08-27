@@ -1,9 +1,15 @@
 /**
  * Tier 2 — deterministic fuzzy matching. No AI.
  * Scores residual records against each other on amount tolerance, date window,
- * and description similarity. Auto-commits only >= 0.95; passes the rest (with
- * a small candidate pool) to tier 3.
+ * and description/reference similarity. Auto-commits only >= 0.95; everything
+ * else goes to tier 3 with a small candidate pool.
+ *
+ * Design note: the candidate pool is deliberately generous (any non-zero
+ * similarity signal, up to 8) — tier 2's job is RECALL of plausible pairs,
+ * tier 3's job is the precision decision. A pool that starves tier 3 of
+ * candidates is a pipeline bug, not caution.
  */
+import Decimal from "decimal.js";
 import { amountsClose, daysBetween, tokenSim, normalizeRef } from "../normalize";
 import type { FinRecord, Outcome } from "../types";
 import type { TierResult } from "./tier1-exact";
@@ -19,18 +25,35 @@ export interface Tier2Result extends TierResult {
 }
 
 const AUTO = 0.95;
-const PASS_DOWN = 0.45;
 const MAX_POOL = 8;
+
+function amountScore(a: FinRecord, b: FinRecord): number {
+  const da = new Decimal(a.amount);
+  const db = new Decimal(b.amount);
+  if (da.isZero() || db.isZero()) return 0;
+  const pctDiff = da.minus(db).abs().div(Decimal.max(da.abs(), db.abs())).toNumber();
+  if (pctDiff <= 0.005) return 0.5; // within ~0.5% (fees/rounding)
+  if (pctDiff <= 0.03) return 0.35; // plausible fee/FX band
+  if (pctDiff <= 0.10) return 0.15; // weak but worth showing tier 3
+  return 0;
+}
+
+function dateScore(a: FinRecord, b: FinRecord): number {
+  const d = daysBetween(a.date, b.date);
+  if (d === 0) return 0.25;
+  if (d <= 2) return 0.18; // T+1/T+2 settlement
+  if (d <= 5) return 0.08;
+  return 0;
+}
+
+function descScore(a: FinRecord, b: FinRecord): number {
+  const refSim = normalizeRef(a.reference) === normalizeRef(b.reference) ? 1 : 0;
+  return Math.max(tokenSim(a.description, b.description), refSim) * 0.25;
+}
 
 function scorePair(a: FinRecord, b: FinRecord): number {
   if (a.source === b.source) return 0;
-  const amtScore = amountsClose(a.amount, b.amount, 0.05, 0.005) ? 0.5 : 0;
-  if (amtScore === 0) return 0; // hard gate: money must be close
-  const dDays = daysBetween(a.date, b.date);
-  const dateScore = dDays === 0 ? 0.25 : dDays <= 2 ? 0.18 : dDays <= 5 ? 0.08 : 0;
-  const refSim = normalizeRef(a.reference) === normalizeRef(b.reference) ? 1 : 0;
-  const descScore = Math.max(tokenSim(a.description, b.description), refSim) * 0.25;
-  return amtScore + dateScore + descScore;
+  return amountScore(a, b) + dateScore(a, b) + descScore(a, b);
 }
 
 export function tier2Fuzzy(residual: FinRecord[]): Tier2Result {
@@ -38,19 +61,19 @@ export function tier2Fuzzy(residual: FinRecord[]): Tier2Result {
   const candidatePools = new Map<string, Candidate[]>();
   const used = new Set<string>();
 
-  // build candidate pools for everything first (needed for tier 3 regardless)
+  // Candidate pools: any cross-source record with a non-zero signal. Recall-first.
   for (const r of residual) {
     const pool: Candidate[] = [];
     for (const other of residual) {
       if (other.id === r.id) continue;
       const s = scorePair(r, other);
-      if (s >= PASS_DOWN) pool.push({ candidate: other, score: s });
+      if (s > 0) pool.push({ candidate: other, score: s });
     }
     pool.sort((x, y) => y.score - x.score);
     candidatePools.set(r.id, pool.slice(0, MAX_POOL));
   }
 
-  // greedy auto-commit on mutual best scores >= AUTO
+  // Greedy auto-commit on high-confidence mutual pairs.
   const scored: { a: FinRecord; b: FinRecord; s: number }[] = [];
   for (const r of residual) {
     const best = candidatePools.get(r.id)?.[0];

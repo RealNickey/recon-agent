@@ -29,7 +29,7 @@ export async function runPipeline(dataDir = DATA, outFile = OUT, useAi = !NO_AI)
 
   const t1 = tier1Exact(all);
   const t2 = tier2Fuzzy(t1.residual);
-  let t3 = { outcomes: [] as RunResult["outcomes"], calls: 0, tokens: 0 };
+  let t3 = { outcomes: [] as RunResult["outcomes"], calls: 0, tokens: 0, costUsd: 0 };
   if (useAi && t2.residual.length > 0) {
     mkdirSync("logs", { recursive: true });
     t3 = await tier3Agentic(t2.residual, t2.candidatePools);
@@ -53,6 +53,7 @@ export async function runPipeline(dataDir = DATA, outFile = OUT, useAi = !NO_AI)
       exceptions: outcomes.filter((o) => o.status === "exception").length,
       tier3Calls: t3.calls,
       tier3Tokens: t3.tokens,
+      tier3CostUsd: +t3.costUsd.toFixed(6),
     },
   };
   RunResultSchema.parse(result);
@@ -63,6 +64,6 @@ export async function runPipeline(dataDir = DATA, outFile = OUT, useAi = !NO_AI)
 
 if (import.meta.main) {
   const r = await runPipeline();
-  console.log(`done in ${r.durationMs}ms — matched=${r.stats.matched} exceptions=${r.stats.exceptions} tier3Calls=${r.stats.tier3Calls} tokens=${r.stats.tier3Tokens}`);
+  console.log(`done in ${r.durationMs}ms — matched=${r.stats.matched} exceptions=${r.stats.exceptions} tier3Calls=${r.stats.tier3Calls} tokens=${r.stats.tier3Tokens} cost=usd${r.stats.tier3CostUsd}`);
   console.log(`wrote ${OUT}`);
 }

@@ -32,6 +32,7 @@ export interface Tier3Result {
   outcomes: Outcome[];
   calls: number;
   tokens: number;
+  costUsd: number;
 }
 
 export async function tier3Agentic(
@@ -43,7 +44,8 @@ export async function tier3Agentic(
   const outcomes: Outcome[] = [];
   let calls = 0;
   let tokens = 0;
-  const claimed = new Set<string>(); // candidate ids already consumed by a many-to-one/1:1 match
+  let costUsd = 0;
+  const claimed = new Set<string>(); // candidate ids already consumed by a match
 
   await Promise.all(
     residual.map((rec) =>
@@ -64,6 +66,9 @@ export async function tier3Agentic(
           decision = res.object;
           calls++;
           tokens += res.usage?.totalTokens ?? 0;
+          // OpenRouter returns cost in providerMetadata; fall back to 0 for free models
+          const meta = (res as { providerMetadata?: Record<string, { cost?: number }> }).providerMetadata;
+          costUsd += meta?.openrouter?.cost ?? 0;
         } catch (err) {
           decision = {
             matchedIds: null,
@@ -107,5 +112,5 @@ export async function tier3Agentic(
       })
     )
   );
-  return { outcomes, calls, tokens };
+  return { outcomes, calls, tokens, costUsd };
 }
