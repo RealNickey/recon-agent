@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>recon-agent</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #0b0d10; color: #d6dbe1; font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  header { display: flex; align-items: center; gap: 12px; padding: 12px 20px; border-bottom: 1px solid #1e242c; }
+  h1 { font-size: 14px; font-weight: 600; margin: 0; letter-spacing: .04em; }
+  button { background: #1f6feb; color: #fff; border: 0; border-radius: 6px; padding: 6px 14px; font: inherit; cursor: pointer; }
+  button:disabled { opacity: .4; cursor: default; }
+  .wrap { padding: 20px; max-width: 1200px; margin: 0 auto; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 20px; }
+  .card { background: #11151a; border: 1px solid #1e242c; border-radius: 8px; padding: 12px 14px; }
+  .card .k { color: #7d8590; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
+  .card .v { font-size: 22px; font-weight: 600; margin-top: 4px; }
+  .good { color: #3fb950; } .bad { color: #f85149; } .warn { color: #d29922; }
+  h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: #7d8590; margin: 24px 0 8px; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { text-align: left; padding: 6px 10px; border-bottom: 1px solid #1e242c; white-space: nowrap; }
+  th { color: #7d8590; font-weight: 500; font-size: 11px; text-transform: uppercase; }
+  .bar { height: 8px; background: #1e242c; border-radius: 4px; overflow: hidden; min-width: 120px; }
+  .bar > div { height: 100%; background: #1f6feb; }
+  .pill { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 11px; background: #1e242c; }
+  .pill.matched { background: #0d2b16; color: #3fb950; }
+  .pill.exception { background: #2d1518; color: #f85149; }
+  details { background: #11151a; border: 1px solid #1e242c; border-radius: 8px; padding: 10px 14px; margin-bottom: 8px; }
+  summary { cursor: pointer; color: #8b949e; }
+  pre { white-space: pre-wrap; word-break: break-word; margin: 8px 0 0; color: #9da7b3; font-size: 12px; }
+  #status { color: #7d8590; }
+</style>
+</head>
+<body>
+<header>
+  <h1>recon-agent</h1>
+  <button id="run">Run pipeline</button>
+  <span id="status"></span>
+</header>
+<div class="wrap">
+  <div class="cards" id="cards"></div>
+  <h2>By category</h2>
+  <table id="cats"><thead><tr><th>category</th><th>total</th><th>ok</th><th>fp</th><th>miss</th><th>honest</th><th></th></tr></thead><tbody></tbody></table>
+  <h2>Exceptions</h2>
+  <table id="exc"><thead><tr><th>record</th><th>source</th><th>reason</th><th>tier</th><th>candidates</th></tr></thead><tbody></tbody></table>
+  <h2>Reasoning traces (tier 3)</h2>
+  <div id="traces"></div>
+</div>
+<script>
+const $ = (s) => document.querySelector(s);
+const fmt = (n) => typeof n === "number" ? n.toFixed(3) : "—";
+
+async function refresh() {
+  const [report, traces] = await Promise.all([
+    fetch("/api/report").then(r => r.json()),
+    fetch("/api/traces?limit=12").then(r => r.json()),
+  ]);
+  const m = report.latest;
+  $("#status").textContent = report.running ? "pipeline running…" : (m ? `last eval ${new Date(m.ts).toLocaleString()}` : "no runs yet");
+
+  $("#cards").innerHTML = m ? [
+    ["fitness", fmt(m.fitness), m.fitness > 0.7 ? "good" : m.fitness > 0.4 ? "warn" : "bad"],
+    ["recall", fmt(m.recall), ""],
+    ["precision", fmt(m.precision), ""],
+    ["false pos", m.falsePositives, m.falsePositives > 0 ? "bad" : "good"],
+    ["tier3 calls", m.tier3Calls, ""],
+    ["tokens", m.tier3Tokens, ""],
+    ["rec/s", m.recordsPerSec, ""],
+    ["duration", (m.durationMs/1000).toFixed(1) + "s", ""],
+  ].map(([k, v, c]) => `<div class="card"><div class="k">${k}</div><div class="v ${c}">${v}</div></div>`).join("")
+  : `<div class="card"><div class="k">no data</div><div class="v">—</div></div>`;
+
+  const cats = m?.byCategory ?? {};
+  $("#cats tbody").innerHTML = Object.entries(cats).map(([c, s]) => {
+    const pct = s.total ? Math.round(100 * (s.correct + s.honest) / s.total) : 0;
+    return `<tr><td>${c}</td><td>${s.total}</td><td class="good">${s.correct}</td><td class="bad">${s.falsePos}</td><td class="warn">${s.missed}</td><td>${s.honest}</td><td><div class="bar"><div style="width:${pct}%"></div></div></td></tr>`;
+  }).join("");
+
+  const outcomes = report.run?.outcomes ?? [];
+  $("#exc tbody").innerHTML = outcomes.filter(o => o.status === "exception").slice(0, 60)
+    .map(o => `<tr><td>${o.recordId}</td><td>${o.source}</td><td><span class="pill exception">${o.reasonCode}</span></td><td>T${o.tier}</td><td>${o.candidatesConsidered}</td></tr>`).join("")
+    || `<tr><td colspan="5" style="color:#7d8590">none</td></tr>`;
+
+  $("#traces").innerHTML = (traces.traces ?? []).reverse().map(t =>
+    `<details><summary>${t.recordId} · ${t.decision.reasonCode} · conf ${fmt(t.decision.confidence)} · ${t.latencyMs}ms</summary><pre>${t.decision.reasoning}\nmatchedIds: ${JSON.stringify(t.decision.matchedIds)}\npool: ${t.poolSize} candidates</pre></details>`
+  ).join("") || `<div style="color:#7d8590">no tier-3 traces yet</div>`;
+}
+
+$("#run").onclick = async () => {
+  $("#run").disabled = true;
+  try { await fetch("/api/run", { method: "POST" }); } finally { $("#run").disabled = false; refresh(); }
+};
+refresh();
+setInterval(refresh, 2000);
+</script>
+</body>
+</html>
