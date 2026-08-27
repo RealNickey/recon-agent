@@ -75,8 +75,10 @@ export function tokenSim(a: string, b: string): number {
 }
 
 const VENDOR_STOP = new Set([
-  "invoice", "payment", "batch", "the", "for", "and", "inc", "ltd", "llc", "corp", "co",
+  "invoice", "inv", "payment", "pmt", "batch", "the", "for", "and", "inc", "ltd", "llc", "corp", "co",
   "debit", "credit", "transfer", "wire", "ach", "pos", "card", "refund", "reversal",
+  "txn", "trx", "ref", "ret", "retainer", "milestone", "project", "unallocated",
+  "deposit", "settle", "settlement", "overseas", "consulting", "services", "monthly", "bill",
 ]);
 
 export function vendorTokens(desc: string): string[] {

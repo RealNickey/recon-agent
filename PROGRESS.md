@@ -11,3 +11,7 @@
 7 | holdout re-run after matcher change, no AI | all synthetic | holdout 1.0000 (66/66, P=1, FPR=0, delta 0.0000) | hash e8e4fa7bb6da52a0
 8 | Decimal amount keys in T1 + reject ledger-only claimed groups in scoring | exact / many_to_one scoring | 1.0000→1.0000 (81/81, P=1, FPR=0; benchrec 15/15) | hash f7c0b963363fca70
 9 | holdout re-run after T1 Decimal keys + scoring legality, no AI | all synthetic | holdout 1.0000 (66/66, P=1, FPR=0, delta 0.0000) | hash e8e4fa7bb6da52a0
+10 | hard dataset baseline (seed 999), no AI, no rule changes | hard evaluation set | —→0.5484 (38/62 pairs, P=0.9500, FPR=0.0323, 2 FPs) | seed 999 hash b3057890b01ecebf
+11 | fix subset-sum vendor fallback bug + cash position reporting + loop infra | many_to_one_wide, distractor | 0.5484→0.5968 (39/62 pairs, P=0.9750, FPR=0.0161, 1 FP) | seed 999 hash b3057890b01ecebf
+12 | expand VENDOR_STOP + exact subset-sum tolerance on synthetic amounts | many_to_one_wide, distractor | 0.5968→0.6452 (40/62 pairs, P=1.0000, FPR=0.0000, 0 FPs) | seed 999 hash b3057890b01ecebf
+

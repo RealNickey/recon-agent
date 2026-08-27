@@ -12,7 +12,7 @@
  * candidate pool that always keeps same-invoice hits and likely subset-sum parts.
  */
 import Decimal from "decimal.js";
-import { amountsClose, daysBetween, tokenSim, sameInvoice, vendorOverlap, subsetSumUnique, amountAbsTol } from "../normalize";
+import { amountKey, amountsClose, daysBetween, tokenSim, sameInvoice, vendorOverlap, subsetSumUnique, amountAbsTol } from "../normalize";
 import type { FinRecord, Outcome, ReasonCode } from "../types";
 import type { TierResult } from "./tier1-exact";
 
@@ -104,7 +104,7 @@ function sharedLongToken(a: FinRecord, b: FinRecord): boolean {
   return false;
 }
 function amtDateCurKey(r: FinRecord): string {
-  return `${absAmt(r.amount).toFixed(2)}|${r.date}|${r.currency}`;
+  return `${amountKey(absAmt(r.amount))}|${r.date}|${r.currency}`;
 }
 
 export function tier2Fuzzy(residual: FinRecord[]): Tier2Result {
@@ -242,12 +242,12 @@ export function tier2Fuzzy(residual: FinRecord[]): Tier2Result {
   }
 
   // --- many-to-one: bank deposit = unique subset of invoices in a tight window ---
-  // Vendor overlap is preferred but not required: BenchRec bank descriptions are
-  // often empty placeholders. Safety comes from uniqueness of the reconstruction
-  // plus a rival-bank collision guard, not from a $0.05 absolute tolerance.
+  // Vendor overlap is preferred but not required for large BenchRec wires where bank descriptions
+  // are often empty placeholders. For synthetic amounts (< LARGE_AMT), require exact sum (0.05 tol).
   for (const b of unused("bank")) {
     if (b.amount <= 0) continue;
-    const tol = amountAbsTol(b.amount);
+    const isLarge = b.amount >= LARGE_AMT;
+    const tol = isLarge ? amountAbsTol(b.amount) : 0.05;
     const parts = unused(["ledger", "processor"]).filter(
       (l) =>
         l.currency === b.currency &&
@@ -255,9 +255,9 @@ export function tier2Fuzzy(residual: FinRecord[]): Tier2Result {
         l.amount < b.amount + tol &&
         inSettleWindow(b, l, SETTLE_DAYS)
     );
-    if (parts.length < 2) continue;
     const preferred = parts.filter((l) => vendorOverlap(b.description, l.description) > 0 || sameInvoice(b.reference, l.reference));
-    const pool = preferred.length >= 2 ? preferred : parts;
+    const pool = preferred.length >= 2 ? preferred : isLarge ? parts : [];
+    if (pool.length < 2) continue;
     const hit = subsetSumUnique(
       pool.map((p) => ({ id: p.id, amount: p.amount })),
       b.amount,
@@ -283,7 +283,8 @@ export function tier2Fuzzy(residual: FinRecord[]): Tier2Result {
   // --- one-to-many: one ledger invoice split across several bank credits ---
   for (const l of unused("ledger")) {
     if (l.amount <= 0) continue;
-    const tol = amountAbsTol(l.amount);
+    const isLarge = l.amount >= LARGE_AMT;
+    const tol = isLarge ? amountAbsTol(l.amount) : 0.05;
     const parts = unused("bank").filter(
       (b) =>
         b.currency === l.currency &&
@@ -293,7 +294,8 @@ export function tier2Fuzzy(residual: FinRecord[]): Tier2Result {
     );
     if (parts.length < 2) continue;
     const preferred = parts.filter((b) => vendorOverlap(l.description, b.description) > 0 || sameInvoice(l.reference, b.reference));
-    const pool = preferred.length >= 2 ? preferred : parts;
+    const pool = preferred.length >= 2 ? preferred : isLarge ? parts : [];
+    if (pool.length < 2) continue;
     const hit = subsetSumUnique(
       pool.map((p) => ({ id: p.id, amount: p.amount })),
       l.amount,
