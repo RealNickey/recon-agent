@@ -1,11 +1,18 @@
 /**
  * Deterministic synthetic dataset generator.
  * Usage: bun run scripts/generate-data.ts [--seed N] [--out DIR]
- * Writes bank-statement.json, internal-ledger.json, processor-export.json, ground-truth.json
+ *
+ * Writes bank-statement.json, internal-ledger.json, processor-export.json
+ * into --out. The answer key is NEVER written next to those files.
+ *
+ * If GROUND_TRUTH_PATH (or GROUND_TRUTH_HOLDOUT_PATH when --out contains
+ * "holdout") is set to a path OUTSIDE this repo, the answer key is written
+ * there. Otherwise we print a warning and skip the key — the pipeline can
+ * still run, eval cannot.
  */
 import { mkdirSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
-import { mulberry32, randInt, pick, randomDate, addDays, round2, shuffle } from "../src/util";
+import { dirname, join } from "node:path";
+import { mulberry32, randInt, pick, randomDate, addDays, round2, shuffle, resolveExternalTruthPath } from "../src/util";
 import type { FinRecord, GroundTruth } from "../src/types";
 
 const args = process.argv.slice(2);
@@ -36,14 +43,14 @@ interface Built {
 
 const built: Built = { bank: [], ledger: [], processor: [], truth: [] };
 
-function mkLedger(desc: string, amount: number, date: string, ref: string): FinRecord {
-  return { id: `L${ledgerSeq++}`, source: "ledger", date, amount: round2(amount), currency: "USD", description: desc, reference: ref };
+function mkLedger(desc: string, amount: number, date: string, ref: string, currency = "USD"): FinRecord {
+  return { id: `L${ledgerSeq++}`, source: "ledger", date, amount: round2(amount), currency, description: desc, reference: ref };
 }
-function mkBank(desc: string, amount: number, date: string, ref: string): FinRecord {
-  return { id: `B${bankSeq++}`, source: "bank", date, amount: round2(amount), currency: "USD", description: desc, reference: ref };
+function mkBank(desc: string, amount: number, date: string, ref: string, currency = "USD"): FinRecord {
+  return { id: `B${bankSeq++}`, source: "bank", date, amount: round2(amount), currency, description: desc, reference: ref };
 }
-function mkProc(desc: string, amount: number, date: string, ref: string): FinRecord {
-  return { id: `P${procSeq++}`, source: "processor", date, amount: round2(amount), currency: "USD", description: desc, reference: ref };
+function mkProc(desc: string, amount: number, date: string, ref: string, currency = "USD"): FinRecord {
+  return { id: `P${procSeq++}`, source: "processor", date, amount: round2(amount), currency, description: desc, reference: ref };
 }
 
 const BASE = "2026-06-01";
@@ -69,7 +76,6 @@ function addAmountVariance(n: number) {
     const amt = randInt(rng, 100, 8000) + randInt(rng, 0, 99) / 100;
     const date = randomDate(rng, BASE, SPAN);
     const inv = `INV-${randInt(rng, 10000, 99999)}`;
-    // half within tolerance (<= $0.05 rounding), half outside (fee 0.5–3%)
     const within = i % 2 === 0;
     const bankAmt = within ? amt + round2((rng() - 0.5) * 0.08) : amt * (1 - (0.005 + rng() * 0.025));
     const l = mkLedger(`${v} invoice ${inv}`, amt, date, inv);
@@ -85,7 +91,7 @@ function addTimingDrift(n: number) {
     const amt = randInt(rng, 100, 7000) + randInt(rng, 0, 99) / 100;
     const date = randomDate(rng, BASE, SPAN - 3);
     const inv = `INV-${randInt(rng, 10000, 99999)}`;
-    const lag = randInt(rng, 1, 2); // T+1 / T+2 settlement
+    const lag = randInt(rng, 1, 2);
     const l = mkLedger(`${v} invoice ${inv}`, amt, date, inv);
     const b = mkBank(`${v} payment ${inv}`, amt, addDays(date, lag), inv);
     built.ledger.push(l); built.bank.push(b);
@@ -135,7 +141,6 @@ function addDuplicate(n: number) {
     const amt = randInt(rng, 100, 5000) + randInt(rng, 0, 99) / 100;
     const date = randomDate(rng, BASE, SPAN);
     const inv = `INV-${randInt(rng, 10000, 99999)}`;
-    // ledger has the invoice twice (double-posted); bank has ONE payment
     const l1 = mkLedger(`${v} invoice ${inv}`, amt, date, inv);
     const l2 = mkLedger(`${v} invoice ${inv}`, amt, date, inv);
     const b = mkBank(`${v} payment ${inv}`, amt, date, inv);
@@ -151,14 +156,82 @@ function addUnmatchable(n: number) {
     const date = randomDate(rng, BASE, SPAN);
     const inv = `INV-${randInt(rng, 10000, 99999)}`;
     if (i % 2 === 0) {
-      const l = mkLedger(`${v} invoice ${inv}`, amt, date, inv); // no bank counterpart
+      const l = mkLedger(`${v} invoice ${inv}`, amt, date, inv);
       built.ledger.push(l);
       built.truth.push({ bankId: null, ledgerIds: [l.id], processorId: null, category: "unmatchable" });
     } else {
-      const b = mkBank(`${v} payment ${inv}`, amt, date, inv); // no ledger counterpart
+      const b = mkBank(`${v} payment ${inv}`, amt, date, inv);
       built.bank.push(b);
       built.truth.push({ bankId: b.id, ledgerIds: [], processorId: null, category: "unmatchable" });
     }
+  }
+}
+
+function addOneToMany(n: number) {
+  for (let i = 0; i < n; i++) {
+    const v = pick(VENDORS, rng);
+    const date = randomDate(rng, BASE, SPAN - 1);
+    const k = randInt(rng, 2, 3);
+    const parts: number[] = [];
+    const banks: FinRecord[] = [];
+    const inv = `INV-${randInt(rng, 10000, 99999)}`;
+    for (let j = 0; j < k; j++) {
+      const amt = randInt(rng, 80, 1500) + randInt(rng, 0, 99) / 100;
+      parts.push(amt);
+      banks.push(mkBank(`${v} installment ${j + 1} ${inv}`, amt, addDays(date, j), `${inv}-${j + 1}`));
+    }
+    const total = round2(parts.reduce((a, b) => a + b, 0));
+    const l = mkLedger(`${v} invoice ${inv}`, total, date, inv);
+    built.ledger.push(l); built.bank.push(...banks);
+    built.truth.push({
+      bankId: banks[0]!.id,
+      ledgerIds: [l.id],
+      processorId: null,
+      extraBankIds: banks.slice(1).map((b) => b.id),
+      category: "one_to_many",
+    });
+  }
+}
+
+function addCurrencyFx(n: number) {
+  for (let i = 0; i < n; i++) {
+    const v = pick(VENDORS, rng);
+    const usd = randInt(rng, 200, 4000) + randInt(rng, 0, 99) / 100;
+    const date = randomDate(rng, BASE, SPAN);
+    const inv = `INV-${randInt(rng, 10000, 99999)}`;
+    const rate = 0.85 + rng() * 0.3;
+    const eur = round2(usd * rate);
+    const l = mkLedger(`${v} invoice ${inv}`, usd, date, inv, "USD");
+    const b = mkBank(`${v} payment ${inv}`, eur, date, inv, "EUR");
+    built.ledger.push(l); built.bank.push(b);
+    built.truth.push({ bankId: b.id, ledgerIds: [l.id], processorId: null, category: "currency_fx" });
+  }
+}
+
+function addPartialPayment(n: number) {
+  for (let i = 0; i < n; i++) {
+    const v = pick(VENDORS, rng);
+    const amt = randInt(rng, 400, 5000) + randInt(rng, 0, 99) / 100;
+    const date = randomDate(rng, BASE, SPAN);
+    const inv = `INV-${randInt(rng, 10000, 99999)}`;
+    const paid = round2(amt * (0.4 + rng() * 0.3));
+    const l = mkLedger(`${v} invoice ${inv}`, amt, date, inv);
+    const b = mkBank(`${v} partial ${inv}`, paid, date, inv);
+    built.ledger.push(l); built.bank.push(b);
+    built.truth.push({ bankId: b.id, ledgerIds: [l.id], processorId: null, category: "partial_payment" });
+  }
+}
+
+function addRefundReversal(n: number) {
+  for (let i = 0; i < n; i++) {
+    const v = pick(VENDORS, rng);
+    const amt = randInt(rng, 80, 2000) + randInt(rng, 0, 99) / 100;
+    const date = randomDate(rng, BASE, SPAN - 2);
+    const inv = `INV-${randInt(rng, 10000, 99999)}`;
+    const l = mkLedger(`${v} credit memo ${inv}`, -amt, date, inv);
+    const b = mkBank(`${v} refund ${inv}`, -amt, addDays(date, 1), inv);
+    built.ledger.push(l); built.bank.push(b);
+    built.truth.push({ bankId: b.id, ledgerIds: [l.id], processorId: null, category: "refund_reversal" });
   }
 }
 
@@ -169,6 +242,10 @@ addIdFormatDrift(8);
 addManyToOne(6);
 addDuplicate(5);
 addUnmatchable(10);
+addOneToMany(4);
+addCurrencyFx(4);
+addPartialPayment(4);
+addRefundReversal(4);
 
 const counts: Record<string, number> = {};
 for (const p of built.truth) counts[p.category] = (counts[p.category] ?? 0) + 1;
@@ -182,7 +259,17 @@ mkdirSync(OUT, { recursive: true });
 writeFileSync(join(OUT, "bank-statement.json"), JSON.stringify(shuffle(built.bank, rng), null, 2));
 writeFileSync(join(OUT, "internal-ledger.json"), JSON.stringify(shuffle(built.ledger, rng), null, 2));
 writeFileSync(join(OUT, "processor-export.json"), JSON.stringify(shuffle(built.processor, rng), null, 2));
-writeFileSync(join(OUT, "ground-truth.json"), JSON.stringify(truth, null, 2));
+
+const isHoldout = OUT.includes("holdout");
+const truthPath = resolveExternalTruthPath(isHoldout);
+if (truthPath) {
+  mkdirSync(dirname(truthPath), { recursive: true });
+  writeFileSync(truthPath, JSON.stringify(truth, null, 2));
+  console.log(`answer key written outside repo`);
+} else {
+  console.error("REFUSED: GROUND_TRUTH_PATH unset. Source files were written, but the answer key was NOT. Set GROUND_TRUTH_PATH to a path outside this repo.");
+  process.exit(1);
+}
 
 console.log(`seed=${SEED} out=${OUT}`);
 console.log(`bank=${built.bank.length} ledger=${built.ledger.length} processor=${built.processor.length} truthPairs=${truth.pairs.length}`);

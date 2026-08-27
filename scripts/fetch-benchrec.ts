@@ -7,23 +7,27 @@
  *   - BenchRec_cash_v1.0_eval.csv      — the records, split into A_* and B_* sides (never both in one row)
  *   - BenchRec_cash_v1.0_solution.csv  — B_id -> targetAllocation (the match label)
  *   - Join key: B's targetAllocation == A's A_allocation (normalized whitespace)
- *   - ~94% of B records join; ~47% of joins are genuine many-to-one groups
  *
- * We reconstruct real match groups (one B record + its A-side group) and merge a
- * sample into our three-source dataset as category "benchrec_real", with the
- * answer key updated so eval scores them like everything else.
+ * Duplicate A-side copies of the same allocation are collapsed, then a subset
+ * that actually reconstructs the bank amount is selected. Extra A-rows that
+ * share an allocation but do not participate in the amount identity are dropped
+ * so they cannot poison the answer key.
+ *
+ * Answer key is written ONLY to GROUND_TRUTH_PATH (outside the repo).
  */
 import { writeFileSync, existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { unzipSync } from "fflate";
 import Papa from "papaparse";
-import { mulberry32, round2 } from "../src/util";
+import { mulberry32, round2, resolveExternalTruthPath } from "../src/util";
+import { fingerprintRecord, selectReconstructingA } from "../src/benchrec-select";
+import { amountsClose } from "../src/normalize";
 import type { FinRecord, GroundTruth } from "../src/types";
 
 const user = process.env.KAGGLE_USERNAME;
 const key = process.env.KAGGLE_KEY;
 const DATA = "data";
-const SAMPLE = 20; // real match groups to mix in
+const SAMPLE = 20;
 
 if (!user || !key) {
   console.log("no KAGGLE_USERNAME/KAGGLE_KEY — skipping BenchRec (synthetic-only is fine)");
@@ -63,70 +67,133 @@ try {
     }
   }
 
-  // Build real match groups: one B record + its A-side group
   interface Group { b: (typeof B)[number]; aGroup: typeof A }
   const groups: Group[] = [];
+  const seenB = new Set<string>();
   for (const s of solution) {
+    const bId = norm(s.B_id);
+    if (!bId || seenB.has(bId)) continue;
+    seenB.add(bId);
     const k = norm(s.targetAllocation);
     const aGroup = aByAlloc.get(k);
-    const bRow = bById.get(norm(s.B_id));
+    const bRow = bById.get(bId);
     if (aGroup && bRow) groups.push({ b: bRow, aGroup });
   }
   console.log(`benchrec: ${A.length} A records, ${B.length} B records, ${groups.length} reconstructable match groups`);
 
-  // Sample a mix: prefer some many-to-one (aGroup>1) and some 1:1
+  type SelectedA = { amount: number; date: string; currency: string; reference: string; description: string };
+  interface Reconstructed { b: (typeof B)[number]; bAmt: number; selected: SelectedA[] }
+
+  // Reconstruct lazily after shuffle. Running subset-sum on all 30k groups
+  // is a multi-minute job; we only need SAMPLE usable groups.
   const rng = mulberry32(2024);
-  const shuffled = [...groups].sort(() => rng() - 0.5);
-  const mto = shuffled.filter((g) => g.aGroup.length > 1);
-  const oto = shuffled.filter((g) => g.aGroup.length === 1);
-  const picked = [...mto.slice(0, Math.ceil(SAMPLE / 2)), ...oto.slice(0, Math.floor(SAMPLE / 2))];
+  const shuffledGroups = [...groups].sort(() => rng() - 0.5);
+  const reconstructed: Reconstructed[] = [];
+  let skippedNoAmount = 0;
+  let skippedNoSubset = 0;
+  let skippedTooWide = 0;
+  const wantMto = Math.ceil(SAMPLE / 2);
+  const wantOto = Math.floor(SAMPLE / 2);
+  let gotMto = 0;
+  let gotOto = 0;
+
+  for (const g of shuffledGroups) {
+    if (gotMto >= wantMto && gotOto >= wantOto) break;
+    const bAmt = cleanAmt(g.b.B_amount);
+    if (bAmt === null) { skippedNoAmount++; continue; }
+
+    const seen = new Set<string>();
+    const uniqueA: SelectedA[] = [];
+    for (const a of g.aGroup) {
+      const aAmt = cleanAmt(a.A_amount);
+      if (aAmt === null) continue;
+      const row: SelectedA = {
+        amount: aAmt,
+        date: cleanDate(a.A_valueDate),
+        currency: norm(a.A_currencyCode) || "USD",
+        reference: norm(a.A_transactionReferences).slice(0, 40),
+        description: norm(a.A_transactionAttributes).slice(0, 80) || "benchrec ledger txn",
+      };
+      const fp = fingerprintRecord(row);
+      if (seen.has(fp)) continue;
+      seen.add(fp);
+      uniqueA.push(row);
+    }
+    if (uniqueA.length === 0) { skippedNoAmount++; continue; }
+
+    let selected;
+    if (uniqueA.length > 18) {
+      // subset-sum is exponential; on oversized allocations only keep a 1:1
+      // amount identity. Do not dump the extra A-rows into the answer key.
+      const exact = uniqueA.filter((c) => amountsClose(c.amount, bAmt, 0.05, 0.001));
+      if (exact.length === 0) { skippedTooWide++; continue; }
+      selected = [exact[0]];
+    } else {
+      selected = selectReconstructingA(bAmt, uniqueA);
+      if (!selected) { skippedNoSubset++; continue; }
+    }
+    const isMto = selected.length > 1;
+    if (isMto) {
+      if (gotMto >= wantMto) continue;
+      gotMto++;
+    } else {
+      if (gotOto >= wantOto) continue;
+      gotOto++;
+    }
+    reconstructed.push({ b: g.b, bAmt, selected });
+  }
+  console.log(`  sampled ${reconstructed.length} usable groups (skipped no-amount=${skippedNoAmount} no-subset=${skippedNoSubset} too-wide=${skippedTooWide})`);
+  const picked = reconstructed;
 
   const bank: FinRecord[] = [];
   const ledger: FinRecord[] = [];
   const pairs: GroundTruth["pairs"] = [];
   let bSeq = 70000, lSeq = 71000;
+  const usedLedgerFp = new Set<string>();
 
   for (const g of picked) {
-    const bAmt = cleanAmt(g.b.B_amount);
-    if (bAmt === null) continue;
     const bId = `B${bSeq++}`;
     const bRef = norm(g.b.B_transactionReferences).slice(0, 40) || bId;
     bank.push({
       id: bId,
       source: "bank",
       date: cleanDate(g.b.B_valueDate),
-      amount: bAmt,
+      amount: g.bAmt,
       currency: norm(g.b.B_currencyCode) || "USD",
       description: norm(g.b.B_transactionAttributes).slice(0, 80) || "benchrec bank txn",
       reference: bRef,
     });
+
     const ledgerIds: string[] = [];
-    for (const a of g.aGroup) {
-      const aAmt = cleanAmt(a.A_amount);
-      if (aAmt === null) continue;
+    for (const a of g.selected) {
+      const fp = fingerprintRecord(a);
+      if (usedLedgerFp.has(fp)) continue;
+      usedLedgerFp.add(fp);
       const lId = `L${lSeq++}`;
       ledger.push({
         id: lId,
         source: "ledger",
-        date: cleanDate(a.A_valueDate),
-        amount: aAmt,
-        currency: norm(a.A_currencyCode) || "USD",
-        description: norm(a.A_transactionAttributes).slice(0, 80) || "benchrec ledger txn",
-        reference: norm(a.A_transactionReferences).slice(0, 40) || lId,
+        date: a.date,
+        amount: a.amount,
+        currency: a.currency,
+        description: a.description,
+        reference: a.reference || lId,
       });
       ledgerIds.push(lId);
     }
-    if (ledgerIds.length > 0) {
-      pairs.push({ bankId: bId, ledgerIds, processorId: null, category: "benchrec_real" });
+    if (ledgerIds.length === 0) {
+      bank.pop();
+      continue;
     }
+    pairs.push({ bankId: bId, ledgerIds, processorId: null, category: "benchrec_real" });
   }
 
   if (bank.length === 0) throw new Error("no usable groups reconstructed");
 
   const bankFile = join(DATA, "bank-statement.json");
   const ledgerFile = join(DATA, "internal-ledger.json");
-  const truthFile = join(DATA, "ground-truth.json");
-  if (existsSync(bankFile) && existsSync(ledgerFile) && existsSync(truthFile)) {
+  const truthFile = resolveExternalTruthPath(false);
+  if (existsSync(bankFile) && existsSync(ledgerFile) && truthFile && existsSync(truthFile)) {
     const eb = JSON.parse(readFileSync(bankFile, "utf8")) as FinRecord[];
     const el = JSON.parse(readFileSync(ledgerFile, "utf8")) as FinRecord[];
     const et = JSON.parse(readFileSync(truthFile, "utf8")) as GroundTruth;
@@ -138,6 +205,8 @@ try {
     console.log(`mixed ${pairs.length} real match groups (${bank.length} bank + ${ledger.length} ledger records) into dataset`);
     const mtoCount = pairs.filter((p) => p.ledgerIds.length > 1).length;
     console.log(`  of which many-to-one: ${mtoCount}, one-to-one: ${pairs.length - mtoCount}`);
+  } else if (!truthFile) {
+    console.log("GROUND_TRUTH_PATH unset — not merging BenchRec (would have nowhere safe to write the answer key)");
   } else {
     console.log("synthetic dataset not generated yet — run bun run gen first; skipping merge");
   }

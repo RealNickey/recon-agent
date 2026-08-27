@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { resolve } from "node:path";
 
 /** mulberry32 — tiny seeded PRNG, deterministic across platforms. */
 export function mulberry32(seed: number): () => number {
@@ -51,4 +52,27 @@ export function addDays(iso: string, days: number): string {
 /** Stable content hash — used to fingerprint datasets without exposing content. */
 export function contentHash(s: string): string {
   return createHash("sha256").update(s).digest("hex").slice(0, 16);
+}
+
+/** True if `p` resolves inside `repoRoot` (the answer key must never live here). */
+export function pathIsInsideRepo(p: string, repoRoot = "."): boolean {
+  const abs = resolve(p);
+  const repo = resolve(repoRoot);
+  return abs === repo || abs.startsWith(repo + "\\") || abs.startsWith(repo + "/");
+}
+
+/**
+ * Resolve the external answer-key path. Returns null if unset.
+ * Exits the process if the path would land inside the repo.
+ */
+export function resolveExternalTruthPath(isHoldout: boolean): string | null {
+  const envPath = isHoldout
+    ? process.env.GROUND_TRUTH_HOLDOUT_PATH ?? process.env.GROUND_TRUTH_PATH
+    : process.env.GROUND_TRUTH_PATH;
+  if (!envPath) return null;
+  if (pathIsInsideRepo(envPath)) {
+    console.error("REFUSED: answer-key path resolves inside the repo. Point GROUND_TRUTH_PATH outside.");
+    process.exit(1);
+  }
+  return envPath;
 }

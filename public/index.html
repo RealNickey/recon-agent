@@ -31,6 +31,7 @@
   summary { cursor: pointer; color: #8b949e; }
   pre { white-space: pre-wrap; word-break: break-word; margin: 8px 0 0; color: #9da7b3; font-size: 12px; }
   #status { color: #7d8590; }
+  .reason { color: #8b949e; max-width: 420px; overflow: hidden; text-overflow: ellipsis; }
 </style>
 </head>
 <body>
@@ -42,15 +43,22 @@
 <div class="wrap">
   <div class="cards" id="cards"></div>
   <h2>By category</h2>
-  <table id="cats"><thead><tr><th>category</th><th>total</th><th>ok</th><th>fp</th><th>miss</th><th>honest</th><th></th></tr></thead><tbody></tbody></table>
+  <table id="cats"><thead><tr><th>category</th><th>pairs</th><th>ok</th><th>fp</th><th>miss</th><th>honest</th><th></th></tr></thead><tbody></tbody></table>
+  <h2>False positives</h2>
+  <table id="fps"><thead><tr><th>record</th><th>category</th><th>claimed</th></tr></thead><tbody></tbody></table>
   <h2>Exceptions</h2>
-  <table id="exc"><thead><tr><th>record</th><th>source</th><th>reason</th><th>tier</th><th>candidates</th></tr></thead><tbody></tbody></table>
+  <table id="exc"><thead><tr><th>record</th><th>source</th><th>reason</th><th>tier</th><th>candidates</th><th>why</th></tr></thead><tbody></tbody></table>
+  <h2>Matches (sample)</h2>
+  <table id="mat"><thead><tr><th>record</th><th>source</th><th>tier</th><th>reason</th><th>matched</th><th>why</th></tr></thead><tbody></tbody></table>
   <h2>Reasoning traces (tier 3)</h2>
   <div id="traces"></div>
 </div>
 <script>
 const $ = (s) => document.querySelector(s);
 const fmt = (n) => typeof n === "number" ? n.toFixed(3) : "—";
+const esc = (s) => String(s ?? "").replace(/[&<>"'`]/g, (c) => ({
+  "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;", "`": "&#96;"
+}[c]));
 
 async function refresh() {
   const [report, traces] = await Promise.all([
@@ -64,27 +72,39 @@ async function refresh() {
     ["fitness", fmt(m.fitness), m.fitness > 0.7 ? "good" : m.fitness > 0.4 ? "warn" : "bad"],
     ["recall", fmt(m.recall), ""],
     ["precision", fmt(m.precision), ""],
+    ["FPR", fmt(m.falsePositiveRate), m.falsePositiveRate > 0 ? "bad" : "good"],
     ["false pos", m.falsePositives, m.falsePositives > 0 ? "bad" : "good"],
+    ["pairs ok", `${m.correctPairs}/${m.totalPairs}`, ""],
     ["tier3 calls", m.tier3Calls, ""],
     ["tokens", m.tier3Tokens, ""],
     ["rec/s", m.recordsPerSec, ""],
     ["duration", (m.durationMs/1000).toFixed(1) + "s", ""],
-  ].map(([k, v, c]) => `<div class="card"><div class="k">${k}</div><div class="v ${c}">${v}</div></div>`).join("")
+  ].map(([k, v, c]) => `<div class="card"><div class="k">${esc(k)}</div><div class="v ${c}">${esc(v)}</div></div>`).join("")
   : `<div class="card"><div class="k">no data</div><div class="v">—</div></div>`;
 
   const cats = m?.byCategory ?? {};
   $("#cats tbody").innerHTML = Object.entries(cats).map(([c, s]) => {
-    const pct = s.total ? Math.round(100 * (s.correct + s.honest) / s.total) : 0;
-    return `<tr><td>${c}</td><td>${s.total}</td><td class="good">${s.correct}</td><td class="bad">${s.falsePos}</td><td class="warn">${s.missed}</td><td>${s.honest}</td><td><div class="bar"><div style="width:${pct}%"></div></div></td></tr>`;
+    const denom = s.pairs || 0;
+    const pct = denom ? Math.round(100 * ((s.correctPairs ?? 0) + (s.honest ?? 0)) / denom) : 0;
+    return `<tr><td>${esc(c)}</td><td>${s.pairs ?? 0}</td><td class="good">${s.correctPairs ?? 0}</td><td class="bad">${s.falsePos ?? 0}</td><td class="warn">${s.missed ?? 0}</td><td>${s.honest ?? 0}</td><td><div class="bar"><div style="width:${pct}%"></div></div></td></tr>`;
   }).join("");
+
+  const fps = m?.falsePositiveList ?? [];
+  $("#fps tbody").innerHTML = fps.length
+    ? fps.slice(0, 30).map(f => `<tr><td>${esc(f.recordId)}</td><td>${esc(f.category)}</td><td>${esc(JSON.stringify(f.claimed))}</td></tr>`).join("")
+    : `<tr><td colspan="3" style="color:#7d8590">none</td></tr>`;
 
   const outcomes = report.run?.outcomes ?? [];
   $("#exc tbody").innerHTML = outcomes.filter(o => o.status === "exception").slice(0, 60)
-    .map(o => `<tr><td>${o.recordId}</td><td>${o.source}</td><td><span class="pill exception">${o.reasonCode}</span></td><td>T${o.tier}</td><td>${o.candidatesConsidered}</td></tr>`).join("")
-    || `<tr><td colspan="5" style="color:#7d8590">none</td></tr>`;
+    .map(o => `<tr><td>${esc(o.recordId)}</td><td>${esc(o.source)}</td><td><span class="pill exception">${esc(o.reasonCode)}</span></td><td>T${esc(o.tier)}</td><td>${esc(o.candidatesConsidered)}</td><td class="reason">${esc(o.reasoning ?? "")}</td></tr>`).join("")
+    || `<tr><td colspan="6" style="color:#7d8590">none</td></tr>`;
+
+  $("#mat tbody").innerHTML = outcomes.filter(o => o.status === "matched").slice(0, 40)
+    .map(o => `<tr><td>${esc(o.recordId)}</td><td>${esc(o.source)}</td><td>T${esc(o.tier)}</td><td><span class="pill matched">${esc(o.reasonCode ?? "")}</span></td><td>${esc((o.matchedIds ?? []).join(", "))}</td><td class="reason">${esc(o.reasoning ?? "")}</td></tr>`).join("")
+    || `<tr><td colspan="6" style="color:#7d8590">none</td></tr>`;
 
   $("#traces").innerHTML = (traces.traces ?? []).reverse().map(t =>
-    `<details><summary>${t.recordId} · ${t.decision.reasonCode} · conf ${fmt(t.decision.confidence)} · ${t.latencyMs}ms</summary><pre>${t.decision.reasoning}\nmatchedIds: ${JSON.stringify(t.decision.matchedIds)}\npool: ${t.poolSize} candidates</pre></details>`
+    `<details><summary>${esc(t.recordId)} · ${esc(t.decision?.reasonCode)} · conf ${fmt(t.decision?.confidence)} · ${esc(t.latencyMs)}ms</summary><pre>${esc(t.decision?.reasoning)}\nmatchedIds: ${esc(JSON.stringify(t.decision?.matchedIds))}\npool: ${esc(t.poolSize)} candidates</pre></details>`
   ).join("") || `<div style="color:#7d8590">no tier-3 traces yet</div>`;
 }
 
