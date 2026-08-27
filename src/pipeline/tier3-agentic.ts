@@ -51,6 +51,7 @@ export async function tier3Agentic(
   let tokens = 0;
   let costUsd = 0;
   const claimed = new Set<string>();
+  let consecutiveErrors = 0;
 
   // Bank first: a deposit is the natural many-to-one root, so it claims invoices
   // before invoices independently guess a 1:1. Then remaining residuals.
@@ -84,6 +85,20 @@ export async function tier3Agentic(
       continue;
     }
 
+    if (consecutiveErrors >= 2) {
+      decision = emptyDecision("model_error", "circuit breaker tripped after consecutive model errors");
+      outcomes.push({
+        status: "exception",
+        recordId: rec.id,
+        source: rec.source,
+        reasonCode: "low_confidence",
+        tier: 3,
+        candidatesConsidered: pool.length,
+        reasoning: "agentic tier circuit breaker tripped; emitted honest exception",
+      });
+      continue;
+    }
+
     try {
       const res = await generateObject({
         model: openrouter(MODEL),
@@ -105,15 +120,17 @@ export async function tier3Agentic(
           })),
         }),
         maxOutputTokens: 400,
-        maxRetries: 2,
-        abortSignal: AbortSignal.timeout(20_000),
+        maxRetries: 0,
+        abortSignal: AbortSignal.timeout(10_000),
       });
       decision = res.object;
       calls++;
+      consecutiveErrors = 0;
       tokens += res.usage?.totalTokens ?? 0;
       const meta = (res as { providerMetadata?: Record<string, { cost?: number }> }).providerMetadata;
       costUsd += meta?.openrouter?.cost ?? 0;
     } catch (err) {
+      consecutiveErrors++;
       decision = emptyDecision("model_error", `model error: ${err instanceof Error ? err.message.slice(0, 120) : String(err)}`);
       calls++;
     }

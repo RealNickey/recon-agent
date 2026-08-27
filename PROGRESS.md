@@ -15,4 +15,5 @@
 11 | fix subset-sum vendor fallback bug + cash position reporting + loop infra | many_to_one_wide, distractor | 0.5484→0.5968 (39/62 pairs, P=0.9750, FPR=0.0161, 1 FP) | seed 999 hash b3057890b01ecebf
 12 | expand VENDOR_STOP + exact subset-sum tolerance on synthetic amounts | many_to_one_wide, distractor | 0.5968→0.6452 (40/62 pairs, P=1.0000, FPR=0.0000, 0 FPs) | seed 999 hash b3057890b01ecebf
 13 | wide timing drift matching up to 20 days for exact same-invoice pairs | timing_drift_wide | 0.6452→0.7742 (48/62 pairs, P=1.0000, FPR=0.0000, 0 FPs) | seed 999 hash b3057890b01ecebf
+14 | extract PO tokens from description for wire/retainer matches | identity_weak | 0.7742→0.9032 (56/62 pairs, P=1.0000, FPR=0.0000, 0 FPs) | seed 999 hash b3057890b01ecebf
 

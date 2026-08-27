@@ -32,6 +32,49 @@ export function sameInvoice(a: string, b: string): boolean {
   return ta.length > 0 && ta === tb;
 }
 
+/**
+ * Extract candidate invoice / PO reference tokens from a record's reference and description.
+ * Finds patterns like INV-12345, PO#937478, PO-937478, WIRE-1234, etc.
+ */
+export function extractRefTokens(ref: string, desc: string): Set<string> {
+  const tokens = new Set<string>();
+  const t = invoiceToken(ref);
+  if (t && t.length >= 3 && /\d/.test(t)) tokens.add(t);
+
+  const poRefMatch = ref.match(/^PO[\-#\s]?([0-9]{3,})/i);
+  if (poRefMatch?.[1]) {
+    tokens.add(poRefMatch[1].replace(/^0+(?=\d)/, ""));
+  }
+
+  if (desc.toLowerCase().includes("installment") || desc.toLowerCase().includes("split")) {
+    return tokens;
+  }
+
+  const text = `${ref} ${desc}`;
+  const matches = text.matchAll(/\b(?:PO)[#\-\s:]*([0-9]{3,})\b/gi);
+  for (const m of matches) {
+    if (m[1]) {
+      const core = m[1].replace(/^0+(?=\d)/, "");
+      if (core.length >= 3) tokens.add(core);
+    }
+  }
+  return tokens;
+}
+
+export function recordsShareInvoice(
+  a: { reference: string; description: string },
+  b: { reference: string; description: string }
+): boolean {
+  if (sameInvoice(a.reference, b.reference)) return true;
+  const aTokens = extractRefTokens(a.reference, a.description);
+  const bTokens = extractRefTokens(b.reference, b.description);
+  if (aTokens.size === 0 || bTokens.size === 0) return false;
+  for (const t of aTokens) {
+    if (bTokens.has(t)) return true;
+  }
+  return false;
+}
+
 /** Canonical 2-decimal amount key via Decimal, never Number.toFixed. */
 export function amountKey(amount: number | string): string {
   return new Decimal(amount).toFixed(2);

@@ -12,7 +12,7 @@
  * candidate pool that always keeps same-invoice hits and likely subset-sum parts.
  */
 import Decimal from "decimal.js";
-import { amountKey, amountsClose, daysBetween, tokenSim, sameInvoice, vendorOverlap, subsetSumUnique, amountAbsTol } from "../normalize";
+import { amountKey, amountsClose, daysBetween, tokenSim, sameInvoice, recordsShareInvoice, vendorOverlap, subsetSumUnique, amountAbsTol } from "../normalize";
 import type { FinRecord, Outcome, ReasonCode } from "../types";
 import type { TierResult } from "./tier1-exact";
 
@@ -57,7 +57,7 @@ function dateScore(a: FinRecord, b: FinRecord): number {
 }
 
 function descScore(a: FinRecord, b: FinRecord): number {
-  if (sameInvoice(a.reference, b.reference)) return 0.25;
+  if (recordsShareInvoice(a, b)) return 0.25;
   const v = vendorOverlap(a.description, b.description);
   return Math.max(tokenSim(a.description, b.description), v) * 0.25;
 }
@@ -82,13 +82,13 @@ function ratio(a: number, b: number): number {
 function reasonForPair(a: FinRecord, b: FinRecord): ReasonCode {
   if (a.currency !== b.currency) return "currency_mismatch";
   if (Math.sign(a.amount) !== Math.sign(b.amount) || a.amount < 0 || b.amount < 0) return "refund_reversal";
-  if (sameInvoice(a.reference, b.reference) && !amountsClose(absAmt(a.amount), absAmt(b.amount), 0.05, 0.005)) {
+  if (recordsShareInvoice(a, b) && !amountsClose(absAmt(a.amount), absAmt(b.amount), 0.05, 0.005)) {
     const pct = 1 - ratio(a.amount, b.amount);
     if (pct <= 0.03) return "amount_variance";
     return "partial_payment";
   }
   if (daysBetween(a.date, b.date) > 0) return "timing_gap";
-  if (sameInvoice(a.reference, b.reference)) return "id_drift";
+  if (recordsShareInvoice(a, b)) return "id_drift";
   return "amount_variance";
 }
 
@@ -118,7 +118,7 @@ export function tier2Fuzzy(residual: FinRecord[]): Tier2Result {
     const pool: Candidate[] = [];
     for (const other of residual) {
       if (other.id === r.id || other.source === r.source) continue;
-      const invoiceHit = sameInvoice(r.reference, other.reference);
+      const invoiceHit = recordsShareInvoice(r, other);
       const uniqueKey = amtDateCurKey(r) === amtDateCurKey(other);
       if (!invoiceHit && !uniqueKey && !inSettleWindow(r, other, 5) && vendorOverlap(r.description, other.description) < 0.5) continue;
       const s = scorePair(r, other);
@@ -165,7 +165,7 @@ export function tier2Fuzzy(residual: FinRecord[]): Tier2Result {
   for (const r of residual) {
     for (const c of candidatePools.get(r.id) ?? []) {
       const other = c.candidate;
-      if (!sameInvoice(r.reference, other.reference)) continue;
+      if (!recordsShareInvoice(r, other)) continue;
       const days = daysBetween(r.date, other.date);
       if (!Number.isFinite(days) || days > 20) continue;
 
@@ -197,7 +197,7 @@ export function tier2Fuzzy(residual: FinRecord[]): Tier2Result {
         x.id !== p.a.id &&
         x.id !== p.b.id &&
         x.source === "ledger" &&
-        sameInvoice(p.a.reference, x.reference) &&
+        recordsShareInvoice(p.a, x) &&
         amountsClose(absAmt(x.amount), absAmt(ledgerAmt), 0.05, 0)
     );
     if (twins.length > 0) continue;
