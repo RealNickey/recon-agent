@@ -17,10 +17,14 @@ import { runPipeline } from "../src/pipeline/run";
 import { scoreRun, type ScoreReport } from "../src/scoring";
 import { GroundTruthSchema, RunResultSchema, type GroundTruth } from "../src/types";
 import { resolveExternalTruthPath, PINNED_TRUTH_HASHES } from "../src/util";
+import { runCrossValidation, type CrossValidationSummary } from "./cross-validate";
 
 const args = process.argv.slice(2);
 const USE_AI = args.includes("--ai");
 const JSON_ONLY = args.includes("--json");
+const IS_BLIND = args.includes("--blind");
+const CHECK_CV = args.includes("--cv") || args.includes("--generalization");
+
 
 function loadTruth(datasetName: string): { truth: GroundTruth; origin: string } | null {
   const envPath = resolveExternalTruthPath(datasetName);
@@ -88,18 +92,28 @@ async function main() {
     }
   }
 
+  // 4. Optional Cross-Validation Generalization Check
+  let cvSummary: CrossValidationSummary | null = null;
+  let cvPassed = true;
+  if (CHECK_CV) {
+    if (!JSON_ONLY) console.log("⏳ [4/4] Running Multi-Seed Generalization Check (Seeds 123, 555, 2026)...");
+    cvSummary = await runCrossValidation([123, 555, 2026], "all", USE_AI);
+    cvPassed = cvSummary.totalFalsePositives === 0 && cvSummary.minFitness >= 0.85;
+  }
+
   const durationSec = +((performance.now() - t0) / 1000).toFixed(2);
 
   // Guards verification
   const devPassed = !devScore || devScore.fitness >= 1.0;
   const holdoutPassed = !holdoutScore || holdoutScore.fitness >= 1.0;
-  const locksPassed = devPassed && holdoutPassed;
+  const locksPassed = devPassed && holdoutPassed && cvPassed;
 
   const resultSummary = {
     pass: locksPassed,
     guards: {
       devLock: devPassed ? "PASSED (1.0000)" : `FAILED (${devScore?.fitness})`,
       holdoutLock: holdoutPassed ? "PASSED (1.0000)" : `FAILED (${holdoutScore?.fitness})`,
+      generalization: CHECK_CV ? (cvPassed ? `PASSED (mean=${cvSummary?.meanFitness})` : `FAILED (min=${cvSummary?.minFitness}, FPs=${cvSummary?.totalFalsePositives})`) : "SKIPPED",
     },
     hard: {
       fitness: hardScore.fitness,
@@ -126,6 +140,13 @@ async function main() {
           falsePositives: holdoutScore.falsePositives,
         }
       : null,
+    crossValidation: cvSummary
+      ? {
+          meanFitness: cvSummary.meanFitness,
+          minFitness: cvSummary.minFitness,
+          totalFalsePositives: cvSummary.totalFalsePositives,
+        }
+      : null,
     durationSec,
   };
 
@@ -137,6 +158,9 @@ async function main() {
     console.log(`\n🔒 REGRESSION LOCKS:`);
     console.log(`   Dev Lock (Seed 42 + BenchRec):     ${devPassed ? "✅ LOCKED (1.0000)" : "❌ BROKEN (" + devScore?.fitness + ")"}`);
     console.log(`   Holdout Lock (Seed 777 Synthetic):  ${holdoutPassed ? "✅ LOCKED (1.0000)" : "❌ BROKEN (" + holdoutScore?.fitness + ")"}`);
+    if (CHECK_CV) {
+      console.log(`   Generalization Guard:              ${cvPassed ? "✅ PASSED (mean " + cvSummary?.meanFitness.toFixed(4) + ")" : "❌ FAILED"}`);
+    }
 
     console.log(`\n🎯 HARD EVALUATION (Seed 999):`);
     console.log(`   Fitness:     ${hardScore.fitness} (Recall: ${hardScore.recall}, Precision: ${hardScore.precision}, FPR: ${hardScore.falsePositiveRate})`);
@@ -156,7 +180,7 @@ async function main() {
       console.log(`   ✅ Starved:  None (all categories have at least 1 correct pair)`);
     }
 
-    if (hardScore.falsePositiveList.length > 0) {
+    if (!IS_BLIND && hardScore.falsePositiveList.length > 0) {
       console.log(`\n⚠️ FALSE POSITIVES (${hardScore.falsePositives}):`);
       for (const fp of hardScore.falsePositiveList.slice(0, 5)) {
         console.log(`   ${fp.recordId} [${fp.category}] claimed: ${JSON.stringify(fp.claimed)}`);
@@ -167,7 +191,7 @@ async function main() {
   }
 
   if (!locksPassed) {
-    console.error("❌ REGRESSION LOCK VIOLATION: dev or holdout fitness dropped below 1.0. Revert change!");
+    console.error("❌ REGRESSION LOCK OR GENERALIZATION VIOLATION: fitness dropped or regression detected. Revert change!");
     process.exit(2);
   }
 

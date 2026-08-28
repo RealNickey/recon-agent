@@ -86,13 +86,17 @@ if (run.cashPosition) {
   );
   console.log(`cash position: ${parts.join(" | ")}`);
 }
-console.log("\nby category (pairs: correct / falsePos / missed / honest):");
-for (const [c, s] of Object.entries(report.byCategory).sort(([a], [b]) => a.localeCompare(b))) {
-  console.log(`  ${c.padEnd(24)} pairs=${String(s.pairs).padStart(3)}  ok=${String(s.correctPairs).padStart(3)}  fp=${String(s.falsePos).padStart(2)}  miss=${String(s.missed).padStart(2)}  honest=${String(s.honest).padStart(2)}`);
-}
+const IS_BLIND = args.includes("--blind");
 
-if (report.starvedCategories?.length) {
-  console.log("\nSTARVED categories (0 correct pairs — do not ignore): " + report.starvedCategories.join(", "));
+if (!IS_BLIND) {
+  console.log("\nby category (pairs: correct / falsePos / missed / honest):");
+  for (const [c, s] of Object.entries(report.byCategory).sort(([a], [b]) => a.localeCompare(b))) {
+    console.log(`  ${c.padEnd(24)} pairs=${String(s.pairs).padStart(3)}  ok=${String(s.correctPairs).padStart(3)}  fp=${String(s.falsePos).padStart(2)}  miss=${String(s.missed).padStart(2)}  honest=${String(s.honest).padStart(2)}`);
+  }
+
+  if (report.starvedCategories?.length) {
+    console.log("\nSTARVED categories (0 correct pairs — do not ignore): " + report.starvedCategories.join(", "));
+  }
 }
 
 if (IS_HOLDOUT) {
@@ -116,9 +120,10 @@ if (IS_HOLDOUT) {
     }
   }
 }
-if (falsePositiveList.length) {
+if (!IS_BLIND && falsePositiveList.length) {
   console.log("\nfalse positives (WORSE than exceptions — fix these first):");
   for (const f of falsePositiveList.slice(0, 15)) {
     console.log(`  ${f.recordId} [${f.category}] claimed=${JSON.stringify(f.claimed)}`);
   }
 }
+

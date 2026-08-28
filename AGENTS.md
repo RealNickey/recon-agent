@@ -67,3 +67,35 @@ The project includes an end-to-end integration with Razorpay Standard Web Checko
 - Normalizes raw payloads to typed `FinRecord` schema with Decimal conversion ($100\text{ paise} = \text{₹}1.00$).
 - Detects Indian payment rails: UPI VPAs, IMPS RRNs, NEFT/RTGS UTR numbers, and Razorpay standard MDR deductions ($2.36\% = 2\% \text{ fee} + 18\% \text{ GST}$).
 - Offline mock fallback guarantees $50+$ records across all 3 source files (`internal-ledger.json`, `processor-export.json`, `bank-statement.json`) for CI & test stability.
+
+---
+
+## Anti-Reward Hacking & Generalization Mandates for Autonomous Loops (/goal)
+
+To prevent autonomous agents from reward-hacking, memorizing single seeds, or gaming evaluation metrics during `/goal` optimization loops, the following constraints are strictly enforced:
+
+### 1. Blind Evaluation & Aggregate-Only Feedback
+- **Blind Mode**: Automated improvement loops should use `bun run loop-eval --blind` or `bun run loop-eval --json`.
+- **No Record ID Leakage**: Blind mode suppresses item-level record IDs (`B5054`, `L1023`) and claimed counterpart details so agents cannot hardcode record-specific exceptions or narrow vendor strings.
+- **No `error-analysis` in Automated Loops**: `bun run error-analysis` compares directly against ground truth answer keys and is strictly an offline human diagnostic tool. Autonomous agents must NEVER execute `error-analysis` or consume its output during `/goal` loops.
+
+### 2. Multi-Seed Cross-Validation as the Generalization Gatekeeper
+- **The Cross-Validation Bar**: Any proposed matcher rule or pipeline change must be verified against independent synthetic populations:
+  ```bash
+  bun run cross-validate
+  # or
+  bun run loop-eval --cv
+  ```
+- **Rejection Criterion**: If a change increases fitness on one seed (e.g. seed 999) but causes regressions, false positives, or variance spikes across unseen seeds (`seeds 42, 123, 555, 777, 2026, 4040`), the change must be immediately reverted.
+
+### 3. Generalizable Accounting Heuristics vs. Prohibited Overfitting
+- **Permitted**: Broad financial principles (e.g. ISO-4217 currency checks, double-entry balance constraints, Decimal precision arithmetic, Indian GST/TDS tax withholding formulas, standardized reference token extraction).
+- **Prohibited (Reward Hacking)**:
+  1. Hardcoding specific record IDs (`recordId === "B5026"`).
+  2. Narrow regex matching specific mock vendor names or amounts solely present in one seed.
+  3. Artificially widening tolerance thresholds (e.g. 100-day settlement windows or 50% fee allowances) without cryptographic or reference token backing.
+
+### 4. Honest Exceptions Beat False Positive Guesses
+- **Scoring Formula**: $\text{Fitness} = \text{Recall} - 2 \times \text{FPR}$.
+- Genuinely ambiguous edge cases (near-duplicate collisions, multi-currency splits, unallocated bank suspense entries) must remain honest exceptions. The scoring harness awards full points for honest exceptions on unmatchables, while false matches trigger a severe $-2 \times \text{FPR}$ penalty.
+
