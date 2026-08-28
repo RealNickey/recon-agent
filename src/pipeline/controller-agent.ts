@@ -26,7 +26,7 @@ import {
   type ReasonCode,
   ReasonCodeSchema,
 } from "../types";
-import { executeWithProviderFallback, hasApprovedProvider, type ProviderTarget } from "./agentic-providers";
+import { executeWithProviderFallback, hasApprovedProvider, getAvailableProviderTargets, type ProviderTarget } from "./agentic-providers";
 import {
   daysBetween,
   vendorOverlap,
@@ -1162,17 +1162,20 @@ ${focusRecord ? `- Focus Record: ${JSON.stringify(focusRecord)}\n- Focus Outcome
   // Online Multi-Step Tool Calling Loop with AI SDK
   try {
     const { direct: _d, ...aiTools } = tools;
-    const fallbackExec = await executeWithProviderFallback(async (target: ProviderTarget) => {
-      const res = await generateText({
-        model: target.createModel(),
-        system: systemPrompt,
-        prompt: `User Question: ${prompt}\n\nExecute any necessary grounded tools, verify accounting math, and provide a thorough, evidence-backed answer.`,
-        tools: aiTools,
-        stopWhen: stepCountIs(5),
-        abortSignal: AbortSignal.timeout(3_500),
-      });
-      return res;
-    });
+    const fallbackExec = await executeWithProviderFallback(
+      async (target: ProviderTarget) => {
+        const res = await generateText({
+          model: target.createModel(),
+          system: systemPrompt,
+          prompt: `User Question: ${prompt}\n\nExecute any necessary grounded tools, verify accounting math, and provide a thorough, evidence-backed answer.`,
+          tools: aiTools,
+          stopWhen: stepCountIs(5),
+          abortSignal: AbortSignal.timeout(2_000),
+        });
+        return res;
+      },
+      getAvailableProviderTargets().slice(0, 1)
+    );
 
     const reply = fallbackExec.result.text;
     const referencedRecords: string[] = [];

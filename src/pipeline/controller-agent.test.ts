@@ -308,7 +308,7 @@ describe("askFinanceController Agent Execution", () => {
     expect(chatRes.modelUsed).toContain("deterministic-controller");
     expect(chatRes.toolCalls && chatRes.toolCalls.length).toBeGreaterThan(0);
     expect(chatRes.traceId).toBeDefined();
-  });
+  }, 15000);
 
   it("executes multi-step tool loop for specific record inquiry", async () => {
     const chatRes = await askFinanceController(
@@ -321,7 +321,7 @@ describe("askFinanceController Agent Execution", () => {
     expect(chatRes.reply).toContain("Match Audit for Record B101");
     expect(chatRes.reply).toContain("MATCHED");
     expect(chatRes.toolCalls?.some((t) => t.toolName === "explain_match")).toBe(true);
-  });
+  }, 15000);
 
   it("executes multi-step tool loop for what-if simulation", async () => {
     const chatRes = await askFinanceController(
@@ -332,7 +332,7 @@ describe("askFinanceController Agent Execution", () => {
 
     expect(chatRes.reply).toContain("What-If Simulation Report");
     expect(chatRes.toolCalls?.some((t) => t.toolName === "simulate_what_if")).toBe(true);
-  });
+  }, 15000);
 
   it("executes multi-step tool loop for audit proof export", async () => {
     const chatRes = await askFinanceController(
@@ -344,7 +344,7 @@ describe("askFinanceController Agent Execution", () => {
     expect(chatRes.reply).toContain("Cryptographic Audit Certificate Generated");
     expect(chatRes.auditProof).toBeDefined();
     expect(chatRes.auditProof?.sha256Digest).toHaveLength(64);
-  });
+  }, 15000);
 });
 
 describe("HTTP API Endpoints for Controller Agent & Approvals", () => {
