@@ -13,17 +13,24 @@ export function normalizeRef(raw: string): string {
   return s.replace(/^0+(?=\d)/, "");
 }
 
+const GENERIC_REF_STOPWORDS = new Set([
+  "WIRE", "TRANSFER", "PAYMENT", "DEP", "DEPOSIT", "TXN", "TRX", "ACH", "POS", "REF", "RET",
+  "PO", "INV", "CHECK", "DEBIT", "CREDIT", "BATCH", "SETTLE", "SETTLEMENT", "UNKNOWN", "MISC", "FEES", "FEE"
+]);
+
 /**
  * Stable invoice identity: digit core, ignoring trailing amendment letters
- * (INV-96034-A → 96034) and common prefixes. Falls back to normalizeRef.
+ * (INV-96034-A → 96034) and common prefixes. Rejects generic keywords without numeric tokens.
  */
 export function invoiceToken(raw: string): string {
   const n = normalizeRef(raw);
+  if (GENERIC_REF_STOPWORDS.has(n)) return "";
   const core = n.replace(/[A-Z]+$/g, "");
   if (core.length >= 3 && /\d/.test(core)) return core;
   const digits = n.replace(/[^0-9]/g, "").replace(/^0+(?=\d)/, "");
   if (digits.length >= 3) return digits;
-  return n;
+  if (n.length >= 4 && !GENERIC_REF_STOPWORDS.has(n) && /\d/.test(n)) return n;
+  return "";
 }
 
 export function sameInvoice(a: string, b: string): boolean {
@@ -237,9 +244,9 @@ export function subsetSum(
   return ids;
 }
 
-/** Absolute tolerance that scales with magnitude (fees on large wires). */
-export function amountAbsTol(target: number, floor = 0.05, pct = 0.001): number {
-  return Math.max(floor, Math.abs(target) * pct);
+/** Absolute tolerance that scales with magnitude (fees on large wires), capped at maxTol. */
+export function amountAbsTol(target: number, floor = 0.05, ratio = 0.001, maxTol = 50000): number {
+  return Math.min(Math.max(floor, Math.abs(target) * ratio), maxTol);
 }
 
 /**

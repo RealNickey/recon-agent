@@ -19,7 +19,7 @@
 import { readFileSync, appendFileSync, existsSync, mkdirSync } from "node:fs";
 import { GroundTruthSchema, RunResultSchema, type GroundTruth } from "../src/types";
 import { scoreRun } from "../src/scoring";
-import { resolveExternalTruthPath } from "../src/util";
+import { resolveExternalTruthPath, PINNED_TRUTH_HASHES } from "../src/util";
 
 const args = process.argv.slice(2);
 function argVal(flag: string, dflt: string): string {
@@ -57,6 +57,11 @@ const report = scoreRun(truth, run, {
   truthOrigin: origin,
   resultsFile: RESULTS,
 });
+
+const pinnedHash = PINNED_TRUTH_HASHES[DATASET_NAME];
+if (pinnedHash && report.truthHash !== pinnedHash) {
+  console.error(`TRUTH HASH MISMATCH: expected ${pinnedHash} for ${DATASET_NAME}, got ${report.truthHash}`);
+}
 
 mkdirSync("logs", { recursive: true });
 const { falsePositiveList, ...rest } = report;

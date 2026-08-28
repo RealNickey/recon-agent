@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { serveStatic } from "hono/bun";
 import { readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
+import { z } from "zod";
 import { runPipeline } from "./pipeline/run";
 import { askFinanceController } from "./pipeline/controller-agent";
 import { runCrossValidation } from "../scripts/cross-validate";
@@ -10,10 +11,36 @@ import type { FinRecord, RunResult } from "./types";
 const app = new Hono();
 let running = false;
 
+// Security headers middleware
+app.use("*", async (c, next) => {
+  await next();
+  c.header("X-Content-Type-Options", "nosniff");
+  c.header("X-Frame-Options", "DENY");
+  c.header("Referrer-Policy", "strict-origin-when-cross-origin");
+  c.header("Content-Security-Policy", "default-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; img-src 'self' data:;");
+});
+
+function validateDataDir(dir: string): string {
+  const norm = dir.replace(/\\/g, "/").replace(/^\.\//, "").replace(/\/$/, "");
+  if (norm.includes("..") || (!norm.startsWith("data") && norm !== "data")) {
+    throw new Error(`Access denied: data directory '${dir}' outside allowed root`);
+  }
+  return norm;
+}
+
+function validateOutFile(file: string): string {
+  const norm = file.replace(/\\/g, "/").replace(/^\.\//, "");
+  if (norm.includes("..") || !norm.startsWith("results/")) {
+    throw new Error(`Access denied: output file '${file}' outside results directory`);
+  }
+  return norm;
+}
+
 function loadAllDatasetRecords(dataDir = "data"): FinRecord[] {
+  const safeDir = validateDataDir(dataDir);
   const records: FinRecord[] = [];
   for (const file of ["bank-statement.json", "internal-ledger.json", "processor-export.json"]) {
-    const p = join(dataDir, file);
+    const p = join(safeDir, file);
     if (existsSync(p)) {
       try {
         const raw = JSON.parse(readFileSync(p, "utf8"));
@@ -23,6 +50,23 @@ function loadAllDatasetRecords(dataDir = "data"): FinRecord[] {
   }
   return records;
 }
+
+const RunBodySchema = z.object({
+  dataDir: z.string().optional().default("data"),
+  useAi: z.boolean().optional().default(true),
+  outFile: z.string().optional().default("results/latest-run.json"),
+});
+
+const AgentChatBodySchema = z.object({
+  prompt: z.string().min(1).max(2000),
+  focusRecordId: z.string().optional(),
+  dataDir: z.string().optional().default("data"),
+});
+
+const CrossValBodySchema = z.object({
+  seeds: z.number().int().min(1).max(10).optional(),
+  mode: z.enum(["all", "standard", "hard"]).optional().default("all"),
+});
 
 app.get("/api/report", (c) => {
   const historyPath = "logs/eval-history.jsonl";
@@ -40,21 +84,31 @@ app.get("/api/report", (c) => {
 });
 
 app.get("/api/records", (c) => {
-  const dataDir = c.req.query("data") ?? "data";
-  const records = loadAllDatasetRecords(dataDir);
-  return c.json({ records, count: records.length });
+  try {
+    const rawDir = c.req.query("data") ?? "data";
+    const dataDir = validateDataDir(rawDir);
+    const records = loadAllDatasetRecords(dataDir);
+    return c.json({ records, count: records.length });
+  } catch (err) {
+    return c.json({ error: err instanceof Error ? err.message : String(err) }, 400);
+  }
 });
 
 app.post("/api/run", async (c) => {
   if (running) return c.json({ error: "Pipeline currently executing" }, 409);
   running = true;
   try {
-    const body = await c.req.json().catch(() => ({}));
-    const dataDir = body.dataDir ?? "data";
-    const useAi = body.useAi ?? true;
-    const outFile = body.outFile ?? "results/latest-run.json";
-    const result = await runPipeline(dataDir, outFile, useAi);
+    const raw = await c.req.json().catch(() => ({}));
+    const parsed = RunBodySchema.safeParse(raw);
+    if (!parsed.success) {
+      return c.json({ error: "Invalid request body", details: parsed.error.format() }, 400);
+    }
+    const dataDir = validateDataDir(parsed.data.dataDir);
+    const outFile = validateOutFile(parsed.data.outFile);
+    const result = await runPipeline(dataDir, outFile, parsed.data.useAi);
     return c.json(result);
+  } catch (err) {
+    return c.json({ error: err instanceof Error ? err.message : String(err) }, 400);
   } finally {
     running = false;
   }
@@ -62,10 +116,14 @@ app.post("/api/run", async (c) => {
 
 app.post("/api/agent/chat", async (c) => {
   try {
-    const body = await c.req.json();
-    const prompt = String(body.prompt ?? "");
-    const focusRecordId = body.focusRecordId ? String(body.focusRecordId) : undefined;
-    const dataDir = body.dataDir ?? "data";
+    const raw = await c.req.json().catch(() => ({}));
+    const parsed = AgentChatBodySchema.safeParse(raw);
+    if (!parsed.success) {
+      return c.json({ error: "Invalid chat payload", details: parsed.error.format() }, 400);
+    }
+    const prompt = parsed.data.prompt;
+    const focusRecordId = parsed.data.focusRecordId;
+    const dataDir = validateDataDir(parsed.data.dataDir);
 
     const runPath = "results/latest-run.json";
     const runResult: RunResult | null = existsSync(runPath) ? JSON.parse(readFileSync(runPath, "utf8")) : null;
@@ -91,9 +149,13 @@ app.get("/api/cross-validate", (c) => {
 
 app.post("/api/cross-validate/run", async (c) => {
   try {
-    const body = await c.req.json().catch(() => ({}));
-    const seeds = body.seeds ? [42, 123, 555, 777, 999, 2026].slice(0, body.seeds) : [42, 123, 555, 777, 999];
-    const mode = body.mode ?? "all";
+    const raw = await c.req.json().catch(() => ({}));
+    const parsed = CrossValBodySchema.safeParse(raw);
+    if (!parsed.success) {
+      return c.json({ error: "Invalid cross-validation request", details: parsed.error.format() }, 400);
+    }
+    const seeds = parsed.data.seeds ? [42, 123, 555, 777, 999, 2026].slice(0, parsed.data.seeds) : [42, 123, 555, 777, 999];
+    const mode = parsed.data.mode;
     const summary = await runCrossValidation(seeds, mode);
     return c.json({ summary });
   } catch (err) {

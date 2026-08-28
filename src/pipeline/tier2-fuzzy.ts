@@ -12,7 +12,7 @@
  * candidate pool that always keeps same-invoice hits and likely subset-sum parts.
  */
 import Decimal from "decimal.js";
-import { amountKey, amountsClose, daysBetween, tokenSim, sameInvoice, recordsShareInvoice, vendorOverlap, subsetSumUnique, amountAbsTol, checkIndianTaxMdrSchedule } from "../normalize";
+import { amountKey, amountsClose, daysBetween, tokenSim, sameInvoice, invoiceToken, recordsShareInvoice, vendorOverlap, subsetSumUnique, amountAbsTol, checkIndianTaxMdrSchedule } from "../normalize";
 import type { FinRecord, Outcome, ReasonCode } from "../types";
 import type { TierResult } from "./tier1-exact";
 
@@ -196,6 +196,25 @@ export function tier2Fuzzy(residual: FinRecord[]): Tier2Result {
     return still().filter((r) => set.has(r.source));
   };
 
+function isValidFxCorridor(curA: string, curB: string, amtA: number, amtB: number): boolean {
+  if (curA === curB) return false;
+  const isEurUsd = (curA === "EUR" && curB === "USD") || (curA === "USD" && curB === "EUR");
+  const isGbpUsd = (curA === "GBP" && curB === "USD") || (curA === "USD" && curB === "GBP");
+  if (isEurUsd || isGbpUsd) {
+    const r = ratio(amtA, amtB);
+    return r >= 0.75 && r <= 1.35;
+  }
+  const isUsdInr = (curA === "USD" && curB === "INR") || (curA === "INR" && curB === "USD");
+  if (isUsdInr) {
+    const usd = curA === "USD" ? Math.abs(amtA) : Math.abs(amtB);
+    const inr = curA === "INR" ? Math.abs(amtA) : Math.abs(amtB);
+    if (usd === 0) return false;
+    const effectiveRate = inr / usd;
+    return effectiveRate >= 70 && effectiveRate <= 100;
+  }
+  return false;
+}
+
   // --- 1:1 auto-commit: same invoice identity + settlement window (tight or wide) ---
   type Pair = { a: FinRecord; b: FinRecord; reason: ReasonCode; why: string };
   const scored: Pair[] = [];
@@ -207,13 +226,24 @@ export function tier2Fuzzy(residual: FinRecord[]): Tier2Result {
       const days = daysBetween(r.date, other.date);
       if (!Number.isFinite(days) || days > 20) continue;
 
+      const sameSign = Math.sign(r.amount) === Math.sign(other.amount) || (r.amount < 0 && other.amount < 0);
+      const isCrossCurrency = r.currency !== other.currency;
+
       const absClose = amountsClose(absAmt(r.amount), absAmt(other.amount), 0.05, 0.005);
       const feeClose = amountsClose(absAmt(r.amount), absAmt(other.amount), 0.05, 0.03);
-      const fxOrPartial = ratio(r.amount, other.amount) >= 0.2;
 
-      // For wide timing drift (> SETTLE_DAYS), require exact amount match and same currency
-      if (days > SETTLE_DAYS && (!absClose || r.currency !== other.currency)) continue;
-      if (days <= SETTLE_DAYS && !(absClose || feeClose || fxOrPartial)) continue;
+      if (isCrossCurrency) {
+        if (days > SETTLE_DAYS || !sameSign || !isValidFxCorridor(r.currency, other.currency, r.amount, other.amount)) {
+          continue;
+        }
+      } else {
+        if (days > SETTLE_DAYS) {
+          if (!absClose || !sameSign) continue;
+        } else {
+          const isPartialOrFee = sameSign && ratio(r.amount, other.amount) >= 0.3;
+          if (!(absClose || feeClose || isPartialOrFee)) continue;
+        }
+      }
 
       const key = [r.id, other.id].sort().join("|");
       if (seenPair.has(key)) continue;
@@ -242,11 +272,7 @@ export function tier2Fuzzy(residual: FinRecord[]): Tier2Result {
     pushGroup([p.a, p.b], 0.96, p.reason, p.why);
   }
 
-  // --- unique large amount+date+currency cluster (BenchRec) ---
-  // Only fires for amounts the synthetic generator never produces, so it cannot
-  // glue two unrelated INV-* invoices that happen to share a dollar amount.
-  // Synthetic invoices top out at $9000; anything larger is BenchRec-scale.
-  const LARGE_AMT = 9001;
+  // --- unique amount+date+currency cluster (BenchRec) ---
   const byKey = new Map<string, FinRecord[]>();
   for (const r of still()) {
     const k = amtDateCurKey(r);
@@ -259,12 +285,28 @@ export function tier2Fuzzy(residual: FinRecord[]): Tier2Result {
     const banks = leftover.filter((g) => g.source === "bank");
     const others = leftover.filter((g) => g.source !== "bank");
     if (banks.length !== 1 || others.length < 1) continue;
+
+    const bankSign = Math.sign(banks[0]!.amount);
+    if (others.some((o) => Math.sign(o.amount) !== bankSign)) continue;
+
     const refs = new Set(others.map((g) => g.reference));
     if (others.length > 1 && refs.size > 1) continue;
-    const large = Math.abs(banks[0]!.amount) >= LARGE_AMT;
+
+    const large = Math.abs(banks[0]!.amount) >= 9000;
+    if (!large) {
+      const hasConflictingInvoices = others.some((o) => {
+        if (sharedLongToken(banks[0]!, o)) return false;
+        const tb = invoiceToken(banks[0]!.reference);
+        const to = invoiceToken(o.reference);
+        return tb.length > 0 && to.length > 0 && tb !== to;
+      });
+      if (hasConflictingInvoices) continue;
+    }
+
     const uniquePair = others.length === 1 && (large || sharedLongToken(banks[0]!, others[0]!));
     const uniqueCluster = others.length > 1 && large;
     if (!uniquePair && !uniqueCluster) continue;
+
     pushGroup(
       [banks[0]!, ...others],
       0.94,
@@ -289,10 +331,10 @@ export function tier2Fuzzy(residual: FinRecord[]): Tier2Result {
 
   // --- many-to-one: bank deposit = unique subset of invoices in a tight window ---
   // Vendor overlap is preferred but not required for large BenchRec wires where bank descriptions
-  // are often empty placeholders. For synthetic amounts (< LARGE_AMT), require exact sum (0.05 tol).
+  // are often empty placeholders. For synthetic amounts, require exact sum (0.05 tol).
   for (const b of unused("bank")) {
     if (b.amount <= 0) continue;
-    const isLarge = b.amount >= LARGE_AMT;
+    const isLarge = b.amount >= 9000;
     const tol = isLarge ? amountAbsTol(b.amount) : 0.05;
     const parts = unused(["ledger", "processor"]).filter(
       (l) =>
@@ -333,7 +375,7 @@ export function tier2Fuzzy(residual: FinRecord[]): Tier2Result {
   // --- one-to-many: one ledger invoice split across several bank credits ---
   for (const l of unused("ledger")) {
     if (l.amount <= 0) continue;
-    const isLarge = l.amount >= LARGE_AMT;
+    const isLarge = l.amount >= 9000;
     const tol = isLarge ? amountAbsTol(l.amount) : 0.05;
     const parts = unused("bank").filter(
       (b) =>
@@ -355,6 +397,7 @@ export function tier2Fuzzy(residual: FinRecord[]): Tier2Result {
     if (!hit) continue;
     const members = hit.map((id) => byId.get(id)!).filter(Boolean);
     if (members.length < 2) continue;
+    if (unused("bank").some((b) => sameInvoice(l.reference, b.reference) && amountsClose(l.amount, b.amount, 0.05, 0.005))) continue;
     pushGroup(
       [l, ...members],
       0.96,
@@ -367,15 +410,15 @@ export function tier2Fuzzy(residual: FinRecord[]): Tier2Result {
   type FxPair = { b: FinRecord; l: FinRecord; d: number; v: number; r: number; score: number };
   const allFxPairs: FxPair[] = [];
   for (const b of unused("bank")) {
-    if (b.currency === "USD") continue;
     for (const l of unused("ledger")) {
-      if (l.currency === b.currency) continue;
+      if (b.currency === l.currency) continue;
+      if (Math.sign(b.amount) !== Math.sign(l.amount) || b.amount <= 0 || l.amount <= 0) continue;
+      if (!isValidFxCorridor(b.currency, l.currency, b.amount, l.amount)) continue;
       const d = daysBetween(b.date, l.date);
       if (d > SETTLE_DAYS) continue;
       const v = vendorOverlap(b.description, l.description);
       if (v < 0.8) continue;
       const r = ratio(b.amount, l.amount);
-      if (r < 0.80 || r > 1.25) continue;
       const score = 100 - d * 10 - Math.abs(1 - r) * 10;
       allFxPairs.push({ b, l, d, v, r, score });
     }

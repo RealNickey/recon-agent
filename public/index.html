@@ -780,6 +780,16 @@ function renderStats(rep, cvSummary) {
   }
 }
 
+function escapeHtml(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 function renderTable() {
   const outcomes = currentReport?.run?.outcomes || [];
   const byId = new Map(currentRecords.map(r => [r.id, r]));
@@ -809,13 +819,13 @@ function renderTable() {
 
     return `<tr>
       <td>${statusPill}</td>
-      <td class="mono" style="font-weight:700">${o.recordId}</td>
-      <td><span style="text-transform:capitalize">${o.source}</span></td>
-      <td class="mono">${r.amount > 0 ? '+' : ''}${r.amount.toFixed(2)} ${r.currency}<br><span style="color:var(--text-dim);font-size:11px">${r.date}</span></td>
-      <td><strong>${r.reference || '—'}</strong><br><span style="color:var(--text-dim);font-size:11px">${r.description}</span></td>
+      <td class="mono" style="font-weight:700">${escapeHtml(o.recordId)}</td>
+      <td><span style="text-transform:capitalize">${escapeHtml(o.source)}</span></td>
+      <td class="mono">${r.amount > 0 ? '+' : ''}${Number(r.amount).toFixed(2)} ${escapeHtml(r.currency)}<br><span style="color:var(--text-dim);font-size:11px">${escapeHtml(r.date)}</span></td>
+      <td><strong>${escapeHtml(r.reference || '—')}</strong><br><span style="color:var(--text-dim);font-size:11px">${escapeHtml(r.description)}</span></td>
       <td>${tierPill}</td>
-      <td><strong>${o.reasonCode || '—'}</strong><br><span class="mono" style="color:var(--primary);font-size:11px">${matchedList}</span></td>
-      <td><button onclick="inspectRecord('${o.recordId}')" style="padding:4px 8px;font-size:11px">Inspect</button></td>
+      <td><strong>${escapeHtml(o.reasonCode || '—')}</strong><br><span class="mono" style="color:var(--primary);font-size:11px">${escapeHtml(matchedList)}</span></td>
+      <td><button onclick="inspectRecord('${escapeHtml(o.recordId)}')" style="padding:4px 8px;font-size:11px">Inspect</button></td>
     </tr>`;
   }).join('') || `<tr><td colspan="8" style="text-align:center;color:var(--text-dim);padding:24px">No records match criteria</td></tr>`;
 }
@@ -825,15 +835,15 @@ function renderCrossVal(summary) {
   const tbody = $('#crossValTable tbody');
   tbody.innerHTML = summary.results.map(r => `
     <tr>
-      <td class="mono">Seed ${r.seed}</td>
-      <td><span class="pill" style="background:var(--surface-hover)">${r.mode}</span></td>
-      <td class="mono">${r.totalPairs}</td>
-      <td class="mono" style="color:var(--success);font-weight:700">${r.correctPairs}</td>
-      <td class="mono" style="color:${r.falsePositives > 0 ? 'var(--danger)' : 'var(--text-dim)'}">${r.falsePositives}</td>
+      <td class="mono">Seed ${escapeHtml(r.seed)}</td>
+      <td><span class="pill" style="background:var(--surface-hover)">${escapeHtml(r.mode)}</span></td>
+      <td class="mono">${escapeHtml(r.totalPairs)}</td>
+      <td class="mono" style="color:var(--success);font-weight:700">${escapeHtml(r.correctPairs)}</td>
+      <td class="mono" style="color:${r.falsePositives > 0 ? 'var(--danger)' : 'var(--text-dim)'}">${escapeHtml(r.falsePositives)}</td>
       <td class="mono" style="font-weight:700">${(r.fitness * 100).toFixed(1)}%</td>
       <td class="mono">${(r.recall * 100).toFixed(1)}%</td>
       <td class="mono">${(r.precision * 100).toFixed(1)}%</td>
-      <td class="mono">${r.durationMs}ms</td>
+      <td class="mono">${escapeHtml(r.durationMs)}ms</td>
     </tr>
   `).join('');
 }
@@ -843,11 +853,11 @@ function renderTraces(traces) {
   container.innerHTML = traces.reverse().map(t => `
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 16px">
       <div style="display:flex;justify-content:space-between;margin-bottom:6px">
-        <span class="mono" style="font-weight:700">${t.recordId}</span>
-        <span class="pill tier3">${t.model || 'Agentic AI'} · ${t.latencyMs || 0}ms</span>
+        <span class="mono" style="font-weight:700">${escapeHtml(t.recordId)}</span>
+        <span class="pill tier3">${escapeHtml(t.model || 'Agentic AI')} · ${escapeHtml(t.latencyMs || 0)}ms</span>
       </div>
-      <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px">${t.decision?.reasoning || 'No trace reasoning'}</div>
-      <div class="mono" style="font-size:11px;color:var(--primary)">Matched: ${JSON.stringify(t.decision?.matchedIds || [])} | Conf: ${(t.decision?.confidence || 0).toFixed(2)}</div>
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px">${escapeHtml(t.decision?.reasoning || 'No trace reasoning')}</div>
+      <div class="mono" style="font-size:11px;color:var(--primary)">Matched: ${escapeHtml(JSON.stringify(t.decision?.matchedIds || []))} | Conf: ${(t.decision?.confidence || 0).toFixed(2)}</div>
     </div>
   `).join('') || `<div style="color:var(--text-dim);text-align:center;padding:24px">No Tier-3 reasoning traces logged yet</div>`;
 }
@@ -863,29 +873,29 @@ function inspectRecord(recId) {
   let html = `
     <div style="margin-bottom:16px">
       <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
-        <span class="pill ${outcome?.status === 'matched' ? 'matched' : 'exception'}">${outcome?.status.toUpperCase()}</span>
-        <span class="pill tier${outcome?.tier}">Tier ${outcome?.tier}</span>
-        <span class="mono" style="font-size:13px;font-weight:700">${target.id}</span>
+        <span class="pill ${outcome?.status === 'matched' ? 'matched' : 'exception'}">${escapeHtml(outcome?.status?.toUpperCase())}</span>
+        <span class="pill tier${outcome?.tier}">Tier ${escapeHtml(outcome?.tier)}</span>
+        <span class="mono" style="font-size:13px;font-weight:700">${escapeHtml(target.id)}</span>
       </div>
-      <div style="color:var(--text-muted);font-size:13px">${outcome?.reasoning || 'No reasoning available.'}</div>
+      <div style="color:var(--text-muted);font-size:13px">${escapeHtml(outcome?.reasoning || 'No reasoning available.')}</div>
     </div>
     
     <div class="diff-grid">
       <div class="diff-col">
-        <div style="font-weight:700;margin-bottom:10px;color:var(--primary)">TARGET RECORD (${target.source.toUpperCase()})</div>
-        <div class="diff-field"><span class="diff-label">Amount:</span><span class="diff-val">${target.amount} ${target.currency}</span></div>
-        <div class="diff-field"><span class="diff-label">Date:</span><span class="diff-val">${target.date}</span></div>
-        <div class="diff-field"><span class="diff-label">Reference:</span><span class="diff-val">${target.reference}</span></div>
-        <div class="diff-field"><span class="diff-label">Description:</span><span class="diff-val" style="font-size:11px">${target.description}</span></div>
+        <div style="font-weight:700;margin-bottom:10px;color:var(--primary)">TARGET RECORD (${escapeHtml(target.source.toUpperCase())})</div>
+        <div class="diff-field"><span class="diff-label">Amount:</span><span class="diff-val">${escapeHtml(target.amount)} ${escapeHtml(target.currency)}</span></div>
+        <div class="diff-field"><span class="diff-label">Date:</span><span class="diff-val">${escapeHtml(target.date)}</span></div>
+        <div class="diff-field"><span class="diff-label">Reference:</span><span class="diff-val">${escapeHtml(target.reference)}</span></div>
+        <div class="diff-field"><span class="diff-label">Description:</span><span class="diff-val" style="font-size:11px">${escapeHtml(target.description)}</span></div>
       </div>
       <div class="diff-col">
         <div style="font-weight:700;margin-bottom:10px;color:var(--success)">COUNTERPART(S) (${counterparts.length})</div>
         ${counterparts.map(cp => `
           <div style="border-bottom:1px dashed var(--border);padding-bottom:8px;margin-bottom:8px">
-            <div class="diff-field"><span class="diff-label">ID / Source:</span><span class="diff-val">${cp.id} (${cp.source})</span></div>
-            <div class="diff-field"><span class="diff-label">Amount:</span><span class="diff-val">${cp.amount} ${cp.currency}</span></div>
-            <div class="diff-field"><span class="diff-label">Date:</span><span class="diff-val">${cp.date}</span></div>
-            <div class="diff-field"><span class="diff-label">Reference:</span><span class="diff-val">${cp.reference}</span></div>
+            <div class="diff-field"><span class="diff-label">ID / Source:</span><span class="diff-val">${escapeHtml(cp.id)} (${escapeHtml(cp.source)})</span></div>
+            <div class="diff-field"><span class="diff-label">Amount:</span><span class="diff-val">${escapeHtml(cp.amount)} ${escapeHtml(cp.currency)}</span></div>
+            <div class="diff-field"><span class="diff-label">Date:</span><span class="diff-val">${escapeHtml(cp.date)}</span></div>
+            <div class="diff-field"><span class="diff-label">Reference:</span><span class="diff-val">${escapeHtml(cp.reference)}</span></div>
           </div>
         `).join('') || '<div style="color:var(--text-dim);padding:12px 0">No counterpart claimed (Honest Exception)</div>'}
       </div>
@@ -898,7 +908,7 @@ function inspectRecord(recId) {
         <div style="font-weight:700;margin-bottom:8px;font-size:12px;text-transform:uppercase;color:var(--text-dim)">Field-by-Field Audit Evidence</div>
         ${outcome.auditTrail.evidence.map(e => `
           <div style="font-size:12px;margin-bottom:6px">
-            <strong>${e.field}:</strong> ${e.explanation} <span class="mono" style="color:var(--primary)">(${(e.similarity * 100).toFixed(0)}% match)</span>
+            <strong>${escapeHtml(e.field)}:</strong> ${escapeHtml(e.explanation)} <span class="mono" style="color:var(--primary)">(${((e.similarity || 0) * 100).toFixed(0)}% match)</span>
           </div>
         `).join('')}
       </div>
@@ -973,7 +983,10 @@ $('#crossValBtn').onclick = async () => {
 async function sendChat(prompt) {
   if (!prompt) return;
   const msgContainer = $('#chatMessages');
-  msgContainer.innerHTML += `<div class="chat-msg user">${prompt}</div>`;
+  const userDiv = document.createElement('div');
+  userDiv.className = 'chat-msg user';
+  userDiv.textContent = prompt;
+  msgContainer.appendChild(userDiv);
   msgContainer.scrollTop = msgContainer.scrollHeight;
   $('#chatInput').value = '';
 
@@ -983,7 +996,10 @@ async function sendChat(prompt) {
     body: JSON.stringify({ prompt, dataDir: $('#datasetSelect').value })
   }).then(r => r.json());
 
-  msgContainer.innerHTML += `<div class="chat-msg agent">${res.reply || res.error}</div>`;
+  const agentDiv = document.createElement('div');
+  agentDiv.className = 'chat-msg agent';
+  agentDiv.textContent = res.reply || res.error || 'No response';
+  msgContainer.appendChild(agentDiv);
   msgContainer.scrollTop = msgContainer.scrollHeight;
 }
 

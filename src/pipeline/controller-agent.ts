@@ -5,7 +5,7 @@
  */
 import { generateText } from "ai";
 import type { FinRecord, RunResult, AgentChatResponse } from "../types";
-import { executeWithProviderFallback, type ProviderTarget } from "./agentic-providers";
+import { executeWithProviderFallback, hasApprovedProvider, type ProviderTarget } from "./agentic-providers";
 
 export async function askFinanceController(
   prompt: string,
@@ -33,6 +33,30 @@ Pipeline Context:
 - Cash Position: ${runResult?.cashPosition ? JSON.stringify(runResult.cashPosition) : "Not available"}
 ${focusRecord ? `- Focus Record: ${JSON.stringify(focusRecord)}\n- Focus Outcome: ${JSON.stringify(focusOutcome)}` : ""}
 `;
+
+  if (!hasApprovedProvider()) {
+    let fallbackReply = `Finance Controller Notice (Offline Mode):\n\n`;
+    if (focusOutcome) {
+      fallbackReply += `Record ${focusRecordId} status: ${focusOutcome.status} (Tier ${focusOutcome.tier}). Reason: ${focusOutcome.reasonCode ?? "N/A"}.\nReasoning: ${focusOutcome.reasoning ?? "No reasoning provided"}.`;
+    } else if (runResult?.cashPosition) {
+      fallbackReply += `Current Cash Position:\n` + Object.entries(runResult.cashPosition)
+        .map(([cur, pos]) => `- ${cur}: Reconciled ${pos.reconciledAmount.toLocaleString()} ${cur}, Unreconciled ${pos.unreconciledAmount.toLocaleString()} ${cur}, Net ${pos.netPosition.toLocaleString()} ${cur}`)
+        .join("\n");
+    } else {
+      fallbackReply += `Pipeline statistics: ${runResult?.stats.matched ?? 0} matched, ${runResult?.stats.exceptions ?? 0} exceptions.`;
+    }
+
+    return {
+      reply: fallbackReply,
+      modelUsed: "offline-deterministic-controller",
+      referencedRecords: focusRecordId ? [focusRecordId] : [],
+      suggestedActions: ["View Field Diff Audit Trail", "Inspect Unreconciled Cash Position", "Export Exception Ledger"],
+      insights: [
+        `Reconciliation Engine processed ${runResult?.stats.totalRecords ?? 0} records (${runResult?.stats.matched ?? 0} matched, ${runResult?.stats.exceptions ?? 0} exceptions).`,
+        `Cash position reflects ${Object.keys(runResult?.cashPosition ?? {}).length} active currencies.`,
+      ],
+    };
+  }
 
   try {
     const fallbackExec = await executeWithProviderFallback(async (target: ProviderTarget) => {
@@ -64,18 +88,17 @@ ${focusRecord ? `- Focus Record: ${JSON.stringify(focusRecord)}\n- Focus Outcome
         "Export Exception Ledger",
       ],
       insights: [
-        `Reconciliation Engine processed ${runResult?.stats.totalRecords ?? 0} records with zero false positives.`,
+        `Reconciliation Engine processed ${runResult?.stats.totalRecords ?? 0} records (${runResult?.stats.matched ?? 0} matched, ${runResult?.stats.exceptions ?? 0} exceptions).`,
         `Cash position reflects ${Object.keys(runResult?.cashPosition ?? {}).length} currency portfolios.`,
       ],
     };
   } catch (err) {
-    // Deterministic fallback if offline or no model response
     let fallbackReply = `Finance Controller Notice: ${err instanceof Error ? err.message : String(err)}\n\n`;
     if (focusOutcome) {
       fallbackReply += `Record ${focusRecordId} status: ${focusOutcome.status} (Tier ${focusOutcome.tier}). Reason: ${focusOutcome.reasonCode ?? "N/A"}.\nReasoning: ${focusOutcome.reasoning ?? "No reasoning provided"}.`;
     } else if (runResult?.cashPosition) {
       fallbackReply += `Current Cash Position:\n` + Object.entries(runResult.cashPosition)
-        .map(([cur, pos]) => `- ${cur}: Reconciled $${pos.reconciledAmount.toLocaleString()}, Unreconciled $${pos.unreconciledAmount.toLocaleString()}, Net $${pos.netPosition.toLocaleString()}`)
+        .map(([cur, pos]) => `- ${cur}: Reconciled ${pos.reconciledAmount.toLocaleString()} ${cur}, Unreconciled ${pos.unreconciledAmount.toLocaleString()} ${cur}, Net ${pos.netPosition.toLocaleString()} ${cur}`)
         .join("\n");
     } else {
       fallbackReply += `Pipeline statistics: ${runResult?.stats.matched ?? 0} matched, ${runResult?.stats.exceptions ?? 0} exceptions.`;

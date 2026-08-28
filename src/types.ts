@@ -1,16 +1,33 @@
 import { z } from "zod";
 
+function isValidCalendarDate(val: string): boolean {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(val)) return false;
+  const [y, m, d] = val.split("-").map(Number);
+  if (!y || !m || !d || m < 1 || m > 12 || d < 1 || d > 31) return false;
+  const dt = new Date(Date.UTC(y, m - 1, d));
+  return dt.getUTCFullYear() === y && dt.getUTCMonth() === m - 1 && dt.getUTCDate() === d;
+}
+
 /** A single financial record in any source. `source` identifies which file it came from. */
 export const RecordSchema = z.object({
   id: z.string().min(1),
   source: z.enum(["bank", "ledger", "processor"]),
-  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  date: z.string().refine(isValidCalendarDate, { message: "Invalid ISO calendar date (YYYY-MM-DD)" }),
   amount: z.number().finite(),
-  currency: z.string().min(1),
+  currency: z.string().trim().min(3).max(3).toUpperCase(),
   description: z.string(),
   reference: z.string(),
 });
 export type FinRecord = z.infer<typeof RecordSchema>;
+
+export const InputManifestEntrySchema = z.object({
+  file: z.string(),
+  source: z.string(),
+  totalRows: z.number(),
+  validRecords: z.number(),
+  sha256: z.string(),
+});
+export type InputManifestEntry = z.infer<typeof InputManifestEntrySchema>;
 
 export const ReasonCodeSchema = z.enum([
   "exact_match",
@@ -117,6 +134,7 @@ export const RunResultSchema = z.object({
   durationMs: z.number(),
   model: z.string(),
   outcomes: z.array(OutcomeSchema),
+  inputManifest: z.array(InputManifestEntrySchema).optional(),
   cashPosition: z.record(z.string(), CashPositionCurrencySchema).optional(),
   stats: z.object({
     totalRecords: z.number(),

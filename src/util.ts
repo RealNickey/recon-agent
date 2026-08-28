@@ -1,5 +1,12 @@
 import { createHash } from "node:crypto";
 import { resolve } from "node:path";
+import { realpathSync, existsSync } from "node:fs";
+
+export const PINNED_TRUTH_HASHES: Record<string, string> = {
+  dev: "f7c0b963363fca70",
+  holdout: "e8e4fa7bb6da52a0",
+  hard: "b3057890b01ecebf",
+};
 
 /** mulberry32 — tiny seeded PRNG, deterministic across platforms. */
 export function mulberry32(seed: number): () => number {
@@ -58,11 +65,26 @@ export function contentHash(s: string): string {
   return createHash("sha256").update(s).digest("hex").slice(0, 16);
 }
 
+function canonicalize(p: string): string {
+  const abs = resolve(p);
+  if (existsSync(abs)) {
+    try {
+      return realpathSync.native ? realpathSync.native(abs) : realpathSync(abs);
+    } catch {
+      return abs;
+    }
+  }
+  return abs;
+}
+
 /** True if `p` resolves inside `repoRoot` (the answer key must never live here). */
 export function pathIsInsideRepo(p: string, repoRoot = "."): boolean {
-  const abs = resolve(p);
-  const repo = resolve(repoRoot);
-  return abs === repo || abs.startsWith(repo + "\\") || abs.startsWith(repo + "/");
+  const cPath = canonicalize(p);
+  const cRepo = canonicalize(repoRoot);
+  const isWin = process.platform === "win32";
+  const pNorm = isWin ? cPath.toLowerCase() : cPath;
+  const rNorm = isWin ? cRepo.toLowerCase() : cRepo;
+  return pNorm === rNorm || pNorm.startsWith(rNorm + "\\") || pNorm.startsWith(rNorm + "/");
 }
 
 /**

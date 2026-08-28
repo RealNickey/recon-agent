@@ -16,7 +16,7 @@ import { readFileSync, existsSync } from "node:fs";
 import { runPipeline } from "../src/pipeline/run";
 import { scoreRun, type ScoreReport } from "../src/scoring";
 import { GroundTruthSchema, RunResultSchema, type GroundTruth } from "../src/types";
-import { resolveExternalTruthPath } from "../src/util";
+import { resolveExternalTruthPath, PINNED_TRUTH_HASHES } from "../src/util";
 
 const args = process.argv.slice(2);
 const USE_AI = args.includes("--ai");
@@ -49,6 +49,10 @@ async function main() {
     truthOrigin: hardTruthObj.origin,
     resultsFile: "results/hard-run.json",
   });
+  if (PINNED_TRUTH_HASHES.hard && hardScore.truthHash !== PINNED_TRUTH_HASHES.hard) {
+    console.error(`❌ HARD TRUTH HASH MISMATCH: expected ${PINNED_TRUTH_HASHES.hard}, got ${hardScore.truthHash}`);
+    process.exit(1);
+  }
 
   // 2. Run Dev Pipeline & Eval (Regression Lock)
   if (!JSON_ONLY) console.log("⏳ [2/3] Checking Dev Regression Lock...");
@@ -61,6 +65,10 @@ async function main() {
       truthOrigin: devTruthObj.origin,
       resultsFile: "results/latest-run.json",
     });
+    if (PINNED_TRUTH_HASHES.dev && devScore.truthHash !== PINNED_TRUTH_HASHES.dev) {
+      console.error(`❌ DEV TRUTH HASH MISMATCH: expected ${PINNED_TRUTH_HASHES.dev}, got ${devScore.truthHash}`);
+      process.exit(2);
+    }
   }
 
   // 3. Run Holdout Pipeline & Eval (Regression Lock)
@@ -74,6 +82,10 @@ async function main() {
       truthOrigin: holdoutTruthObj.origin,
       resultsFile: "results/holdout-run.json",
     });
+    if (PINNED_TRUTH_HASHES.holdout && holdoutScore.truthHash !== PINNED_TRUTH_HASHES.holdout) {
+      console.error(`❌ HOLDOUT TRUTH HASH MISMATCH: expected ${PINNED_TRUTH_HASHES.holdout}, got ${holdoutScore.truthHash}`);
+      process.exit(2);
+    }
   }
 
   const durationSec = +((performance.now() - t0) / 1000).toFixed(2);

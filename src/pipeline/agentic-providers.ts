@@ -11,6 +11,15 @@ export interface ProviderTarget {
   createModel: () => any;
 }
 
+export function hasApprovedProvider(): boolean {
+  return Boolean(
+    process.env.GROQ_API_KEY ||
+    process.env.OPENROUTER_API_KEY ||
+    process.env.CEREBRAS_API_KEY ||
+    process.env.OPENAI_API_KEY
+  );
+}
+
 export function getAvailableProviderTargets(): ProviderTarget[] {
   const targets: ProviderTarget[] = [];
 
@@ -79,12 +88,6 @@ export function getAvailableProviderTargets(): ProviderTarget[] {
     targets.push({ name: "OpenAI (GPT-4o-mini)", model: "gpt-4o-mini", createModel: () => openai("gpt-4o-mini") });
   }
 
-  // If no keys configured, provide dummy for fail-safe
-  if (targets.length === 0) {
-    const dummy = createOpenAI({ baseURL: "https://openrouter.ai/api/v1", apiKey: "none" });
-    targets.push({ name: "OpenRouter (default)", model: "z-ai/glm-5.2:free", createModel: () => dummy("z-ai/glm-5.2:free") });
-  }
-
   return targets;
 }
 
@@ -92,6 +95,9 @@ export async function executeWithProviderFallback<T>(
   operation: (target: ProviderTarget) => Promise<T>,
   targets = getAvailableProviderTargets()
 ): Promise<{ result: T; targetUsed: ProviderTarget; attempts: number }> {
+  if (targets.length === 0) {
+    throw new Error("No approved AI provider configured. Offline fail-safe active.");
+  }
   let lastError: Error | null = null;
 
   for (let i = 0; i < targets.length; i++) {
