@@ -6,18 +6,27 @@ import { z } from "zod";
 import { runPipeline } from "./pipeline/run";
 import { askFinanceController } from "./pipeline/controller-agent";
 import { runCrossValidation } from "../scripts/cross-validate";
+import {
+  createRazorpayOrder,
+  verifyPaymentSignature,
+  getRazorpayCredentials,
+  syncRazorpayData,
+} from "./integrations/razorpay";
 import type { FinRecord, RunResult } from "./types";
 
 const app = new Hono();
 let running = false;
 
-// Security headers middleware
+// Security headers middleware with Razorpay Checkout allowance
 app.use("*", async (c, next) => {
   await next();
   c.header("X-Content-Type-Options", "nosniff");
   c.header("X-Frame-Options", "DENY");
   c.header("Referrer-Policy", "strict-origin-when-cross-origin");
-  c.header("Content-Security-Policy", "default-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; img-src 'self' data:;");
+  c.header(
+    "Content-Security-Policy",
+    "default-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com https://checkout.razorpay.com; script-src 'self' 'unsafe-inline' https://checkout.razorpay.com; frame-src https://api.razorpay.com https://checkout.razorpay.com; connect-src 'self' https://api.razorpay.com https://lumberjack.razorpay.com; img-src 'self' data: https://*.razorpay.com;"
+  );
 });
 
 function validateDataDir(dir: string): string {
@@ -185,6 +194,99 @@ app.get("/api/exceptions/export", (c) => {
     "Content-Type": "text/csv",
     "Content-Disposition": "attachment; filename=exception-ledger.csv",
   });
+});
+
+const CreateOrderBodySchema = z.object({
+  amount: z.number().min(100, "Amount must be at least 100 paise (₹1.00)"),
+  currency: z.string().optional().default("INR"),
+  receipt: z.string().optional(),
+  notes: z.record(z.string(), z.string()).optional(),
+});
+
+const VerifyPaymentBodySchema = z.object({
+  razorpay_order_id: z.string().min(1, "razorpay_order_id is required"),
+  razorpay_payment_id: z.string().min(1, "razorpay_payment_id is required"),
+  razorpay_signature: z.string().min(1, "razorpay_signature is required"),
+});
+
+const RazorpaySyncBodySchema = z.object({
+  targetDir: z.string().optional().default("data/razorpay"),
+  runRecon: z.boolean().optional().default(true),
+  useAi: z.boolean().optional().default(false),
+});
+
+app.get("/api/razorpay/config", (c) => {
+  const creds = getRazorpayCredentials();
+  return c.json({
+    key_id: creds.keyId,
+    currency: "INR",
+  });
+});
+
+app.post("/api/create-order", async (c) => {
+  try {
+    const raw = await c.req.json().catch(() => ({}));
+    const parsed = CreateOrderBodySchema.safeParse(raw);
+    if (!parsed.success) {
+      return c.json({ error: "Invalid create-order payload", details: parsed.error.format() }, 400);
+    }
+    const order = await createRazorpayOrder(parsed.data);
+    const creds = getRazorpayCredentials();
+    return c.json({
+      ...order,
+      key_id: creds.keyId,
+    });
+  } catch (err: any) {
+    const status = err.statusCode === 401 ? 401 : 500;
+    return c.json({ error: err instanceof Error ? err.message : String(err) }, status);
+  }
+});
+
+app.post("/api/verify-payment", async (c) => {
+  try {
+    const raw = await c.req.json().catch(() => ({}));
+    const parsed = VerifyPaymentBodySchema.safeParse(raw);
+    if (!parsed.success) {
+      return c.json({ success: false, error: "Missing required verification fields", details: parsed.error.format() }, 400);
+    }
+    const result = verifyPaymentSignature(parsed.data);
+    if (!result.valid) {
+      return c.json({ success: false, error: result.error || "Signature verification failed" }, 400);
+    }
+    return c.json({
+      success: true,
+      message: "Payment verified successfully",
+      order_id: parsed.data.razorpay_order_id,
+      payment_id: parsed.data.razorpay_payment_id,
+    });
+  } catch (err) {
+    return c.json({ success: false, error: err instanceof Error ? err.message : String(err) }, 500);
+  }
+});
+
+app.post("/api/integrations/razorpay/sync", async (c) => {
+  try {
+    const raw = await c.req.json().catch(() => ({}));
+    const parsed = RazorpaySyncBodySchema.safeParse(raw);
+    if (!parsed.success) {
+      return c.json({ error: "Invalid sync request", details: parsed.error.format() }, 400);
+    }
+    const targetDir = validateDataDir(parsed.data.targetDir);
+    const syncRes = await syncRazorpayData(targetDir);
+
+    let pipelineRes = null;
+    if (parsed.data.runRecon) {
+      pipelineRes = await runPipeline(targetDir, "results/razorpay-sync-run.json", parsed.data.useAi);
+    }
+
+    return c.json({
+      success: true,
+      sync: syncRes,
+      pipeline: pipelineRes,
+    });
+  } catch (err) {
+    return c.json({ error: err instanceof Error ? err.message : String(err) }, 500);
+  }
 });
 
 app.get("/*", serveStatic({ root: "./public" }));
