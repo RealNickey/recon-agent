@@ -7,7 +7,7 @@ import { join, dirname } from "node:path";
 import { createHash } from "node:crypto";
 import Decimal from "decimal.js";
 import { tier1Exact } from "./tier1-exact";
-import { tier2Fuzzy } from "./tier2-fuzzy";
+import { tier2Fuzzy, type Candidate } from "./tier2-fuzzy";
 import { tier3Agentic } from "./tier3-agentic";
 import {
   RecordSchema,
@@ -17,8 +17,11 @@ import {
   type RunResult,
   type InputManifestEntry,
   type RejectedRecord,
+  type AuditEvidence,
+  type ReasonCode,
 } from "../types";
 import { hasApprovedProvider } from "./agentic-providers";
+import { daysBetween, amountsClose, recordsShareInvoice, tokenSim } from "../normalize";
 
 const args = process.argv.slice(2);
 function argVal(flag: string, dflt: string): string {
@@ -122,24 +125,85 @@ function loadSourceFile(
   };
 }
 
-function exceptionReason(r: FinRecord, poolSize: number): Outcome {
-  const reason =
-    poolSize === 0
-      ? "no_candidate_found"
-      : r.currency !== "USD"
-        ? "currency_mismatch"
-        : "low_confidence";
+export function buildExceptionOutcome(
+  r: FinRecord,
+  pool: Candidate[] = [],
+  tier: 1 | 2 | 3 = 2,
+  customReasonCode?: ReasonCode,
+  customReasoning?: string
+): Outcome {
+  const poolSize = pool.length;
+  const topCand = pool[0]?.candidate;
+  const topScore = pool[0]?.score ?? 0;
+
+  let reason: ReasonCode = customReasonCode ?? (poolSize === 0 ? "no_candidate_found" : r.currency !== "USD" ? "currency_mismatch" : "low_confidence");
+  let reasoning = customReasoning ?? (poolSize === 0
+    ? "no cross-source candidate survived amount/date/vendor blocking"
+    : `candidate pool (${poolSize} candidates, top score ${topScore.toFixed(2)}) evaluated; rejected due to confidence below 0.70 threshold or candidate collision`);
+  let ruleTriggered = poolSize === 0 ? "Honest Exception: Zero Counterparts Found" : "Calibrated Restraint: Low Confidence / Candidate Ambiguity";
+  let confidence = poolSize === 0 ? 0.0 : Math.min(0.49, +topScore.toFixed(2));
+
+  const evidence: AuditEvidence[] = [];
+  if (poolSize > 0 && topCand) {
+    evidence.push({
+      field: "amount",
+      recordAVal: `${r.amount} ${r.currency}`,
+      recordBVal: `${topCand.amount} ${topCand.currency}`,
+      similarity: amountsClose(Math.abs(r.amount), Math.abs(topCand.amount), 0.05, 0.05) ? 1.0 : 0.5,
+      explanation: `Amount comparison: ${r.amount} ${r.currency} vs ${topCand.amount} ${topCand.currency}`,
+    });
+    evidence.push({
+      field: "date",
+      recordAVal: r.date,
+      recordBVal: topCand.date,
+      similarity: daysBetween(r.date, topCand.date) === 0 ? 1.0 : Math.max(0, +(1 - daysBetween(r.date, topCand.date) / 30).toFixed(2)),
+      explanation: `${daysBetween(r.date, topCand.date)} day(s) drift between transaction postings`,
+    });
+    evidence.push({
+      field: "reference",
+      recordAVal: r.reference,
+      recordBVal: topCand.reference,
+      similarity: recordsShareInvoice(r, topCand) ? 1.0 : tokenSim(r.reference, topCand.reference),
+      explanation: `Reference comparison: "${r.reference}" vs "${topCand.reference}"`,
+    });
+    evidence.push({
+      field: "candidate_pool",
+      recordAVal: `${poolSize} candidate(s) evaluated`,
+      recordBVal: `Top score: ${topScore.toFixed(2)}`,
+      similarity: +topScore.toFixed(2),
+      explanation: `Top candidate score ${topScore.toFixed(2)} below 0.70 threshold; flagged as honest exception`,
+    });
+  } else {
+    evidence.push({
+      field: "candidate_pool",
+      recordAVal: "0 candidates",
+      recordBVal: "None",
+      similarity: 0.0,
+      explanation: "No cross-source counterpart survived amount/date/currency settlement blocking",
+    });
+    evidence.push({
+      field: "settlement_window",
+      recordAVal: r.date,
+      recordBVal: "N/A",
+      similarity: 0.0,
+      explanation: "No transaction records found within settlement clearing window",
+    });
+  }
+
   return {
     status: "exception",
     recordId: r.id,
     source: r.source,
     reasonCode: reason,
-    tier: 2,
+    tier,
     candidatesConsidered: poolSize,
-    reasoning:
-      poolSize === 0
-        ? "no cross-source candidate survived amount/date/vendor blocking"
-        : "left unmatched after deterministic tiers; awaiting agentic review or honest exception",
+    reasoning,
+    auditTrail: {
+      tier,
+      ruleTriggered,
+      confidence,
+      evidence,
+    },
   };
 }
 
@@ -227,7 +291,7 @@ export async function runPipeline(dataDir = DATA, outFile = OUT, useAi = !NO_AI)
     t3 = await tier3Agentic(t2.residual, t2.candidatePools);
   } else {
     for (const r of t2.residual) {
-      t3.outcomes.push(exceptionReason(r, (t2.candidatePools.get(r.id) ?? []).length));
+      t3.outcomes.push(buildExceptionOutcome(r, t2.candidatePools.get(r.id) ?? [], 2));
     }
   }
 

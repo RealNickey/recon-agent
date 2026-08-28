@@ -192,6 +192,84 @@ function verifyProposedMatch(
   }
 }
 
+function buildTier3Exception(
+  rec: FinRecord,
+  pool: Candidate[],
+  reasonCode: ReasonCode,
+  reasoning: string,
+  ruleTriggered = "Tier-3 Exception: Low Confidence / No Candidate",
+  confidence = 0.0
+): Outcome {
+  const poolSize = pool.length;
+  const topCand = pool[0]?.candidate;
+  const topScore = pool[0]?.score ?? 0;
+  const finalConf = confidence > 0 ? confidence : poolSize === 0 ? 0.0 : Math.min(0.49, +topScore.toFixed(2));
+
+  const evidence: Array<{ field: string; recordAVal: string | number; recordBVal: string | number; similarity: number; explanation: string }> = [];
+
+  if (poolSize > 0 && topCand) {
+    evidence.push({
+      field: "amount",
+      recordAVal: `${rec.amount} ${rec.currency}`,
+      recordBVal: `${topCand.amount} ${topCand.currency}`,
+      similarity: Math.abs(rec.amount - topCand.amount) <= 0.05 ? 1.0 : 0.5,
+      explanation: `Amount comparison: ${rec.amount} ${rec.currency} vs ${topCand.amount} ${topCand.currency}`,
+    });
+    evidence.push({
+      field: "date",
+      recordAVal: rec.date,
+      recordBVal: topCand.date,
+      similarity: daysBetween(rec.date, topCand.date) === 0 ? 1.0 : Math.max(0, +(1 - daysBetween(rec.date, topCand.date) / 30).toFixed(2)),
+      explanation: `${daysBetween(rec.date, topCand.date)} day(s) drift between transaction postings`,
+    });
+    evidence.push({
+      field: "reference",
+      recordAVal: rec.reference,
+      recordBVal: topCand.reference,
+      similarity: recordsShareInvoice(rec, topCand) ? 1.0 : 0.4,
+      explanation: `Reference comparison: "${rec.reference}" vs "${topCand.reference}"`,
+    });
+    evidence.push({
+      field: "candidate_pool",
+      recordAVal: `${poolSize} candidate(s) evaluated`,
+      recordBVal: `Top candidate score: ${topScore.toFixed(2)}`,
+      similarity: +topScore.toFixed(2),
+      explanation: `Candidate pool evaluated; confidence below 0.70 threshold or candidate collision`,
+    });
+  } else {
+    evidence.push({
+      field: "candidate_pool",
+      recordAVal: "0 candidates",
+      recordBVal: "None",
+      similarity: 0.0,
+      explanation: "No cross-source counterpart survived amount/date/currency settlement blocking",
+    });
+    evidence.push({
+      field: "settlement_window",
+      recordAVal: rec.date,
+      recordBVal: "N/A",
+      similarity: 0.0,
+      explanation: "No transaction records found within settlement clearing window",
+    });
+  }
+
+  return {
+    status: "exception",
+    recordId: rec.id,
+    source: rec.source,
+    reasonCode,
+    tier: 3,
+    candidatesConsidered: poolSize,
+    reasoning,
+    auditTrail: {
+      tier: 3,
+      ruleTriggered,
+      confidence: finalConf,
+      evidence,
+    },
+  };
+}
+
 export async function tier3Agentic(
   residual: FinRecord[],
   candidatePools: Map<string, Candidate[]>,
@@ -207,15 +285,16 @@ export async function tier3Agentic(
   // Fail-closed offline guard: zero network I/O if no approved provider is configured
   if (!hasApprovedProvider()) {
     for (const rec of residual) {
-      outcomes.push({
-        status: "exception",
-        recordId: rec.id,
-        source: rec.source,
-        reasonCode: "no_candidate_found",
-        tier: 3,
-        candidatesConsidered: (candidatePools.get(rec.id) ?? []).length,
-        reasoning: "no approved AI provider configured; offline fail-safe verified",
-      });
+      const pool = candidatePools.get(rec.id) ?? [];
+      outcomes.push(
+        buildTier3Exception(
+          rec,
+          pool,
+          pool.length === 0 ? "no_candidate_found" : "low_confidence",
+          "no approved AI provider configured; offline fail-safe verified",
+          "Tier-3 Fail-Safe: Offline Provider Guard"
+        )
+      );
     }
     return { outcomes, calls: 0, tokens: 0, costUsd: 0 };
   }
@@ -240,28 +319,28 @@ export async function tier3Agentic(
     for (const rec of batchRecords) {
       if (claimed.has(rec.id)) continue;
       if (isUnmatchableNoise(rec)) {
-        outcomes.push({
-          status: "exception",
-          recordId: rec.id,
-          source: rec.source,
-          reasonCode: "no_candidate_found",
-          tier: 3,
-          candidatesConsidered: 0,
-          reasoning: "unmatchable distractor record identified during audit",
-        });
+        outcomes.push(
+          buildTier3Exception(
+            rec,
+            [],
+            "no_candidate_found",
+            "unmatchable distractor record identified during audit",
+            "Honest Exception: Unmatchable Noise Distractor"
+          )
+        );
         continue;
       }
       const pool = (candidatePools.get(rec.id) ?? []).filter((c) => !claimed.has(c.candidate.id) && !isUnmatchableNoise(c.candidate));
       if (pool.length === 0) {
-        outcomes.push({
-          status: "exception",
-          recordId: rec.id,
-          source: rec.source,
-          reasonCode: "no_candidate_found",
-          tier: 3,
-          candidatesConsidered: 0,
-          reasoning: "empty candidate pool after deterministic tiers",
-        });
+        outcomes.push(
+          buildTier3Exception(
+            rec,
+            [],
+            "no_candidate_found",
+            "empty candidate pool after deterministic tiers",
+            "Honest Exception: Empty Candidate Pool"
+          )
+        );
       } else {
         batchPayload.push({ targetRecord: rec, candidates: pool });
       }
@@ -424,15 +503,16 @@ export async function tier3Agentic(
           });
         }
       } else {
-        outcomes.push({
-          status: "exception",
-          recordId: rec.id,
-          source: rec.source,
-          reasonCode: proposedIds.length > 0 ? "low_confidence" : decision.reasonCode,
-          tier: 3,
-          candidatesConsidered: pool.length,
-          reasoning: decision.reasoning,
-        });
+        outcomes.push(
+          buildTier3Exception(
+            rec,
+            pool,
+            proposedIds.length > 0 ? "low_confidence" : decision.reasonCode,
+            decision.reasoning,
+            "Tier-3 Verification Rejected / Low Confidence",
+            decision.confidence
+          )
+        );
       }
     }
   }
@@ -441,17 +521,18 @@ export async function tier3Agentic(
   const seen = new Set(outcomes.map((o) => o.recordId));
   for (const rec of residual) {
     if (seen.has(rec.id)) continue;
-    outcomes.push({
-      status: "exception",
-      recordId: rec.id,
-      source: rec.source,
-      reasonCode: "no_candidate_found",
-      tier: 3,
-      candidatesConsidered: (candidatePools.get(rec.id) ?? []).length,
-      reasoning: claimed.has(rec.id)
-        ? "claimed as counterpart in batch without reciprocal outcome"
-        : "never resolved in batch matching",
-    });
+    const pool = candidatePools.get(rec.id) ?? [];
+    outcomes.push(
+      buildTier3Exception(
+        rec,
+        pool,
+        "no_candidate_found",
+        claimed.has(rec.id)
+          ? "claimed as counterpart in batch without reciprocal outcome"
+          : "never resolved in batch matching",
+        "Tier-3 Residual Unresolved"
+      )
+    );
   }
 
   return { outcomes, calls, tokens, costUsd };

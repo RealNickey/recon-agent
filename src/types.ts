@@ -57,6 +57,9 @@ export const ReasonCodeSchema = z.enum([
   "refund_reversal",
   "partial_payment",
   "model_error",
+  "collision_conflict",
+  "fee_drift",
+  "suspense_unmatched",
 ]);
 export type ReasonCode = z.infer<typeof ReasonCodeSchema>;
 
@@ -221,6 +224,11 @@ export const GroundTruthCategorySchema = z.enum([
   "distractor_unmatchable",
   "fx_no_invoice",
   "sign_flip",
+  "collision_near_duplicate",
+  "partial_refund_fee_drift",
+  "fx_rounding_drift",
+  "multi_currency_split",
+  "suspense_distractor",
 ]);
 export type GroundTruthCategory = z.infer<typeof GroundTruthCategorySchema>;
 

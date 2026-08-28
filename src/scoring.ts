@@ -46,6 +46,10 @@ export const UNMATCHABLE_CATEGORIES = new Set<string>([
   "unmatchable",
   "distractor_unmatchable",
   "extras_do_not_sum",
+  "suspense_distractor",
+  "collision_near_duplicate",
+  "multi_currency_split",
+  "partial_refund_fee_drift",
 ]);
 
 export interface ScoreReport {

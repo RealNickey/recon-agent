@@ -3,18 +3,22 @@
  * Generates frontier financial operations and settlement scenarios:
  * 1. Razorpay Multi-Leg Settlement (Gross Ledger → Processor Capture → Compound MDR/TDS Deductions → Net Bank Payout)
  * 2. Partial Refund & Chargeback Chains (Original Sale → Partial Refund → Dispute Reversal)
- * 3. Expanded Cross-Currency FX Corridors with Bid-Ask Spreads (EUR/USD, GBP/USD, USD/INR, EUR/INR)
+ * 3. Expanded Cross-Currency FX Corridors with Bid-Ask & Penny Drift (EUR/USD, GBP/USD, USD/INR, EUR/INR)
  * 4. Extended Value-Date Timing Drift (up to 30 days with UPI VPAs, IMPS RRNs, Bank UTRs)
- * 5. Coincidental Amount & Ambiguous Vendor Distractors (same-amount, same-date noise records)
+ * 5. Near-Duplicate Collision Attacks (subtly conflicting suffixes / ambiguous counterparties)
+ * 6. Partial Refunds with Gateway Fee Drift (processor retained non-refundable fee variance)
+ * 7. Multi-Currency Split Deposits (lump-sum multi-currency cross-border settlement)
+ * 8. Unmatchable Suspense Distractors (phantom bank debits & unallocated wires)
  *
  * Usage: bun run scripts/generate-adversarial.ts [--seed N] [--out DIR] [--eval]
  */
-import { mkdirSync, writeFileSync, existsSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { mulberry32, randInt, pick, randomDate, addDays, round2, shuffle } from "../src/util";
+import { mulberry32, randInt, pick, randomDate, addDays, round2 } from "../src/util";
 import type { FinRecord, GroundTruth, RunResult, Outcome } from "../src/types";
 import { tier1Exact } from "../src/pipeline/tier1-exact";
 import { tier2Fuzzy } from "../src/pipeline/tier2-fuzzy";
+import { buildExceptionOutcome } from "../src/pipeline/run";
 import { scoreRun } from "../src/scoring";
 
 const INDIAN_VENDORS = [
@@ -105,17 +109,18 @@ export function generateAdversarialDataset(seed = 2026) {
     truth.push({ bankId: bRef.id, ledgerIds: [lRef.id], processorId: null, category: "refund_reversal" });
   }
 
-  // 3. Expanded Cross-Currency FX Corridors with Bid-Ask Spreads: EUR/USD, GBP/USD, USD/INR, EUR/INR
+  // 3. Expanded Cross-Currency FX Corridors with Bid-Ask & Penny Rounding Drift (EUR/USD, GBP/USD, USD/INR, EUR/INR)
   for (let i = 0; i < 6; i++) {
     const v = pick(GLOBAL_VENDORS, rng);
     const date = randomDate(rng, BASE, 20);
     const code = `${randInt(rng, 10000, 99999)}`;
+    const pennyDrift = ((i % 2 === 0 ? 1 : -1) * randInt(rng, 1, 3)) / 100; // 1-3 cents / paise drift
 
     if (i % 4 === 0) {
       // USD -> INR (corridor 75 - 95 INR/USD)
       const usd = randInt(rng, 1000, 5000);
       const effectiveRate = 83.5 + (rng() - 0.5) * 4.0; // 81.5 - 85.5
-      const inr = round2(usd * effectiveRate);
+      const inr = round2(usd * effectiveRate + pennyDrift * 100);
       const l = mkLedger(`${v} cloud software license`, usd, date, `INV-US-${code}`, "USD");
       const b = mkBank(`INWARD REMITTANCE FOR ${v.toUpperCase()}`, inr, addDays(date, 2), `FX-INR-${code}`, "INR");
       ledger.push(l); bank.push(b);
@@ -124,7 +129,7 @@ export function generateAdversarialDataset(seed = 2026) {
       // EUR -> INR (corridor 80 - 105 INR/EUR)
       const eur = randInt(rng, 1000, 4000);
       const effectiveRate = 90.0 + (rng() - 0.5) * 5.0; // 87.5 - 92.5
-      const inr = round2(eur * effectiveRate);
+      const inr = round2(eur * effectiveRate + pennyDrift * 100);
       const l = mkLedger(`${v} design consulting retainer`, eur, date, `INV-EU-${code}`, "EUR");
       const b = mkBank(`INWARD SEPA SETTLEMENT ${v.toUpperCase()}`, inr, addDays(date, 2), `FX-EUR-${code}`, "INR");
       ledger.push(l); bank.push(b);
@@ -133,7 +138,7 @@ export function generateAdversarialDataset(seed = 2026) {
       // GBP -> USD (corridor 1.15 - 1.45 USD/GBP)
       const gbp = randInt(rng, 2000, 8000);
       const effectiveRate = 1.28 + (rng() - 0.5) * 0.08;
-      const usd = round2(gbp * effectiveRate);
+      const usd = round2(gbp * effectiveRate + pennyDrift);
       const l = mkLedger(`${v} UK subsidiary engineering services`, gbp, date, `INV-UK-${code}`, "GBP");
       const b = mkBank(`WIRE FROM ${v.toUpperCase()} UK`, usd, addDays(date, 1), `WIRE-USD-${code}`, "USD");
       ledger.push(l); bank.push(b);
@@ -142,7 +147,7 @@ export function generateAdversarialDataset(seed = 2026) {
       // EUR -> USD (corridor 0.85 - 1.25 USD/EUR)
       const usd = randInt(rng, 3000, 10000);
       const rate = 0.92 + (rng() - 0.5) * 0.06;
-      const eur = round2(usd * rate);
+      const eur = round2(usd * rate + pennyDrift);
       const l = mkLedger(`${v} international consulting`, usd, date, `INV-INT-${code}`, "USD");
       const b = mkBank(`${v.toUpperCase()} EUR SETTLEMENT`, eur, addDays(date, 1), `WIRE-EUR-${code}`, "EUR");
       ledger.push(l); bank.push(b);
@@ -181,22 +186,83 @@ export function generateAdversarialDataset(seed = 2026) {
     }
   }
 
-  // 5. Coincidental Amount & Ambiguous Vendor Distractors (Engineered to provoke false positives)
-  for (let i = 0; i < 8; i++) {
+  // 5. Near-Duplicate Collision Attacks (Engineered to test calibrated restraint & prevent false positive matching)
+  for (let i = 0; i < 3; i++) {
+    const v = pick(INDIAN_VENDORS, rng);
+    const amt = randInt(rng, 30000, 80000);
+    const date = randomDate(rng, BASE, 15);
+    const baseCode = `${randInt(rng, 1000, 9999)}`;
+
+    // Conflicting near-duplicate records sharing timestamps and rounded amounts with conflicting numeric suffixes
+    const lA = mkLedger(`${v} enterprise license division north`, amt, date, `INV-${baseCode}1`);
+    const lB = mkLedger(`${v} enterprise license division south`, amt, date, `INV-${baseCode}2`);
+    // Bank payment with colliding near-duplicate identifier
+    const b = mkBank(`NEFT SETTLEMENT FOR ${v.toUpperCase()} REF ${baseCode}3`, amt, addDays(date, 1), `WIRE-${baseCode}3`);
+
+    ledger.push(lA, lB); bank.push(b);
+    // Unresolvable collision: auto-matching would be guessing/hallucination. Must stay exceptions.
+    truth.push({ bankId: b.id, ledgerIds: [], processorId: null, category: "collision_near_duplicate" });
+    truth.push({ bankId: null, ledgerIds: [lA.id], processorId: null, category: "collision_near_duplicate" });
+    truth.push({ bankId: null, ledgerIds: [lB.id], processorId: null, category: "collision_near_duplicate" });
+  }
+
+  // 6. Partial Refunds & Gateway Fee Drift (Processor retained non-refundable fee variance)
+  for (let i = 0; i < 3; i++) {
+    const v = pick(INDIAN_VENDORS, rng);
+    const invCode = `${randInt(rng, 10000, 99999)}`;
+    const refundGross = randInt(rng, 20000, 50000);
+    const retainedMdrFee = round2(refundGross * 0.0236); // 2.36% non-refundable MDR retained by gateway
+    const refundNet = round2(refundGross - retainedMdrFee);
+    const date = randomDate(rng, BASE, 15);
+
+    const lCredit = mkLedger(`${v} full customer refund credit memo CN-${invCode}`, -refundGross, date, `CN-${invCode}`);
+    const bRefund = mkBank(`GATEWAY REFUND NET OF NON-REFUNDABLE MDR FOR ${v.toUpperCase()}`, -refundNet, addDays(date, 1), `REFUND-RZP-${invCode}`);
+
+    ledger.push(lCredit); bank.push(bRefund);
+    // Unaccrued fee drift variance requires maker-checker journal adjustment, not unverified auto-match
+    truth.push({ bankId: bRefund.id, ledgerIds: [], processorId: null, category: "partial_refund_fee_drift" });
+    truth.push({ bankId: null, ledgerIds: [lCredit.id], processorId: null, category: "partial_refund_fee_drift" });
+  }
+
+  // 7. Multi-Currency Split Deposits (Single lump-sum bank deposit covering cross-border invoices in multiple currencies)
+  for (let i = 0; i < 2; i++) {
+    const v = pick(GLOBAL_VENDORS, rng);
+    const date = randomDate(rng, BASE, 15);
+    const code = `${randInt(rng, 10000, 99999)}`;
+
+    const eurAmt = randInt(rng, 2000, 4000);
+    const gbpAmt = randInt(rng, 1500, 3000);
+    const rateEur = 1.08;
+    const rateGbp = 1.28;
+    const usdDeposit = round2(eurAmt * rateEur + gbpAmt * rateGbp);
+
+    const lEur = mkLedger(`${v} EU consulting services invoice`, eurAmt, date, `INV-EU-${code}`, "EUR");
+    const lGbp = mkLedger(`${v} UK engineering services invoice`, gbpAmt, date, `INV-UK-${code}`, "GBP");
+    const bUsd = mkBank(`CONSOLIDATED CROSS-BORDER SETTLEMENT FROM ${v.toUpperCase()}`, usdDeposit, addDays(date, 1), `DEP-USD-${code}`, "USD");
+
+    ledger.push(lEur, lGbp); bank.push(bUsd);
+    // Multi-currency cross-border batch settlement cannot be deterministically resolved single-currency; honest exception
+    truth.push({ bankId: bUsd.id, ledgerIds: [], processorId: null, category: "multi_currency_split" });
+    truth.push({ bankId: null, ledgerIds: [lEur.id], processorId: null, category: "multi_currency_split" });
+    truth.push({ bankId: null, ledgerIds: [lGbp.id], processorId: null, category: "multi_currency_split" });
+  }
+
+  // 8. Unmatchable Suspense Distractors (Phantom bank debits & unallocated wires with zero ledger records)
+  for (let i = 0; i < 6; i++) {
     const v1 = INDIAN_VENDORS[i % INDIAN_VENDORS.length]!;
     const v2 = INDIAN_VENDORS[(i + 4) % INDIAN_VENDORS.length]!;
-    const amt = 25000 + i * 5000; // identical coincidental amounts
+    const amt = 25000 + i * 5000;
     const date = randomDate(rng, BASE, 25);
 
-    // Ledger side distractor
+    // Ledger side cancelled draft
     const l = mkLedger(`${v1} cancelled quote draft ${randInt(rng, 100, 999)}`, amt, date, `QUOTE-${randInt(rng, 1000, 9999)}`);
     ledger.push(l);
-    truth.push({ bankId: null, ledgerIds: [l.id], processorId: null, category: "unmatchable" });
+    truth.push({ bankId: null, ledgerIds: [l.id], processorId: null, category: "suspense_distractor" });
 
-    // Bank side distractor from completely different vendor
-    const b = mkBank(`UNIDENTIFIED SUSPENSE ENTRY FOR ${v2.toUpperCase()}`, amt, date, `SUSPENSE-${randInt(rng, 1000, 9999)}`);
+    // Bank side suspense entry
+    const b = mkBank(`UNIDENTIFIED SUSPENSE PHANTOM ENTRY FOR ${v2.toUpperCase()}`, amt, date, `SUSPENSE-${randInt(rng, 1000, 9999)}`);
     bank.push(b);
-    truth.push({ bankId: b.id, ledgerIds: [], processorId: null, category: "unmatchable" });
+    truth.push({ bankId: b.id, ledgerIds: [], processorId: null, category: "suspense_distractor" });
   }
 
   return { bank, ledger, processor, truth };
@@ -229,15 +295,7 @@ if (import.meta.main) {
 
     const outcomes = [...t1.outcomes, ...t2.outcomes];
     for (const r of t2.residual) {
-      outcomes.push({
-        status: "exception",
-        recordId: r.id,
-        source: r.source,
-        reasonCode: "no_candidate_found",
-        tier: 2,
-        candidatesConsidered: (t2.candidatePools.get(r.id) ?? []).length,
-        reasoning: "adversarial evaluation residual",
-      });
+      outcomes.push(buildExceptionOutcome(r, t2.candidatePools.get(r.id) ?? [], 2));
     }
 
     const runResult: RunResult = {
@@ -270,7 +328,14 @@ if (import.meta.main) {
     console.log(`\n=== ADVERSARIAL FRONTIER EVALUATION ===`);
     console.log(`Fitness: ${(report.fitness * 100).toFixed(2)}% | Recall: ${(report.recall * 100).toFixed(2)}% | Precision: ${(report.precision * 100).toFixed(2)}% | FPR: ${(report.falsePositiveRate * 100).toFixed(2)}%`);
     console.log(`Pairs: ${report.correctPairs}/${report.totalPairs} correct, ${report.falsePositives} false positives`);
+    console.log(`Honest Exceptions: ${report.byCategory ? Object.values(report.byCategory).reduce((acc, c) => acc + c.honest, 0) : 0}`);
     console.log(`Tiers: T1=${report.tierBreakdown[1] ?? 0} | T2=${report.tierBreakdown[2] ?? 0}`);
+
+    console.log("\nBreakdown by Category:");
+    for (const [c, stat] of Object.entries(report.byCategory).sort(([a], [b]) => a.localeCompare(b))) {
+      console.log(`  ${c.padEnd(28)} pairs=${String(stat.pairs).padStart(2)}  ok=${String(stat.correctPairs).padStart(2)}  fp=${String(stat.falsePos).padStart(2)}  honest=${String(stat.honest).padStart(2)}`);
+    }
   }
 }
+
 
