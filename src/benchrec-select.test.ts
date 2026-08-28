@@ -54,4 +54,11 @@ describe("fingerprintRecord", () => {
     const b = fingerprintRecord({ amount: 1.5, date: "2023-01-01", currency: "USD", reference: "R", description: "d" });
     expect(a).toBe(b);
   });
+
+  it("uses Decimal rounding to avoid float dust differences", () => {
+    const a = fingerprintRecord({ amount: 1.005, date: "2023-01-01", currency: "USD", reference: "R", description: "d" });
+    const b = fingerprintRecord({ amount: "1.005" as any, date: "2023-01-01", currency: "USD", reference: "R", description: "d" });
+    expect(a).toBe("1.01|2023-01-01|USD|R|d");
+    expect(b).toBe("1.01|2023-01-01|USD|R|d");
+  });
 });

@@ -6,10 +6,21 @@
     "dev": "bun run --hot src/index.ts",
     "gen": "bun run scripts/generate-data.ts",
     "gen:holdout": "bun run scripts/generate-data.ts --out data/holdout --seed 777",
+    "gen:hard": "bun run scripts/generate-data.ts --out data/hard --seed 999 --mode hard",
     "fetch-benchrec": "bun run scripts/fetch-benchrec.ts",
     "pipeline": "bun run src/pipeline/run.ts",
+    "pipeline:hard": "bun run src/pipeline/run.ts --data data/hard --out results/hard-run.json --no-ai",
+    "pipeline:hard:ai": "bun run src/pipeline/run.ts --data data/hard --out results/hard-run.json",
     "eval": "bun run scripts/eval.ts",
-    "eval:holdout": "bun run scripts/eval.ts --data data/holdout --results results/holdout-run.json"
+    "eval:holdout": "bun run scripts/eval.ts --data data/holdout --results results/holdout-run.json",
+    "eval:hard": "bun run scripts/eval.ts --data data/hard --results results/hard-run.json",
+    "loop-eval": "bun run scripts/loop-eval.ts",
+    "error-analysis": "bun run scripts/error-analysis.ts",
+    "cross-validate": "bun run scripts/cross-validate.ts",
+    "cross-validate:full": "bun run scripts/cross-validate.ts --seeds 7",
+    "gen:adversarial": "bun run scripts/generate-adversarial.ts",
+    "pipeline:adversarial": "bun run src/pipeline/run.ts --data data/adversarial --out results/adversarial-run.json",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@ai-sdk/openai": "4.0.50",

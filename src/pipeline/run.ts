@@ -4,6 +4,7 @@
  */
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
+import Decimal from "decimal.js";
 import { tier1Exact } from "./tier1-exact";
 import { tier2Fuzzy } from "./tier2-fuzzy";
 import { tier3Agentic } from "./tier3-agentic";
@@ -12,7 +13,8 @@ import { RecordSchema, RunResultSchema, type FinRecord, type Outcome, type RunRe
 const args = process.argv.slice(2);
 function argVal(flag: string, dflt: string): string {
   const i = args.indexOf(flag);
-  return i >= 0 && args[i + 1] ? args[i + 1] : dflt;
+  const val = i >= 0 ? args[i + 1] : undefined;
+  return val !== undefined ? val : dflt;
 }
 const DATA = argVal("--data", "data");
 const OUT = argVal("--out", "results/latest-run.json");
@@ -109,12 +111,38 @@ export async function runPipeline(dataDir = DATA, outFile = OUT, useAi = !NO_AI)
     throw new Error(`outcome/input size mismatch: outcomes=${seenOut.size} inputs=${all.length}`);
   }
 
+  const byOutcome = new Map(outcomes.map((o) => [o.recordId, o]));
+  const cashPosMap: Record<string, { reconciled: Decimal; unreconciled: Decimal }> = {};
+  for (const b of bank.records) {
+    if (!cashPosMap[b.currency]) {
+      cashPosMap[b.currency] = { reconciled: new Decimal(0), unreconciled: new Decimal(0) };
+    }
+    const out = byOutcome.get(b.id);
+    const amt = new Decimal(b.amount);
+    if (out?.status === "matched") {
+      cashPosMap[b.currency]!.reconciled = cashPosMap[b.currency]!.reconciled.plus(amt);
+    } else {
+      cashPosMap[b.currency]!.unreconciled = cashPosMap[b.currency]!.unreconciled.plus(amt);
+    }
+  }
+
+  const cashPosition: Record<string, { currency: string; reconciledAmount: number; unreconciledAmount: number; netPosition: number }> = {};
+  for (const [cur, pos] of Object.entries(cashPosMap)) {
+    cashPosition[cur] = {
+      currency: cur,
+      reconciledAmount: pos.reconciled.toNumber(),
+      unreconciledAmount: pos.unreconciled.toNumber(),
+      netPosition: pos.reconciled.plus(pos.unreconciled).toNumber(),
+    };
+  }
+
   const result: RunResult = {
     startedAt: startedAt.toISOString(),
     finishedAt: new Date().toISOString(),
     durationMs: Math.round(performance.now() - t0),
     model: useAi ? process.env.MODEL ?? "z-ai/glm-5.2:free" : "none",
     outcomes,
+    cashPosition,
     stats: {
       totalRecords: all.length,
       matched: outcomes.filter((o) => o.status === "matched").length,

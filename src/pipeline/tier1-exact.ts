@@ -44,6 +44,8 @@ export function tier1Exact(records: FinRecord[]): TierResult {
       const ids = group.map((r) => r.id);
       const reasoning = `exact key match on normalized ref + amount + date + currency (${group.length} records, sources=${[...sources].join(",")})`;
       for (const r of group) {
+        const counterparts = group.filter((g) => g.id !== r.id);
+        const firstCp = counterparts[0];
         outcomes.push({
           status: "matched",
           recordId: r.id,
@@ -53,6 +55,34 @@ export function tier1Exact(records: FinRecord[]): TierResult {
           tier: 1,
           reasonCode: "exact_match",
           reasoning,
+          auditTrail: {
+            tier: 1,
+            ruleTriggered: "Exact Normalized Hash-Join",
+            confidence: 1.0,
+            evidence: [
+              {
+                field: "reference",
+                recordAVal: r.reference,
+                recordBVal: firstCp ? firstCp.reference : r.reference,
+                similarity: 1.0,
+                explanation: `Normalized reference '${normalizeRef(r.reference)}' matched exactly`,
+              },
+              {
+                field: "amount",
+                recordAVal: r.amount,
+                recordBVal: firstCp ? firstCp.amount : r.amount,
+                similarity: 1.0,
+                explanation: `Decimal amounts matched exactly at ${amountKey(r.amount)} ${r.currency}`,
+              },
+              {
+                field: "date",
+                recordAVal: r.date,
+                recordBVal: firstCp ? firstCp.date : r.date,
+                similarity: 1.0,
+                explanation: `Posting date matched identical ${r.date}`,
+              },
+            ],
+          },
         });
       }
     } else {

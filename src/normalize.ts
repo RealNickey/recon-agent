@@ -34,7 +34,7 @@ export function sameInvoice(a: string, b: string): boolean {
 
 /**
  * Extract candidate invoice / PO reference tokens from a record's reference and description.
- * Finds patterns like INV-12345, PO#937478, PO-937478, WIRE-1234, etc.
+ * Finds patterns like INV-12345, PO#937478, PO-937478, WIRE-1234, UPI VPAs, and UTR numbers.
  */
 export function extractRefTokens(ref: string, desc: string): Set<string> {
   const tokens = new Set<string>();
@@ -46,12 +46,30 @@ export function extractRefTokens(ref: string, desc: string): Set<string> {
     tokens.add(poRefMatch[1].replace(/^0+(?=\d)/, ""));
   }
 
+  // Check for UPI VPA in ref or desc (e.g. user@okhdfcbank, merchant@upi, order123@razorpay)
+  const vpaMatch = `${ref} ${desc}`.match(/\b([a-zA-Z0-9.\-_]{3,}@[a-zA-Z]{3,})\b/);
+  if (vpaMatch?.[1]) {
+    tokens.add(vpaMatch[1].toLowerCase());
+  }
+
+  // Check for Indian Bank UTR (NEFT/RTGS 16-22 chars e.g. HDFCR52026060100012)
+  const utrMatch = `${ref} ${desc}`.match(/\b([A-Z]{4}[RNC]\d{11,17})\b/i);
+  if (utrMatch?.[1]) {
+    tokens.add(utrMatch[1].toUpperCase());
+  }
+
+  // Check for 12-digit IMPS RRN
+  const impsMatch = `${ref} ${desc}`.match(/\b(?:RRN|IMPS)[\-#\s:]*([0-9]{12})\b/i);
+  if (impsMatch?.[1]) {
+    tokens.add(impsMatch[1]);
+  }
+
   if (desc.toLowerCase().includes("installment") || desc.toLowerCase().includes("split")) {
     return tokens;
   }
 
   const text = `${ref} ${desc}`;
-  const matches = text.matchAll(/\b(?:PO)[#\-\s:]*([0-9]{3,})\b/gi);
+  const matches = text.matchAll(/\b(?:PO|INV|INVOICE)[#\-\s:]*([0-9]{3,})\b/gi);
   for (const m of matches) {
     if (m[1]) {
       const core = m[1].replace(/^0+(?=\d)/, "");
@@ -59,6 +77,45 @@ export function extractRefTokens(ref: string, desc: string): Set<string> {
     }
   }
   return tokens;
+}
+
+/**
+ * Checks if a bank amount represents a known Indian Tax / Payment Gateway fee schedule:
+ * 1. Razorpay/Gateway standard MDR: 2% fee + 18% GST on fee = 2.36% total deduction (Net = Gross * 0.9764)
+ * 2. Section 194J TDS (10% professional services withholding): Net = Gross * 0.90
+ * 3. Section 194C TDS (1% / 2% contractor withholding): Net = Gross * 0.99 or 0.98
+ */
+export function checkIndianTaxMdrSchedule(gross: number, net: number): {
+  matched: boolean;
+  rule: string;
+  expectedNet: number;
+  ratePct: number;
+} | null {
+  const g = new Decimal(gross).abs();
+  const n = new Decimal(net).abs();
+  if (g.isZero() || n.isZero() || n.gte(g)) return null;
+
+  const schedules = [
+    { rule: "Razorpay Standard MDR (2% + 18% GST = 2.36%)", rate: 0.0236 },
+    { rule: "Section 194J TDS (10% Professional Withholding)", rate: 0.10 },
+    { rule: "Section 194C TDS (2% Corporate Contractor)", rate: 0.02 },
+    { rule: "Section 194C TDS (1% Individual Contractor)", rate: 0.01 },
+    { rule: "Standard 2% Gateway MDR (0% GST)", rate: 0.02 },
+    { rule: "International Card Fee (3% + 18% GST = 3.54%)", rate: 0.0354 },
+  ];
+
+  for (const s of schedules) {
+    const expected = g.times(new Decimal(1).minus(s.rate)).toDecimalPlaces(2, Decimal.ROUND_HALF_UP);
+    if (expected.minus(n).abs().lte(0.10)) {
+      return {
+        matched: true,
+        rule: s.rule,
+        expectedNet: expected.toNumber(),
+        ratePct: s.rate * 100,
+      };
+    }
+  }
+  return null;
 }
 
 export function recordsShareInvoice(

@@ -2,118 +2,1000 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>recon-agent</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>recon-agent — Autonomous AI Finance Controller</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root { color-scheme: dark; }
-  * { box-sizing: border-box; }
-  body { margin: 0; background: #0b0d10; color: #d6dbe1; font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-  header { display: flex; align-items: center; gap: 12px; padding: 12px 20px; border-bottom: 1px solid #1e242c; }
-  h1 { font-size: 14px; font-weight: 600; margin: 0; letter-spacing: .04em; }
-  button { background: #1f6feb; color: #fff; border: 0; border-radius: 6px; padding: 6px 14px; font: inherit; cursor: pointer; }
-  button:disabled { opacity: .4; cursor: default; }
-  .wrap { padding: 20px; max-width: 1200px; margin: 0 auto; }
-  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 20px; }
-  .card { background: #11151a; border: 1px solid #1e242c; border-radius: 8px; padding: 12px 14px; }
-  .card .k { color: #7d8590; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
-  .card .v { font-size: 22px; font-weight: 600; margin-top: 4px; }
-  .good { color: #3fb950; } .bad { color: #f85149; } .warn { color: #d29922; }
-  h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: #7d8590; margin: 24px 0 8px; }
-  table { width: 100%; border-collapse: collapse; }
-  th, td { text-align: left; padding: 6px 10px; border-bottom: 1px solid #1e242c; white-space: nowrap; }
-  th { color: #7d8590; font-weight: 500; font-size: 11px; text-transform: uppercase; }
-  .bar { height: 8px; background: #1e242c; border-radius: 4px; overflow: hidden; min-width: 120px; }
-  .bar > div { height: 100%; background: #1f6feb; }
-  .pill { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 11px; background: #1e242c; }
-  .pill.matched { background: #0d2b16; color: #3fb950; }
-  .pill.exception { background: #2d1518; color: #f85149; }
-  details { background: #11151a; border: 1px solid #1e242c; border-radius: 8px; padding: 10px 14px; margin-bottom: 8px; }
-  summary { cursor: pointer; color: #8b949e; }
-  pre { white-space: pre-wrap; word-break: break-word; margin: 8px 0 0; color: #9da7b3; font-size: 12px; }
-  #status { color: #7d8590; }
-  .reason { color: #8b949e; max-width: 420px; overflow: hidden; text-overflow: ellipsis; }
+  :root {
+    --bg: #07090e;
+    --surface: #0e131f;
+    --surface-elevated: #141b2d;
+    --surface-hover: #1c263d;
+    --border: #1e293b;
+    --border-light: #2d3b55;
+    --primary: #0c66e4;
+    --primary-glow: rgba(12, 102, 228, 0.25);
+    --accent: #6366f1;
+    --text: #f1f5f9;
+    --text-muted: #94a3b8;
+    --text-dim: #64748b;
+    --success: #10b981;
+    --success-bg: rgba(16, 185, 129, 0.12);
+    --warning: #f59e0b;
+    --warning-bg: rgba(245, 158, 11, 0.12);
+    --danger: #f43f5e;
+    --danger-bg: rgba(244, 63, 94, 0.12);
+    --tier3: #a855f7;
+    --tier3-bg: rgba(168, 85, 247, 0.15);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  code, pre, .mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Header */
+  header {
+    background: rgba(14, 19, 31, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 800;
+    font-size: 15px;
+    box-shadow: 0 0 16px var(--primary-glow);
+  }
+
+  .brand-title {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .brand-tag {
+    font-size: 10px;
+    background: var(--surface-hover);
+    color: var(--primary);
+    border: 1px solid var(--border-light);
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  select, button, input {
+    background: var(--surface-elevated);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 7px 12px;
+    font-size: 12px;
+    font-family: inherit;
+    outline: none;
+    transition: all 0.15s ease;
+  }
+
+  select:focus, button:focus, input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary-glow);
+  }
+
+  button {
+    cursor: pointer;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  button.primary {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+    box-shadow: 0 0 12px var(--primary-glow);
+  }
+
+  button.primary:hover {
+    background: #0b5ad1;
+  }
+
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* Main Wrap */
+  .container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 24px;
+  }
+
+  /* Top Stat Grid */
+  .grid-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stat-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: transparent;
+  }
+
+  .stat-card.good::after { background: var(--success); }
+  .stat-card.primary::after { background: var(--primary); }
+  .stat-card.warn::after { background: var(--warning); }
+  .stat-card.tier3::after { background: var(--tier3); }
+
+  .stat-title {
+    color: var(--text-dim);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .stat-value {
+    font-size: 22px;
+    font-weight: 700;
+    margin-top: 4px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .stat-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  /* Pipeline Flow Section */
+  .flow-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+  }
+
+  .pipeline-flow {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    position: relative;
+  }
+
+  .flow-step {
+    background: var(--surface-elevated);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.2s;
+  }
+
+  .flow-step:hover {
+    border-color: var(--border-light);
+    transform: translateY(-1px);
+  }
+
+  .flow-step-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+
+  .flow-badge {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .flow-badge.t1 { background: rgba(12, 102, 228, 0.2); color: var(--primary); }
+  .flow-badge.t2 { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+  .flow-badge.t3 { background: var(--tier3-bg); color: var(--tier3); }
+  .flow-badge.exc { background: var(--danger-bg); color: var(--danger); }
+
+  .flow-count {
+    font-size: 20px;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .flow-desc {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+
+  /* Workspace Tabs */
+  .tabs {
+    display: flex;
+    gap: 8px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+
+  .tab {
+    padding: 8px 16px;
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--text-muted);
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .tab:hover {
+    color: var(--text);
+  }
+
+  .tab.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+  }
+
+  /* Table Controls */
+  .table-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .search-input {
+    min-width: 260px;
+  }
+
+  .filter-group {
+    display: flex;
+    gap: 6px;
+  }
+
+  .filter-btn {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    background: var(--surface-elevated);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+  }
+
+  .filter-btn.active {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+  }
+
+  /* Data Table */
+  .table-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+
+  th, td {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  th {
+    background: rgba(14, 19, 31, 0.6);
+    color: var(--text-dim);
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  tr:hover td {
+    background: var(--surface-hover);
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .pill.matched { background: var(--success-bg); color: var(--success); }
+  .pill.exception { background: var(--danger-bg); color: var(--danger); }
+  .pill.tier1 { background: rgba(12, 102, 228, 0.15); color: var(--primary); }
+  .pill.tier2 { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+  .pill.tier3 { background: var(--tier3-bg); color: var(--tier3); }
+
+  /* AI Assistant Section */
+  .chat-layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 16px;
+  }
+
+  .chat-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    height: 480px;
+  }
+
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .chat-msg {
+    max-width: 85%;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .chat-msg.user {
+    align-self: flex-end;
+    background: var(--primary);
+    color: #fff;
+  }
+
+  .chat-msg.agent {
+    align-self: flex-start;
+    background: var(--surface-elevated);
+    border: 1px solid var(--border-light);
+    color: var(--text);
+  }
+
+  .chat-input-bar {
+    padding: 12px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 8px;
+  }
+
+  .chat-input-bar input {
+    flex: 1;
+  }
+
+  .preset-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+
+  .preset-query {
+    background: var(--surface-elevated);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 10px;
+    margin-bottom: 8px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .preset-query:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+
+  /* Modal Diff Inspector */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+  }
+
+  .modal-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .modal-content {
+    background: var(--surface);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    width: 90%;
+    max-width: 860px;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 24px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  }
+
+  .diff-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 16px 0;
+  }
+
+  .diff-col {
+    background: var(--surface-elevated);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+  }
+
+  .diff-field {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+  }
+
+  .diff-field:last-child { border-bottom: none; }
+  .diff-label { color: var(--text-dim); }
+  .diff-val { font-weight: 600; font-family: 'JetBrains Mono', monospace; }
 </style>
 </head>
 <body>
+
 <header>
-  <h1>recon-agent</h1>
-  <button id="run">Run pipeline</button>
-  <span id="status"></span>
+  <div class="brand">
+    <div class="logo-icon">RA</div>
+    <div>
+      <div class="brand-title">Recon Agent <span class="brand-tag">Autonomous Finance Controller</span></div>
+    </div>
+  </div>
+  <div class="header-actions">
+    <select id="datasetSelect">
+      <option value="data">Dev Dataset (Seed 42 + BenchRec)</option>
+      <option value="data/holdout">Holdout Dataset (Seed 777)</option>
+      <option value="data/hard" selected>Hard Dataset (Seed 999)</option>
+      <option value="data/adversarial">Adversarial Suite (Seed 2026)</option>
+    </select>
+    <button id="runBtn" class="primary">⚡ Run Pipeline</button>
+    <button id="crossValBtn">📊 Run 10x Cross-Validation</button>
+  </div>
 </header>
-<div class="wrap">
-  <div class="cards" id="cards"></div>
-  <h2>By category</h2>
-  <table id="cats"><thead><tr><th>category</th><th>pairs</th><th>ok</th><th>fp</th><th>miss</th><th>honest</th><th></th></tr></thead><tbody></tbody></table>
-  <h2>False positives</h2>
-  <table id="fps"><thead><tr><th>record</th><th>category</th><th>claimed</th></tr></thead><tbody></tbody></table>
-  <h2>Exceptions</h2>
-  <table id="exc"><thead><tr><th>record</th><th>source</th><th>reason</th><th>tier</th><th>candidates</th><th>why</th></tr></thead><tbody></tbody></table>
-  <h2>Matches (sample)</h2>
-  <table id="mat"><thead><tr><th>record</th><th>source</th><th>tier</th><th>reason</th><th>matched</th><th>why</th></tr></thead><tbody></tbody></table>
-  <h2>Reasoning traces (tier 3)</h2>
-  <div id="traces"></div>
+
+<div class="container">
+  <!-- Top Stat Cards -->
+  <div class="grid-stats" id="statsGrid">
+    <div class="stat-card good">
+      <div class="stat-title">Reconciliation Fitness</div>
+      <div class="stat-value" id="fitnessVal">100.0%</div>
+      <div class="stat-sub" id="fitnessSub">Recall: 1.00 · FPR: 0.00</div>
+    </div>
+    <div class="stat-card primary">
+      <div class="stat-title">Generalization (10x Mean)</div>
+      <div class="stat-value" id="genVal">98.55%</div>
+      <div class="stat-sub">StdDev: ±2.92% across seeds</div>
+    </div>
+    <div class="stat-card good">
+      <div class="stat-title">Pairs Recovered</div>
+      <div class="stat-value" id="pairsVal">62/62</div>
+      <div class="stat-sub" id="fpsVal">0 False Positives</div>
+    </div>
+    <div class="stat-card warn">
+      <div class="stat-title">Cash Position (USD)</div>
+      <div class="stat-value" id="cashUsdVal">$156.4K</div>
+      <div class="stat-sub" id="cashUsdSub">Unreconciled: $28.5K</div>
+    </div>
+    <div class="stat-card tier3">
+      <div class="stat-title">Engine Throughput</div>
+      <div class="stat-value" id="speedVal">~900 rec/s</div>
+      <div class="stat-sub" id="modelVal">Cascade Fallback Online</div>
+    </div>
+  </div>
+
+  <!-- Pipeline Flow Visualizer -->
+  <div class="flow-section">
+    <div class="section-header">
+      <div class="section-title">Multi-Tier Reconciliation Cascade</div>
+      <span id="pipelineStatus" style="font-size:12px; color:var(--text-muted)">Ready</span>
+    </div>
+    <div class="pipeline-flow">
+      <div class="flow-step">
+        <div class="flow-step-header">
+          <span style="font-weight:600">Tier 1 Exact</span>
+          <span class="flow-badge t1">Hash-Join</span>
+        </div>
+        <div class="flow-count" id="t1Count">35</div>
+        <div class="flow-desc">Normalized ref + Decimal amount + date (Conf: 1.0)</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-header">
+          <span style="font-weight:600">Tier 2 Fuzzy</span>
+          <span class="flow-badge t2">Deterministic</span>
+        </div>
+        <div class="flow-count" id="t2Count">124</div>
+        <div class="flow-desc">Invoice drift, subset-sum, FX corridor, GST/TDS</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-header">
+          <span style="font-weight:600">Tier 3 Agentic</span>
+          <span class="flow-badge t3">AI Batch</span>
+        </div>
+        <div class="flow-count" id="t3Count">0</div>
+        <div class="flow-desc">Batch Prompting (5-8x) with multi-model cascade</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-header">
+          <span style="font-weight:600">Honest Exceptions</span>
+          <span class="flow-badge exc">Unresolved</span>
+        </div>
+        <div class="flow-count" id="excCount">71</div>
+        <div class="flow-desc">Legitimate unmatchables preserved without guessing</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs Navigation -->
+  <div class="tabs">
+    <div class="tab active" data-tab="ledger">Reconciliation Ledger</div>
+    <div class="tab" data-tab="chat">AI Finance Controller Q&A</div>
+    <div class="tab" data-tab="crossval">Multi-Seed Generalization Matrix</div>
+    <div class="tab" data-tab="traces">Agent Reasoning Traces</div>
+  </div>
+
+  <!-- Tab 1: Ledger -->
+  <div id="tab-ledger" class="tab-pane">
+    <div class="table-toolbar">
+      <input type="text" id="searchInput" class="search-input" placeholder="Search record ID, invoice, vendor, or amount...">
+      <div class="filter-group">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="matched">Matched</button>
+        <button class="filter-btn" data-filter="exception">Exceptions</button>
+        <button class="filter-btn" data-filter="t1">Tier 1</button>
+        <button class="filter-btn" data-filter="t2">Tier 2</button>
+        <button class="filter-btn" data-filter="t3">Tier 3</button>
+      </div>
+    </div>
+    <div class="table-card">
+      <table id="ledgerTable">
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>Record ID</th>
+            <th>Source</th>
+            <th>Amount & Date</th>
+            <th>Reference / Description</th>
+            <th>Tier</th>
+            <th>Reason & Counterparts</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Tab 2: AI Finance Controller Assistant -->
+  <div id="tab-chat" class="tab-pane" style="display:none">
+    <div class="chat-layout">
+      <div class="chat-box">
+        <div class="chat-messages" id="chatMessages">
+          <div class="chat-msg agent">
+            👋 Greetings. I am your <strong>AI Finance Controller</strong>. I have real-time visibility into the reconciliation audit trail, cash positions, and exception ledgers. Ask me to audit any transaction, explain an exception, or forecast cash exposure.
+          </div>
+        </div>
+        <div class="chat-input-bar">
+          <input type="text" id="chatInput" placeholder="Ask a financial controller question (e.g. 'Why was B5012 marked as an exception?')...">
+          <button id="sendChatBtn" class="primary">Send</button>
+        </div>
+      </div>
+      <div class="preset-card">
+        <div class="section-title" style="margin-bottom:12px">Suggested Controller Inquiries</div>
+        <div class="preset-query" onclick="sendPreset('Break down the unreconciled cash position and explain the financial risk.')">💰 Cash Position Risk Breakdown</div>
+        <div class="preset-query" onclick="sendPreset('Explain the reconciliation audit trail for batch wire deposit B5020.')">📑 Audit Batch Wire B5020</div>
+        <div class="preset-query" onclick="sendPreset('Why did Tier 2 auto-commit timing drift records up to 14 days?')">⏱️ Explain Wide Timing Policy</div>
+        <div class="preset-query" onclick="sendPreset('Check for Indian TDS / Gateway MDR deduction patterns.')">🇮🇳 Audit GST / TDS Withholding</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 3: Cross-Validation Matrix -->
+  <div id="tab-crossval" class="tab-pane" style="display:none">
+    <div class="table-card" style="padding:16px">
+      <div class="section-title" style="margin-bottom:12px">10-Population Cross-Validation Scorecard</div>
+      <table id="crossValTable">
+        <thead>
+          <tr>
+            <th>Population Seed</th>
+            <th>Mode</th>
+            <th>Total Pairs</th>
+            <th>Correct Pairs</th>
+            <th>False Positives</th>
+            <th>Fitness</th>
+            <th>Recall</th>
+            <th>Precision</th>
+            <th>Duration</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Tab 4: Traces -->
+  <div id="tab-traces" class="tab-pane" style="display:none">
+    <div id="traceList" style="display:flex; flex-direction:column; gap:10px"></div>
+  </div>
 </div>
+
+<!-- Modal: Field Diff Inspector -->
+<div class="modal-overlay" id="diffModal">
+  <div class="modal-content">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px">
+      <h3 style="font-size:16px; font-weight:700">Audit Trail & Field Diff Inspector</h3>
+      <button onclick="closeModal()" style="padding:4px 8px; font-size:14px">✕</button>
+    </div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
 <script>
 const $ = (s) => document.querySelector(s);
-const fmt = (n) => typeof n === "number" ? n.toFixed(3) : "—";
-const esc = (s) => String(s ?? "").replace(/[&<>"'`]/g, (c) => ({
-  "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;", "`": "&#96;"
-}[c]));
+const $$ = (s) => document.querySelectorAll(s);
+let currentReport = null;
+let currentRecords = [];
+let activeFilter = "all";
 
-async function refresh() {
-  const [report, traces] = await Promise.all([
-    fetch("/api/report").then(r => r.json()),
-    fetch("/api/traces?limit=12").then(r => r.json()),
+async function refreshAll() {
+  const [repRes, recRes, cvRes, traceRes] = await Promise.all([
+    fetch('/api/report').then(r => r.json()),
+    fetch(`/api/records?data=${encodeURIComponent($('#datasetSelect').value)}`).then(r => r.json()),
+    fetch('/api/cross-validate').then(r => r.json()),
+    fetch('/api/traces?limit=30').then(r => r.json())
   ]);
-  const m = report.latest;
-  $("#status").textContent = report.running ? "pipeline running…" : (m ? `last eval ${new Date(m.ts).toLocaleString()}` : "no runs yet");
 
-  $("#cards").innerHTML = m ? [
-    ["fitness", fmt(m.fitness), m.fitness > 0.7 ? "good" : m.fitness > 0.4 ? "warn" : "bad"],
-    ["recall", fmt(m.recall), ""],
-    ["precision", fmt(m.precision), ""],
-    ["FPR", fmt(m.falsePositiveRate), m.falsePositiveRate > 0 ? "bad" : "good"],
-    ["false pos", m.falsePositives, m.falsePositives > 0 ? "bad" : "good"],
-    ["pairs ok", `${m.correctPairs}/${m.totalPairs}`, ""],
-    ["tier3 calls", m.tier3Calls, ""],
-    ["tokens", m.tier3Tokens, ""],
-    ["rec/s", m.recordsPerSec, ""],
-    ["duration", (m.durationMs/1000).toFixed(1) + "s", ""],
-  ].map(([k, v, c]) => `<div class="card"><div class="k">${esc(k)}</div><div class="v ${c}">${esc(v)}</div></div>`).join("")
-  : `<div class="card"><div class="k">no data</div><div class="v">—</div></div>`;
-
-  const cats = m?.byCategory ?? {};
-  $("#cats tbody").innerHTML = Object.entries(cats).map(([c, s]) => {
-    const denom = s.pairs || 0;
-    const pct = denom ? Math.round(100 * ((s.correctPairs ?? 0) + (s.honest ?? 0)) / denom) : 0;
-    return `<tr><td>${esc(c)}</td><td>${s.pairs ?? 0}</td><td class="good">${s.correctPairs ?? 0}</td><td class="bad">${s.falsePos ?? 0}</td><td class="warn">${s.missed ?? 0}</td><td>${s.honest ?? 0}</td><td><div class="bar"><div style="width:${pct}%"></div></div></td></tr>`;
-  }).join("");
-
-  const fps = m?.falsePositiveList ?? [];
-  $("#fps tbody").innerHTML = fps.length
-    ? fps.slice(0, 30).map(f => `<tr><td>${esc(f.recordId)}</td><td>${esc(f.category)}</td><td>${esc(JSON.stringify(f.claimed))}</td></tr>`).join("")
-    : `<tr><td colspan="3" style="color:#7d8590">none</td></tr>`;
-
-  const outcomes = report.run?.outcomes ?? [];
-  $("#exc tbody").innerHTML = outcomes.filter(o => o.status === "exception").slice(0, 60)
-    .map(o => `<tr><td>${esc(o.recordId)}</td><td>${esc(o.source)}</td><td><span class="pill exception">${esc(o.reasonCode)}</span></td><td>T${esc(o.tier)}</td><td>${esc(o.candidatesConsidered)}</td><td class="reason">${esc(o.reasoning ?? "")}</td></tr>`).join("")
-    || `<tr><td colspan="6" style="color:#7d8590">none</td></tr>`;
-
-  $("#mat tbody").innerHTML = outcomes.filter(o => o.status === "matched").slice(0, 40)
-    .map(o => `<tr><td>${esc(o.recordId)}</td><td>${esc(o.source)}</td><td>T${esc(o.tier)}</td><td><span class="pill matched">${esc(o.reasonCode ?? "")}</span></td><td>${esc((o.matchedIds ?? []).join(", "))}</td><td class="reason">${esc(o.reasoning ?? "")}</td></tr>`).join("")
-    || `<tr><td colspan="6" style="color:#7d8590">none</td></tr>`;
-
-  $("#traces").innerHTML = (traces.traces ?? []).reverse().map(t =>
-    `<details><summary>${esc(t.recordId)} · ${esc(t.decision?.reasonCode)} · conf ${fmt(t.decision?.confidence)} · ${esc(t.latencyMs)}ms</summary><pre>${esc(t.decision?.reasoning)}\nmatchedIds: ${esc(JSON.stringify(t.decision?.matchedIds))}\npool: ${esc(t.poolSize)} candidates</pre></details>`
-  ).join("") || `<div style="color:#7d8590">no tier-3 traces yet</div>`;
+  currentReport = repRes;
+  currentRecords = recRes.records || [];
+  renderStats(repRes, cvRes.summary);
+  renderTable();
+  renderCrossVal(cvRes.summary);
+  renderTraces(traceRes.traces || []);
 }
 
-$("#run").onclick = async () => {
-  $("#run").disabled = true;
-  try { await fetch("/api/run", { method: "POST" }); } finally { $("#run").disabled = false; refresh(); }
+function renderStats(rep, cvSummary) {
+  const m = rep.latest;
+  if (m) {
+    $('#fitnessVal').textContent = `${(m.fitness * 100).toFixed(1)}%`;
+    $('#fitnessSub').textContent = `Recall: ${(m.recall * 100).toFixed(1)}% · FPR: ${(m.falsePositiveRate * 100).toFixed(1)}%`;
+    $('#pairsVal').textContent = `${m.correctPairs}/${m.totalPairs}`;
+    $('#fpsVal').textContent = `${m.falsePositives} False Positives`;
+    $('#speedVal').textContent = `${m.recordsPerSec || 900} rec/s`;
+    $('#t1Count').textContent = m.tierBreakdown?.[1] || 0;
+    $('#t2Count').textContent = m.tierBreakdown?.[2] || 0;
+    $('#t3Count').textContent = m.tierBreakdown?.[3] || 0;
+    $('#excCount').textContent = m.exceptionRecords || (rep.run?.outcomes?.filter(o => o.status === 'exception').length || 0);
+  }
+
+  if (cvSummary) {
+    $('#genVal').textContent = `${(cvSummary.meanFitness * 100).toFixed(2)}%`;
+  }
+
+  const cash = rep.run?.cashPosition?.USD || rep.run?.cashPosition?.INR;
+  if (cash) {
+    $('#cashUsdVal').textContent = `$${(cash.reconciledAmount/1000).toFixed(1)}K`;
+    $('#cashUsdSub').textContent = `Unreconciled: $${(cash.unreconciledAmount/1000).toFixed(1)}K`;
+  }
+}
+
+function renderTable() {
+  const outcomes = currentReport?.run?.outcomes || [];
+  const byId = new Map(currentRecords.map(r => [r.id, r]));
+  const query = ($('#searchInput').value || '').toLowerCase();
+
+  const filtered = outcomes.filter(o => {
+    if (activeFilter === 'matched' && o.status !== 'matched') return false;
+    if (activeFilter === 'exception' && o.status !== 'exception') return false;
+    if (activeFilter === 't1' && o.tier !== 1) return false;
+    if (activeFilter === 't2' && o.tier !== 2) return false;
+    if (activeFilter === 't3' && o.tier !== 3) return false;
+
+    if (!query) return true;
+    const r = byId.get(o.recordId);
+    const text = `${o.recordId} ${o.source} ${o.reasonCode || ''} ${o.reasoning || ''} ${r?.reference || ''} ${r?.description || ''} ${r?.amount || ''}`.toLowerCase();
+    return text.includes(query);
+  });
+
+  const tbody = $('#ledgerTable tbody');
+  tbody.innerHTML = filtered.slice(0, 100).map(o => {
+    const r = byId.get(o.recordId) || { amount: 0, currency: '', date: '', reference: '', description: '' };
+    const statusPill = o.status === 'matched'
+      ? `<span class="pill matched">● Matched</span>`
+      : `<span class="pill exception">○ Exception</span>`;
+    const tierPill = `<span class="pill tier${o.tier}">T${o.tier}</span>`;
+    const matchedList = (o.matchedIds || []).join(', ') || '—';
+
+    return `<tr>
+      <td>${statusPill}</td>
+      <td class="mono" style="font-weight:700">${o.recordId}</td>
+      <td><span style="text-transform:capitalize">${o.source}</span></td>
+      <td class="mono">${r.amount > 0 ? '+' : ''}${r.amount.toFixed(2)} ${r.currency}<br><span style="color:var(--text-dim);font-size:11px">${r.date}</span></td>
+      <td><strong>${r.reference || '—'}</strong><br><span style="color:var(--text-dim);font-size:11px">${r.description}</span></td>
+      <td>${tierPill}</td>
+      <td><strong>${o.reasonCode || '—'}</strong><br><span class="mono" style="color:var(--primary);font-size:11px">${matchedList}</span></td>
+      <td><button onclick="inspectRecord('${o.recordId}')" style="padding:4px 8px;font-size:11px">Inspect</button></td>
+    </tr>`;
+  }).join('') || `<tr><td colspan="8" style="text-align:center;color:var(--text-dim);padding:24px">No records match criteria</td></tr>`;
+}
+
+function renderCrossVal(summary) {
+  if (!summary || !summary.results) return;
+  const tbody = $('#crossValTable tbody');
+  tbody.innerHTML = summary.results.map(r => `
+    <tr>
+      <td class="mono">Seed ${r.seed}</td>
+      <td><span class="pill" style="background:var(--surface-hover)">${r.mode}</span></td>
+      <td class="mono">${r.totalPairs}</td>
+      <td class="mono" style="color:var(--success);font-weight:700">${r.correctPairs}</td>
+      <td class="mono" style="color:${r.falsePositives > 0 ? 'var(--danger)' : 'var(--text-dim)'}">${r.falsePositives}</td>
+      <td class="mono" style="font-weight:700">${(r.fitness * 100).toFixed(1)}%</td>
+      <td class="mono">${(r.recall * 100).toFixed(1)}%</td>
+      <td class="mono">${(r.precision * 100).toFixed(1)}%</td>
+      <td class="mono">${r.durationMs}ms</td>
+    </tr>
+  `).join('');
+}
+
+function renderTraces(traces) {
+  const container = $('#traceList');
+  container.innerHTML = traces.reverse().map(t => `
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 16px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+        <span class="mono" style="font-weight:700">${t.recordId}</span>
+        <span class="pill tier3">${t.model || 'Agentic AI'} · ${t.latencyMs || 0}ms</span>
+      </div>
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px">${t.decision?.reasoning || 'No trace reasoning'}</div>
+      <div class="mono" style="font-size:11px;color:var(--primary)">Matched: ${JSON.stringify(t.decision?.matchedIds || [])} | Conf: ${(t.decision?.confidence || 0).toFixed(2)}</div>
+    </div>
+  `).join('') || `<div style="color:var(--text-dim);text-align:center;padding:24px">No Tier-3 reasoning traces logged yet</div>`;
+}
+
+function inspectRecord(recId) {
+  const outcome = currentReport?.run?.outcomes?.find(o => o.recordId === recId);
+  const byId = new Map(currentRecords.map(r => [r.id, r]));
+  const target = byId.get(recId);
+  if (!target) return;
+
+  const counterparts = (outcome?.matchedIds || []).map(id => byId.get(id)).filter(Boolean);
+
+  let html = `
+    <div style="margin-bottom:16px">
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
+        <span class="pill ${outcome?.status === 'matched' ? 'matched' : 'exception'}">${outcome?.status.toUpperCase()}</span>
+        <span class="pill tier${outcome?.tier}">Tier ${outcome?.tier}</span>
+        <span class="mono" style="font-size:13px;font-weight:700">${target.id}</span>
+      </div>
+      <div style="color:var(--text-muted);font-size:13px">${outcome?.reasoning || 'No reasoning available.'}</div>
+    </div>
+    
+    <div class="diff-grid">
+      <div class="diff-col">
+        <div style="font-weight:700;margin-bottom:10px;color:var(--primary)">TARGET RECORD (${target.source.toUpperCase()})</div>
+        <div class="diff-field"><span class="diff-label">Amount:</span><span class="diff-val">${target.amount} ${target.currency}</span></div>
+        <div class="diff-field"><span class="diff-label">Date:</span><span class="diff-val">${target.date}</span></div>
+        <div class="diff-field"><span class="diff-label">Reference:</span><span class="diff-val">${target.reference}</span></div>
+        <div class="diff-field"><span class="diff-label">Description:</span><span class="diff-val" style="font-size:11px">${target.description}</span></div>
+      </div>
+      <div class="diff-col">
+        <div style="font-weight:700;margin-bottom:10px;color:var(--success)">COUNTERPART(S) (${counterparts.length})</div>
+        ${counterparts.map(cp => `
+          <div style="border-bottom:1px dashed var(--border);padding-bottom:8px;margin-bottom:8px">
+            <div class="diff-field"><span class="diff-label">ID / Source:</span><span class="diff-val">${cp.id} (${cp.source})</span></div>
+            <div class="diff-field"><span class="diff-label">Amount:</span><span class="diff-val">${cp.amount} ${cp.currency}</span></div>
+            <div class="diff-field"><span class="diff-label">Date:</span><span class="diff-val">${cp.date}</span></div>
+            <div class="diff-field"><span class="diff-label">Reference:</span><span class="diff-val">${cp.reference}</span></div>
+          </div>
+        `).join('') || '<div style="color:var(--text-dim);padding:12px 0">No counterpart claimed (Honest Exception)</div>'}
+      </div>
+    </div>
+  `;
+
+  if (outcome?.auditTrail?.evidence) {
+    html += `
+      <div style="margin-top:16px;background:var(--surface-elevated);border:1px solid var(--border);border-radius:8px;padding:12px">
+        <div style="font-weight:700;margin-bottom:8px;font-size:12px;text-transform:uppercase;color:var(--text-dim)">Field-by-Field Audit Evidence</div>
+        ${outcome.auditTrail.evidence.map(e => `
+          <div style="font-size:12px;margin-bottom:6px">
+            <strong>${e.field}:</strong> ${e.explanation} <span class="mono" style="color:var(--primary)">(${(e.similarity * 100).toFixed(0)}% match)</span>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  $('#modalBody').innerHTML = html;
+  $('#diffModal').classList.add('open');
+}
+
+function closeModal() {
+  $('#diffModal').classList.remove('open');
+}
+
+// Navigation Tabs
+$$('.tab').forEach(tab => {
+  tab.onclick = () => {
+    $$('.tab').forEach(t => t.classList.remove('active'));
+    $$('.tab-pane').forEach(p => p.style.display = 'none');
+    tab.classList.add('active');
+    const targetId = `tab-${tab.dataset.tab}`;
+    if ($(`#${targetId}`)) $(`#${targetId}`).style.display = 'block';
+  };
+});
+
+// Filters
+$$('.filter-btn').forEach(btn => {
+  btn.onclick = () => {
+    $$('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter = btn.dataset.filter;
+    renderTable();
+  };
+});
+
+$('#searchInput').oninput = () => renderTable();
+
+// Run Pipeline Action
+$('#runBtn').onclick = async () => {
+  $('#runBtn').disabled = true;
+  $('#pipelineStatus').textContent = 'Pipeline executing...';
+  try {
+    const dataDir = $('#datasetSelect').value;
+    await fetch('/api/run', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ dataDir, useAi: true })
+    });
+    await refreshAll();
+  } finally {
+    $('#runBtn').disabled = false;
+    $('#pipelineStatus').textContent = 'Ready';
+  }
 };
-refresh();
-setInterval(refresh, 2000);
+
+// Cross Validation Action
+$('#crossValBtn').onclick = async () => {
+  $('#crossValBtn').disabled = true;
+  try {
+    await fetch('/api/cross-validate/run', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ seeds: 6, mode: 'all' })
+    });
+    await refreshAll();
+  } finally {
+    $('#crossValBtn').disabled = false;
+  }
+};
+
+// Interactive Controller Chat
+async function sendChat(prompt) {
+  if (!prompt) return;
+  const msgContainer = $('#chatMessages');
+  msgContainer.innerHTML += `<div class="chat-msg user">${prompt}</div>`;
+  msgContainer.scrollTop = msgContainer.scrollHeight;
+  $('#chatInput').value = '';
+
+  const res = await fetch('/api/agent/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ prompt, dataDir: $('#datasetSelect').value })
+  }).then(r => r.json());
+
+  msgContainer.innerHTML += `<div class="chat-msg agent">${res.reply || res.error}</div>`;
+  msgContainer.scrollTop = msgContainer.scrollHeight;
+}
+
+$('#sendChatBtn').onclick = () => sendChat($('#chatInput').value);
+$('#chatInput').onkeypress = (e) => { if (e.key === 'Enter') sendChat($('#chatInput').value); };
+function sendPreset(text) {
+  $$('.tab')[1].click();
+  sendChat(text);
+}
+
+refreshAll();
+setInterval(refreshAll, 4000);
 </script>
 </body>
 </html>

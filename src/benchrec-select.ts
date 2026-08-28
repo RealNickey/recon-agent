@@ -4,7 +4,7 @@
  * amount identity are dropped — including them in the answer key makes the
  * pair unrecoverable (a correct 1:1 becomes a "miss" for incompleteness).
  */
-import { amountsClose, subsetSum } from "./normalize";
+import { amountKey, amountsClose, subsetSum } from "./normalize";
 
 export function fingerprintRecord(parts: {
   amount: number;
@@ -14,7 +14,7 @@ export function fingerprintRecord(parts: {
   description: string;
 }): string {
   return [
-    parts.amount.toFixed(2),
+    amountKey(parts.amount),
     parts.date,
     parts.currency,
     parts.reference,

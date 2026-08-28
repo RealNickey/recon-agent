@@ -18,13 +18,17 @@ export function shuffle<T>(arr: T[], rng: () => number): T[] {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
     const j = Math.floor(rng() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
+    const tmp = a[i]!;
+    a[i] = a[j]!;
+    a[j] = tmp;
   }
   return a;
 }
 
 export function pick<T>(arr: T[], rng: () => number): T {
-  return arr[Math.floor(rng() * arr.length)];
+  const item = arr[Math.floor(rng() * arr.length)];
+  if (item === undefined) throw new Error("pick from empty array");
+  return item;
 }
 
 export function randInt(rng: () => number, min: number, max: number): number {
@@ -65,10 +69,26 @@ export function pathIsInsideRepo(p: string, repoRoot = "."): boolean {
  * Resolve the external answer-key path. Returns null if unset.
  * Exits the process if the path would land inside the repo.
  */
-export function resolveExternalTruthPath(isHoldout: boolean): string | null {
-  const envPath = isHoldout
-    ? process.env.GROUND_TRUTH_HOLDOUT_PATH ?? process.env.GROUND_TRUTH_PATH
-    : process.env.GROUND_TRUTH_PATH;
+export function resolveExternalTruthPath(target?: boolean | string): string | null {
+  const isHard = target === "hard" || (typeof target === "string" && target.includes("hard"));
+  const isHoldout = target === true || target === "holdout" || (typeof target === "string" && target.includes("holdout"));
+
+  let envPath: string | undefined;
+  if (isHard) {
+    envPath = process.env.GROUND_TRUTH_HARD_PATH;
+    if (!envPath && process.env.GROUND_TRUTH_PATH) {
+      envPath = process.env.GROUND_TRUTH_PATH.replace(/(\.[^.]*)?$/, (m) => (m ? `-hard${m}` : "-hard.json"));
+    }
+  } else if (isHoldout) {
+    envPath =
+      process.env.GROUND_TRUTH_HOLDOUT_PATH ??
+      (process.env.GROUND_TRUTH_PATH
+        ? process.env.GROUND_TRUTH_PATH.replace(/(\.[^.]*)?$/, (m) => (m ? `-holdout${m}` : "-holdout.json"))
+        : undefined);
+  } else {
+    envPath = process.env.GROUND_TRUTH_PATH;
+  }
+
   if (!envPath) return null;
   if (pathIsInsideRepo(envPath)) {
     console.error("REFUSED: answer-key path resolves inside the repo. Point GROUND_TRUTH_PATH outside.");

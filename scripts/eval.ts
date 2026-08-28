@@ -24,16 +24,19 @@ import { resolveExternalTruthPath } from "../src/util";
 const args = process.argv.slice(2);
 function argVal(flag: string, dflt: string): string {
   const i = args.indexOf(flag);
-  return i >= 0 && args[i + 1] ? args[i + 1] : dflt;
+  const val = i >= 0 ? args[i + 1] : undefined;
+  return val !== undefined ? val : dflt;
 }
 const RESULTS = argVal("--results", "results/latest-run.json");
 const DATA = argVal("--data", "data");
-const IS_HOLDOUT = DATA.includes("holdout");
+const IS_HARD = DATA.includes("hard");
+const IS_HOLDOUT = !IS_HARD && DATA.includes("holdout");
+const DATASET_NAME = IS_HARD ? "hard" : IS_HOLDOUT ? "holdout" : "dev";
 
 function loadTruth(): { truth: GroundTruth; origin: string } {
-  const envPath = resolveExternalTruthPath(IS_HOLDOUT);
+  const envPath = resolveExternalTruthPath(DATASET_NAME);
   if (!envPath) {
-    console.error("No answer key found. Set GROUND_TRUTH_PATH (outside this repo).");
+    console.error(`No answer key found. Set GROUND_TRUTH_PATH or GROUND_TRUTH_${DATASET_NAME.toUpperCase()}_PATH (outside this repo).`);
     process.exit(1);
   }
   if (!existsSync(envPath)) {
@@ -50,7 +53,7 @@ if (!existsSync(RESULTS)) {
 }
 const run = RunResultSchema.parse(JSON.parse(readFileSync(RESULTS, "utf8")));
 const report = scoreRun(truth, run, {
-  dataset: IS_HOLDOUT ? "holdout" : "dev",
+  dataset: DATASET_NAME,
   truthOrigin: origin,
   resultsFile: RESULTS,
 });
@@ -64,10 +67,23 @@ console.log("\n=== RECONCILIATION EVAL ===");
 console.log(`dataset: ${report.dataset}  answer key: ${origin} (hash ${report.truthHash})  results: ${RESULTS}`);
 console.log(`fitness=${report.fitness}  recall=${report.recall}  precision=${report.precision}  FPR=${report.falsePositiveRate}`);
 console.log(`pairs: ${report.correctPairs}/${report.totalPairs} correct, ${report.falsePositives} false positives  claimedGroups=${report.claimedGroups}`);
+
+if (report.syntheticFitness !== undefined && report.benchrecFitness !== undefined) {
+  console.log(`  synthetic subset:  pairs=${report.syntheticCorrect}/${report.syntheticPairs}  fitness=${report.syntheticFitness}  recall=${report.syntheticRecall}  FPR=${report.syntheticFpr}`);
+  console.log(`  benchrec subset:   pairs=${report.benchrecCorrect}/${report.benchrecPairs}  fitness=${report.benchrecFitness}  recall=${report.benchrecRecall}  FPR=${report.benchrecFpr}`);
+}
+
 console.log(`tiers: T1=${report.tierBreakdown[1] ?? 0} T2=${report.tierBreakdown[2] ?? 0} T3=${report.tierBreakdown[3] ?? 0}  |  tier3 calls=${report.tier3Calls} tokens=${report.tier3Tokens} cost=usd${report.tier3CostUsd}  |  ${report.recordsPerSec} rec/s`);
+
+if (run.cashPosition) {
+  const parts = Object.values(run.cashPosition).map(
+    (cp) => `${cp.currency}: reconciled=$${cp.reconciledAmount.toLocaleString()} unreconciled=$${cp.unreconciledAmount.toLocaleString()} net=$${cp.netPosition.toLocaleString()}`
+  );
+  console.log(`cash position: ${parts.join(" | ")}`);
+}
 console.log("\nby category (pairs: correct / falsePos / missed / honest):");
 for (const [c, s] of Object.entries(report.byCategory).sort(([a], [b]) => a.localeCompare(b))) {
-  console.log(`  ${c.padEnd(18)} pairs=${String(s.pairs).padStart(3)}  ok=${String(s.correctPairs).padStart(3)}  fp=${String(s.falsePos).padStart(2)}  miss=${String(s.missed).padStart(2)}  honest=${String(s.honest).padStart(2)}`);
+  console.log(`  ${c.padEnd(24)} pairs=${String(s.pairs).padStart(3)}  ok=${String(s.correctPairs).padStart(3)}  fp=${String(s.falsePos).padStart(2)}  miss=${String(s.missed).padStart(2)}  honest=${String(s.honest).padStart(2)}`);
 }
 
 if (report.starvedCategories?.length) {

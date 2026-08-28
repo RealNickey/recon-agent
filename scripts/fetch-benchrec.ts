@@ -126,8 +126,9 @@ try {
       // subset-sum is exponential; on oversized allocations only keep a 1:1
       // amount identity. Do not dump the extra A-rows into the answer key.
       const exact = uniqueA.filter((c) => amountsClose(c.amount, bAmt, 0.05, 0.001));
-      if (exact.length === 0) { skippedTooWide++; continue; }
-      selected = [exact[0]];
+      const first = exact[0];
+      if (!first) { skippedTooWide++; continue; }
+      selected = [first];
     } else {
       selected = selectReconstructingA(bAmt, uniqueA);
       if (!selected) { skippedNoSubset++; continue; }

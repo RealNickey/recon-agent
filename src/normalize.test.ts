@@ -143,3 +143,30 @@ describe("subsetSumUnique / amountAbsTol", () => {
     expect(hit?.sort()).toEqual(["a", "b"]);
   });
 });
+
+describe("extractRefTokens & Indian Payment Rails", () => {
+  const { extractRefTokens, checkIndianTaxMdrSchedule } = require("./normalize");
+
+  it("extracts UPI VPA identifiers", () => {
+    const tokens = extractRefTokens("UPI-TXN-999", "Payment from user@okhdfcbank for INV-10023");
+    expect(tokens.has("user@okhdfcbank")).toBe(true);
+    expect(tokens.has("10023")).toBe(true);
+  });
+
+  it("extracts Indian NEFT/RTGS UTR numbers", () => {
+    const tokens = extractRefTokens("BANK-STMT", "NEFT transfer HDFCR52026060100012345");
+    expect(tokens.has("HDFCR52026060100012345")).toBe(true);
+  });
+
+  it("identifies Indian MDR and TDS tax withholding schedules", () => {
+    // Razorpay standard MDR (2.36% net deduction on 10,000)
+    const mdr = checkIndianTaxMdrSchedule(10000, 9764);
+    expect(mdr?.matched).toBe(true);
+    expect(mdr?.rule).toContain("Razorpay Standard MDR");
+
+    // Section 194J TDS 10% on 50,000 = 45,000 net
+    const tds = checkIndianTaxMdrSchedule(50000, 45000);
+    expect(tds?.matched).toBe(true);
+    expect(tds?.rule).toContain("194J");
+  });
+});

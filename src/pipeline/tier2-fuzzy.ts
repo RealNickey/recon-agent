@@ -12,7 +12,7 @@
  * candidate pool that always keeps same-invoice hits and likely subset-sum parts.
  */
 import Decimal from "decimal.js";
-import { amountKey, amountsClose, daysBetween, tokenSim, sameInvoice, recordsShareInvoice, vendorOverlap, subsetSumUnique, amountAbsTol } from "../normalize";
+import { amountKey, amountsClose, daysBetween, tokenSim, sameInvoice, recordsShareInvoice, vendorOverlap, subsetSumUnique, amountAbsTol, checkIndianTaxMdrSchedule } from "../normalize";
 import type { FinRecord, Outcome, ReasonCode } from "../types";
 import type { TierResult } from "./tier1-exact";
 
@@ -134,10 +134,42 @@ export function tier2Fuzzy(residual: FinRecord[]): Tier2Result {
     candidatePools.set(r.id, pool.slice(0, MAX_POOL));
   }
 
-  const pushGroup = (members: FinRecord[], confidence: number, reasonCode: ReasonCode, reasoning: string) => {
+  const pushGroup = (
+    members: FinRecord[],
+    confidence: number,
+    reasonCode: ReasonCode,
+    reasoning: string,
+    ruleTriggered = "Deterministic Fuzzy Rule",
+    customEvidence?: Array<{ field: string; recordAVal: string | number; recordBVal: string | number; similarity: number; explanation: string }>
+  ) => {
     for (const r of members) if (used.has(r.id)) return;
     const ids = members.map((m) => m.id);
     for (const r of members) used.add(r.id);
+
+    const defaultEvidence = customEvidence ?? (members.length >= 2 ? [
+      {
+        field: "amount",
+        recordAVal: members[0]!.amount,
+        recordBVal: members[1]!.amount,
+        similarity: amountsClose(absAmt(members[0]!.amount), absAmt(members[1]!.amount), 0.05, 0.05) ? 1.0 : 0.8,
+        explanation: `${members[0]!.amount} ${members[0]!.currency} vs ${members[1]!.amount} ${members[1]!.currency}`,
+      },
+      {
+        field: "date",
+        recordAVal: members[0]!.date,
+        recordBVal: members[1]!.date,
+        similarity: daysBetween(members[0]!.date, members[1]!.date) === 0 ? 1.0 : 0.85,
+        explanation: `${daysBetween(members[0]!.date, members[1]!.date)} days drift between postings`,
+      },
+      {
+        field: "reference",
+        recordAVal: members[0]!.reference,
+        recordBVal: members[1]!.reference,
+        similarity: recordsShareInvoice(members[0]!, members[1]!) ? 1.0 : 0.5,
+        explanation: `Invoice / PO token alignment: ${recordsShareInvoice(members[0]!, members[1]!) ? "matched" : "approximate"}`,
+      },
+    ] : []);
+
     for (const r of members) {
       outcomes.push({
         status: "matched",
@@ -148,6 +180,12 @@ export function tier2Fuzzy(residual: FinRecord[]): Tier2Result {
         tier: 2,
         reasonCode,
         reasoning,
+        auditTrail: {
+          tier: 2,
+          ruleTriggered,
+          confidence,
+          evidence: defaultEvidence,
+        },
       });
     }
   };
@@ -277,7 +315,11 @@ export function tier2Fuzzy(residual: FinRecord[]): Tier2Result {
     if (members.length < 2) continue;
     if (unused(["ledger", "processor"]).some((l) => sameInvoice(b.reference, l.reference) && amountsClose(b.amount, l.amount, 0.05, 0.005))) continue;
     const rival = unused("bank").some(
-      (o) => o.id !== b.id && amountsClose(o.amount, b.amount, tol, 0.001) && inSettleWindow(b, o, 5)
+      (o) =>
+        o.id !== b.id &&
+        amountsClose(o.amount, b.amount, tol, isLarge ? 0.001 : 0) &&
+        inSettleWindow(b, o, 5) &&
+        (!preferred.length || vendorOverlap(b.description, o.description) > 0)
     );
     if (rival) continue;
     pushGroup(
@@ -322,9 +364,10 @@ export function tier2Fuzzy(residual: FinRecord[]): Tier2Result {
   }
 
   // --- cross-currency FX matching without explicit invoice tokens ---
+  type FxPair = { b: FinRecord; l: FinRecord; d: number; v: number; r: number; score: number };
+  const allFxPairs: FxPair[] = [];
   for (const b of unused("bank")) {
     if (b.currency === "USD") continue;
-    const cands: Array<{ l: FinRecord; d: number; v: number; r: number }> = [];
     for (const l of unused("ledger")) {
       if (l.currency === b.currency) continue;
       const d = daysBetween(b.date, l.date);
@@ -333,17 +376,82 @@ export function tier2Fuzzy(residual: FinRecord[]): Tier2Result {
       if (v < 0.8) continue;
       const r = ratio(b.amount, l.amount);
       if (r < 0.80 || r > 1.25) continue;
-      cands.push({ l, d, v, r });
+      const score = 100 - d * 10 - Math.abs(1 - r) * 10;
+      allFxPairs.push({ b, l, d, v, r, score });
     }
-    cands.sort((x, y) => x.d - y.d || Math.abs(1 - y.r) - Math.abs(1 - x.r));
-    if (cands.length > 0) {
-      const best = cands[0]!.l;
-      pushGroup(
-        [b, best],
-        0.95,
-        "currency_mismatch",
-        `cross-currency FX match: bank ${b.amount} ${b.currency} on ${b.date} vs ledger ${best.amount} ${best.currency} on ${best.date} (vendor overlap ${cands[0]!.v})`
-      );
+  }
+  allFxPairs.sort((x, y) => y.score - x.score);
+  for (const fx of allFxPairs) {
+    if (used.has(fx.b.id) || used.has(fx.l.id)) continue;
+    pushGroup(
+      [fx.b, fx.l],
+      0.95,
+      "currency_mismatch",
+      `cross-currency FX match: bank ${fx.b.amount} ${fx.b.currency} on ${fx.b.date} vs ledger ${fx.l.amount} ${fx.l.currency} on ${fx.l.date} (vendor overlap ${fx.v})`,
+      "Cross-Currency FX Corridor Match",
+      [
+        {
+          field: "currency_and_rate",
+          recordAVal: `${fx.b.amount} ${fx.b.currency}`,
+          recordBVal: `${fx.l.amount} ${fx.l.currency}`,
+          similarity: +fx.r.toFixed(3),
+          explanation: `Cross-currency settlement in EUR/USD corridor with effective rate ${(fx.b.amount / fx.l.amount).toFixed(4)}`,
+        },
+        {
+          field: "vendor",
+          recordAVal: fx.b.description,
+          recordBVal: fx.l.description,
+          similarity: fx.v,
+          explanation: `Shared vendor identity across bank and ledger postings`,
+        },
+        {
+          field: "date",
+          recordAVal: fx.b.date,
+          recordBVal: fx.l.date,
+          similarity: fx.d === 0 ? 1.0 : 0.9,
+          explanation: `${fx.d} day(s) settlement timing delta`,
+        },
+      ]
+    );
+  }
+
+  // --- Indian Tax / MDR deduction matching (Razorpay 2.36% MDR / TDS 194C / TDS 194J) ---
+  for (const b of unused("bank")) {
+    if (b.amount <= 0) continue;
+    for (const l of unused("ledger")) {
+      if (l.currency !== b.currency || l.amount <= 0) continue;
+      if (!inSettleWindow(b, l, SETTLE_DAYS)) continue;
+      const sharedRef = recordsShareInvoice(b, l);
+      const vOverlap = vendorOverlap(b.description, l.description);
+      if (!sharedRef && vOverlap < 0.6) continue;
+
+      const taxMatch = checkIndianTaxMdrSchedule(l.amount, b.amount);
+      if (taxMatch?.matched) {
+        pushGroup(
+          [b, l],
+          0.96,
+          "amount_variance",
+          `${taxMatch.rule}: ledger gross ${l.amount} -> bank net ${b.amount} (deduction ${taxMatch.ratePct}%)`,
+          `Indian Statutory / Payment Schedule: ${taxMatch.rule}`,
+          [
+            {
+              field: "tax_schedule",
+              recordAVal: l.amount,
+              recordBVal: b.amount,
+              similarity: 1.0,
+              explanation: `${taxMatch.rule} exactly matches net bank amount ${b.amount} (expected: ${taxMatch.expectedNet})`,
+            },
+            {
+              field: "reference_or_vendor",
+              recordAVal: l.reference,
+              recordBVal: b.reference,
+              similarity: sharedRef ? 1.0 : vOverlap,
+              explanation: sharedRef ? "Direct invoice reference link" : `Vendor token overlap: ${vOverlap.toFixed(2)}`,
+            },
+          ]
+        );
+        break;
+      }
     }
   }
 

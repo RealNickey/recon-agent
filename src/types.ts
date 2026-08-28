@@ -41,6 +41,39 @@ export const Tier3DecisionSchema = z.object({
 });
 export type Tier3Decision = z.infer<typeof Tier3DecisionSchema>;
 
+export const Tier3SingleBatchItemDecisionSchema = z.object({
+  targetRecordId: z.string().describe("ID of the target record being reconciled"),
+  matchedIds: z.array(z.string()).nullable().describe("Matching candidate IDs from this record's candidate pool, or null"),
+  confidence: z.number().min(0).max(1).describe("Calibrated confidence score (0 to 1)"),
+  reasonCode: ReasonCodeSchema,
+  reasoning: z.string().max(350).describe("Concise explanation with amounts, dates, and references"),
+});
+export type Tier3SingleBatchItemDecision = z.infer<typeof Tier3SingleBatchItemDecisionSchema>;
+
+export const Tier3BatchDecisionSchema = z.object({
+  decisions: z.array(Tier3SingleBatchItemDecisionSchema).describe("List of reconciliation decisions for each record in the batch"),
+});
+export type Tier3BatchDecision = z.infer<typeof Tier3BatchDecisionSchema>;
+
+export const AuditEvidenceSchema = z.object({
+  field: z.string().describe("Field compared: amount, date, reference, vendor, currency"),
+  recordAVal: z.string().or(z.number()),
+  recordBVal: z.string().or(z.number()),
+  similarity: z.number().min(0).max(1),
+  explanation: z.string(),
+});
+export type AuditEvidence = z.infer<typeof AuditEvidenceSchema>;
+
+export const AuditTrailSchema = z.object({
+  tier: z.union([z.literal(1), z.literal(2), z.literal(3)]),
+  ruleTriggered: z.string(),
+  confidence: z.number(),
+  evidence: z.array(AuditEvidenceSchema),
+  timestamp: z.string().optional(),
+  modelUsed: z.string().optional(),
+});
+export type AuditTrail = z.infer<typeof AuditTrailSchema>;
+
 /** Final per-record outcome written to results/latest-run.json */
 export const OutcomeSchema = z.discriminatedUnion("status", [
   z.object({
@@ -52,6 +85,7 @@ export const OutcomeSchema = z.discriminatedUnion("status", [
     tier: z.union([z.literal(1), z.literal(2), z.literal(3)]),
     reasonCode: ReasonCodeSchema.optional(),
     reasoning: z.string().optional(),
+    auditTrail: AuditTrailSchema.optional(),
   }),
   z.object({
     status: z.literal("exception"),
@@ -61,9 +95,21 @@ export const OutcomeSchema = z.discriminatedUnion("status", [
     tier: z.union([z.literal(1), z.literal(2), z.literal(3)]),
     candidatesConsidered: z.number(),
     reasoning: z.string().optional(),
+    auditTrail: AuditTrailSchema.optional(),
   }),
 ]);
 export type Outcome = z.infer<typeof OutcomeSchema>;
+
+export const CashPositionCurrencySchema = z.object({
+  currency: z.string(),
+  reconciledAmount: z.number(),
+  unreconciledAmount: z.number(),
+  netPosition: z.number(),
+  reconciledCount: z.number().optional(),
+  unreconciledCount: z.number().optional(),
+  reconciliationRate: z.number().optional(),
+});
+export type CashPositionCurrency = z.infer<typeof CashPositionCurrencySchema>;
 
 export const RunResultSchema = z.object({
   startedAt: z.string(),
@@ -71,6 +117,7 @@ export const RunResultSchema = z.object({
   durationMs: z.number(),
   model: z.string(),
   outcomes: z.array(OutcomeSchema),
+  cashPosition: z.record(z.string(), CashPositionCurrencySchema).optional(),
   stats: z.object({
     totalRecords: z.number(),
     matched: z.number(),
@@ -82,6 +129,21 @@ export const RunResultSchema = z.object({
   }),
 });
 export type RunResult = z.infer<typeof RunResultSchema>;
+
+export const AgentChatQuerySchema = z.object({
+  prompt: z.string().min(1),
+  focusRecordId: z.string().optional(),
+});
+export type AgentChatQuery = z.infer<typeof AgentChatQuerySchema>;
+
+export const AgentChatResponseSchema = z.object({
+  reply: z.string(),
+  suggestedActions: z.array(z.string()).optional(),
+  referencedRecords: z.array(z.string()).optional(),
+  insights: z.array(z.string()).optional(),
+  modelUsed: z.string(),
+});
+export type AgentChatResponse = z.infer<typeof AgentChatResponseSchema>;
 
 export const GroundTruthCategorySchema = z.enum([
   "exact",
@@ -96,7 +158,17 @@ export const GroundTruthCategorySchema = z.enum([
   "currency_fx",
   "partial_payment",
   "refund_reversal",
+  "timing_drift_wide",
+  "amount_fee_wide",
+  "identity_weak",
+  "ambiguous_vendor",
+  "many_to_one_wide",
+  "extras_do_not_sum",
+  "distractor_unmatchable",
+  "fx_no_invoice",
+  "sign_flip",
 ]);
+export type GroundTruthCategory = z.infer<typeof GroundTruthCategorySchema>;
 
 /** Ground truth entry — lives OUTSIDE the repo; eval-only. */
 export const GroundTruthSchema = z.object({

@@ -17,4 +17,5 @@
 13 | wide timing drift matching up to 20 days for exact same-invoice pairs | timing_drift_wide | 0.6452→0.7742 (48/62 pairs, P=1.0000, FPR=0.0000, 0 FPs) | seed 999 hash b3057890b01ecebf
 14 | extract PO tokens from description for wire/retainer matches | identity_weak | 0.7742→0.9032 (56/62 pairs, P=1.0000, FPR=0.0000, 0 FPs) | seed 999 hash b3057890b01ecebf
 15 | cross-currency FX matching within settlement window for vendor pairs | fx_no_invoice | 0.9032→1.0000 (62/62 pairs, P=1.0000, FPR=0.0000, 0 FPs) | seed 999 hash b3057890b01ecebf
+16 | global FX pair ranking + tight vendor-overlap rival checks on subset-sum | cross-seed generalization (fx_no_invoice, many_to_one_wide) | 0.9855→1.0000 mean fitness (14/14 pop 100%, 0 FPs) | multi-seed benchmark
 

@@ -42,6 +42,12 @@ export interface FalsePositive {
   category: string;
 }
 
+export const UNMATCHABLE_CATEGORIES = new Set<string>([
+  "unmatchable",
+  "distractor_unmatchable",
+  "extras_do_not_sum",
+]);
+
 export interface ScoreReport {
   ts: string;
   dataset: string;
@@ -67,6 +73,20 @@ export interface ScoreReport {
   recordsPerSec: number;
   byCategory: Record<string, CatStat>;
   falsePositiveList: FalsePositive[];
+  syntheticFitness?: number;
+  syntheticRecall?: number;
+  syntheticPrecision?: number;
+  syntheticFpr?: number;
+  syntheticPairs?: number;
+  syntheticCorrect?: number;
+  syntheticFalsePositives?: number;
+  benchrecFitness?: number;
+  benchrecRecall?: number;
+  benchrecPrecision?: number;
+  benchrecFpr?: number;
+  benchrecPairs?: number;
+  benchrecCorrect?: number;
+  benchrecFalsePositives?: number;
 }
 
 const setEq = (a: string[], b: string[]) =>
@@ -174,7 +194,7 @@ export function scoreRun(
     const stat = cat(p.category);
     const ids = [p.bankId, ...(p.extraBankIds ?? []), ...p.ledgerIds, p.processorId].filter((x): x is string => !!x).sort();
 
-    if (p.category === "unmatchable") {
+    if (UNMATCHABLE_CATEGORIES.has(p.category)) {
       stat.pairs += 1;
       const matchedUnmatchable = ids.filter((id) => byId.get(id)?.status === "matched");
       if (matchedUnmatchable.length === 0) {
@@ -234,12 +254,50 @@ export function scoreRun(
   const fitness = +(recall - 2 * fpr).toFixed(4);
 
   const starvedCategories = [...cats.entries()]
-    .filter(([c, s]) => c !== "unmatchable" && s.pairs > 0 && s.correctPairs === 0)
+    .filter(([c, s]) => !UNMATCHABLE_CATEGORIES.has(c) && s.pairs > 0 && s.correctPairs === 0)
     .map(([c]) => c)
     .sort();
 
   const tierCounts = { 1: 0, 2: 0, 3: 0 } as Record<number, number>;
   for (const o of run.outcomes) if (o.status === "matched") tierCounts[o.tier] = (tierCounts[o.tier] ?? 0) + 1;
+
+  // Split reporting when mixed dataset (synthetic + benchrec_real)
+  let syntheticFitness: number | undefined;
+  let syntheticRecall: number | undefined;
+  let syntheticPrecision: number | undefined;
+  let syntheticFpr: number | undefined;
+  let syntheticPairs: number | undefined;
+  let syntheticCorrect: number | undefined;
+  let syntheticFalsePositives: number | undefined;
+
+  let benchrecFitness: number | undefined;
+  let benchrecRecall: number | undefined;
+  let benchrecPrecision: number | undefined;
+  let benchrecFpr: number | undefined;
+  let benchrecPairs: number | undefined;
+  let benchrecCorrect: number | undefined;
+  let benchrecFalsePositives: number | undefined;
+
+  if (cats.has("benchrec_real") && cats.size > 1) {
+    const brStat = cats.get("benchrec_real")!;
+    benchrecPairs = brStat.pairs;
+    benchrecCorrect = brStat.correctPairs;
+    benchrecFalsePositives = brStat.falsePos;
+    benchrecRecall = benchrecPairs > 0 ? +(benchrecCorrect / benchrecPairs).toFixed(4) : 0;
+    const brDecided = benchrecCorrect + benchrecFalsePositives;
+    benchrecPrecision = brDecided > 0 ? +(benchrecCorrect / brDecided).toFixed(4) : 1;
+    benchrecFpr = benchrecPairs > 0 ? +(benchrecFalsePositives / benchrecPairs).toFixed(4) : 0;
+    benchrecFitness = +(benchrecRecall - 2 * benchrecFpr).toFixed(4);
+
+    syntheticPairs = totalPairs - benchrecPairs;
+    syntheticCorrect = correctPairs - benchrecCorrect;
+    syntheticFalsePositives = falsePositives - benchrecFalsePositives;
+    syntheticRecall = syntheticPairs > 0 ? +(syntheticCorrect / syntheticPairs).toFixed(4) : 0;
+    const synDecided = syntheticCorrect + syntheticFalsePositives;
+    syntheticPrecision = synDecided > 0 ? +(syntheticCorrect / synDecided).toFixed(4) : 1;
+    syntheticFpr = syntheticPairs > 0 ? +(syntheticFalsePositives / syntheticPairs).toFixed(4) : 0;
+    syntheticFitness = +(syntheticRecall - 2 * syntheticFpr).toFixed(4);
+  }
 
   return {
     ts: new Date().toISOString(),
@@ -266,5 +324,19 @@ export function scoreRun(
     recordsPerSec: run.durationMs > 0 ? +(run.stats.totalRecords / (run.durationMs / 1000)).toFixed(1) : 0,
     byCategory: Object.fromEntries(cats),
     falsePositiveList: fpList,
+    syntheticFitness,
+    syntheticRecall,
+    syntheticPrecision,
+    syntheticFpr,
+    syntheticPairs,
+    syntheticCorrect,
+    syntheticFalsePositives,
+    benchrecFitness,
+    benchrecRecall,
+    benchrecPrecision,
+    benchrecFpr,
+    benchrecPairs,
+    benchrecCorrect,
+    benchrecFalsePositives,
   };
 }
