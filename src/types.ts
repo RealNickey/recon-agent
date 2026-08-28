@@ -8,17 +8,31 @@ function isValidCalendarDate(val: string): boolean {
   return dt.getUTCFullYear() === y && dt.getUTCMonth() === m - 1 && dt.getUTCDate() === d;
 }
 
+const VALID_ISO_CURRENCIES = new Set([
+  "USD", "EUR", "GBP", "INR", "CAD", "JPY", "AUD", "SGD", "CHF", "AED", "CNY", "NZD", "HKD", "SEK", "NOK", "DKK", "BRL", "MXN", "ZAR"
+]);
+
 /** A single financial record in any source. `source` identifies which file it came from. */
 export const RecordSchema = z.object({
   id: z.string().min(1),
   source: z.enum(["bank", "ledger", "processor"]),
   date: z.string().refine(isValidCalendarDate, { message: "Invalid ISO calendar date (YYYY-MM-DD)" }),
   amount: z.number().finite(),
-  currency: z.string().trim().min(3).max(3).toUpperCase(),
+  currency: z.string().trim().min(3).max(3).toUpperCase().refine((c) => VALID_ISO_CURRENCIES.has(c), {
+    message: "Invalid ISO-4217 currency code",
+  }),
   description: z.string(),
   reference: z.string(),
 });
 export type FinRecord = z.infer<typeof RecordSchema>;
+
+export const RejectedRecordSchema = z.object({
+  rawRecord: z.unknown(),
+  source: z.string(),
+  reason: z.string(),
+  file: z.string().optional(),
+});
+export type RejectedRecord = z.infer<typeof RejectedRecordSchema>;
 
 export const InputManifestEntrySchema = z.object({
   file: z.string(),
@@ -117,14 +131,35 @@ export const OutcomeSchema = z.discriminatedUnion("status", [
 ]);
 export type Outcome = z.infer<typeof OutcomeSchema>;
 
+export const BankReconciliationStatementSchema = z.object({
+  currency: z.string(),
+  openingBankBalance: z.number(),
+  clearedDeposits: z.number(),
+  clearedDisbursements: z.number(),
+  closingBankBalance: z.number(),
+  unreconciledInTransitDeposits: z.number(),
+  unreconciledOutstandingPayments: z.number(),
+  subledgerBalance: z.number(),
+  processorNodalBalance: z.number(),
+  statutoryAccrualsMdrTds: z.number(),
+  netVariance: z.number(),
+});
+export type BankReconciliationStatement = z.infer<typeof BankReconciliationStatementSchema>;
+
 export const CashPositionCurrencySchema = z.object({
   currency: z.string(),
   reconciledAmount: z.number(),
   unreconciledAmount: z.number(),
   netPosition: z.number(),
+  bankBalance: z.number().optional(),
+  internalLedgerBalance: z.number().optional(),
+  processorNodalBalance: z.number().optional(),
+  taxWithheldMdr: z.number().optional(),
+  inTransitVariance: z.number().optional(),
   reconciledCount: z.number().optional(),
   unreconciledCount: z.number().optional(),
   reconciliationRate: z.number().optional(),
+  brs: BankReconciliationStatementSchema.optional(),
 });
 export type CashPositionCurrency = z.infer<typeof CashPositionCurrencySchema>;
 
@@ -135,6 +170,7 @@ export const RunResultSchema = z.object({
   model: z.string(),
   outcomes: z.array(OutcomeSchema),
   inputManifest: z.array(InputManifestEntrySchema).optional(),
+  rejectedRecords: z.array(RejectedRecordSchema).optional(),
   cashPosition: z.record(z.string(), CashPositionCurrencySchema).optional(),
   stats: z.object({
     totalRecords: z.number(),

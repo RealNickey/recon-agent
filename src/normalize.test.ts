@@ -145,7 +145,7 @@ describe("subsetSumUnique / amountAbsTol", () => {
 });
 
 describe("extractRefTokens & Indian Payment Rails", () => {
-  const { extractRefTokens, checkIndianTaxMdrSchedule } = require("./normalize");
+  const { extractRefTokens, checkIndianTaxMdrSchedule, isValidFxCorridor } = require("./normalize");
 
   it("extracts UPI VPA identifiers", () => {
     const tokens = extractRefTokens("UPI-TXN-999", "Payment from user@okhdfcbank for INV-10023");
@@ -153,12 +153,24 @@ describe("extractRefTokens & Indian Payment Rails", () => {
     expect(tokens.has("10023")).toBe(true);
   });
 
-  it("extracts Indian NEFT/RTGS UTR numbers", () => {
-    const tokens = extractRefTokens("BANK-STMT", "NEFT transfer HDFCR52026060100012345");
+  it("extracts Indian NEFT/RTGS UTR numbers and IMPS RRNs", () => {
+    const tokens = extractRefTokens("BANK-STMT", "NEFT transfer HDFCR52026060100012345 RRN: 623412345678");
     expect(tokens.has("HDFCR52026060100012345")).toBe(true);
+    expect(tokens.has("623412345678")).toBe(true);
   });
 
-  it("identifies Indian MDR and TDS tax withholding schedules", () => {
+  it("extracts Razorpay order and payment IDs", () => {
+    const tokens = extractRefTokens("order_123456", "Payment fee for pay_987654");
+    expect(tokens.has("order_123456")).toBe(true);
+    expect(tokens.has("pay_987654")).toBe(true);
+  });
+
+  it("extracts credit notes and refund tokens", () => {
+    const tokens = extractRefTokens("CN-88776", "Refund reversal for REFUND-88776");
+    expect(tokens.has("88776")).toBe(true);
+  });
+
+  it("identifies Indian MDR and TDS tax withholding schedules (standard and compound)", () => {
     // Razorpay standard MDR (2.36% net deduction on 10,000)
     const mdr = checkIndianTaxMdrSchedule(10000, 9764);
     expect(mdr?.matched).toBe(true);
@@ -168,5 +180,19 @@ describe("extractRefTokens & Indian Payment Rails", () => {
     const tds = checkIndianTaxMdrSchedule(50000, 45000);
     expect(tds?.matched).toBe(true);
     expect(tds?.rule).toContain("194J");
+
+    // Compound MDR (2.36%) + TDS 194J (10%) = 12.36% deduction on 100,000 = 87,640 net
+    const compound = checkIndianTaxMdrSchedule(100000, 87640);
+    expect(compound?.matched).toBe(true);
+    expect(compound?.rule).toContain("Compound Razorpay MDR (2.36%) + Section 194J TDS");
+  });
+
+  it("validates cross-currency FX corridors with bid-ask bounds", () => {
+    expect(isValidFxCorridor("EUR", "USD", 1000, 1080)).toBe(true);
+    expect(isValidFxCorridor("GBP", "USD", 1000, 1280)).toBe(true);
+    expect(isValidFxCorridor("USD", "INR", 1000, 83500)).toBe(true);
+    expect(isValidFxCorridor("EUR", "INR", 1000, 90500)).toBe(true);
+    expect(isValidFxCorridor("USD", "INR", 1000, 20000)).toBe(false); // rate 20 is invalid
+    expect(isValidFxCorridor("USD", "USD", 1000, 1000)).toBe(false); // same currency
   });
 });

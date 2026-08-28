@@ -4,7 +4,7 @@ import { distance } from "fastest-levenshtein";
 /** Normalize a reference/ID: uppercase, strip non-alphanumerics, drop common prefixes. */
 export function normalizeRef(raw: string): string {
   let s = raw.toUpperCase().replace(/[^A-Z0-9]/g, "");
-  for (const p of ["INV", "PMT", "PAY", "REF", "TRX", "TXN"]) {
+  for (const p of ["INV", "PMT", "PAY", "REF", "TRX", "TXN", "BANK", "DEP", "WIRE", "BATCH"]) {
     if (s.startsWith(p) && s.length > p.length + 2) {
       s = s.slice(p.length);
       break;
@@ -40,8 +40,9 @@ export function sameInvoice(a: string, b: string): boolean {
 }
 
 /**
- * Extract candidate invoice / PO reference tokens from a record's reference and description.
- * Finds patterns like INV-12345, PO#937478, PO-937478, WIRE-1234, UPI VPAs, and UTR numbers.
+ * Extract candidate invoice / PO / payment rail reference tokens from a record's reference and description.
+ * Finds patterns like INV-12345, PO#937478, PO-937478, WIRE-1234, UPI VPAs, UTR numbers, IMPS RRNs,
+ * order_XXXX, pay_XXXX, refund credit notes, and dispute/chargeback identifiers.
  */
 export function extractRefTokens(ref: string, desc: string): Set<string> {
   const tokens = new Set<string>();
@@ -71,12 +72,27 @@ export function extractRefTokens(ref: string, desc: string): Set<string> {
     tokens.add(impsMatch[1]);
   }
 
+  // Check for Razorpay/Payment Gateway order_XXXX or pay_XXXX identifiers
+  const orderMatches = `${ref} ${desc}`.matchAll(/\b(order_[a-zA-Z0-9]{5,}|pay_[a-zA-Z0-9]{5,})\b/gi);
+  for (const om of orderMatches) {
+    if (om[1]) tokens.add(om[1].toLowerCase());
+  }
+
+  // Check for Refund / Credit Note / Dispute / Chargeback tokens (e.g. REFUND-12345, CN-12345, CB-12345)
+  const refundMatches = `${ref} ${desc}`.matchAll(/\b(?:REFUND|CN|CR|DISPUTE|CB|REV)[\-#\s:]*([0-9]{3,})\b/gi);
+  for (const rm of refundMatches) {
+    if (rm[1]) {
+      const core = rm[1].replace(/^0+(?=\d)/, "");
+      if (core.length >= 3) tokens.add(core);
+    }
+  }
+
   if (desc.toLowerCase().includes("installment") || desc.toLowerCase().includes("split")) {
     return tokens;
   }
 
   const text = `${ref} ${desc}`;
-  const matches = text.matchAll(/\b(?:PO|INV|INVOICE)[#\-\s:]*([0-9]{3,})\b/gi);
+  const matches = text.matchAll(/\b(?:PO|INV|INVOICE|TASK|MEMO)[#\-\s:]*([0-9]{3,})\b/gi);
   for (const m of matches) {
     if (m[1]) {
       const core = m[1].replace(/^0+(?=\d)/, "");
@@ -91,6 +107,10 @@ export function extractRefTokens(ref: string, desc: string): Set<string> {
  * 1. Razorpay/Gateway standard MDR: 2% fee + 18% GST on fee = 2.36% total deduction (Net = Gross * 0.9764)
  * 2. Section 194J TDS (10% professional services withholding): Net = Gross * 0.90
  * 3. Section 194C TDS (1% / 2% contractor withholding): Net = Gross * 0.99 or 0.98
+ * 4. Compound Multi-Leg Deductions:
+ *    - Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36% deduction (Net = Gross * 0.8764)
+ *    - Razorpay MDR (2.36%) + Section 194C TDS (2%) = 4.36% deduction (Net = Gross * 0.9564)
+ *    - Razorpay MDR (2.36%) + Section 194C TDS (1%) = 3.36% deduction (Net = Gross * 0.9664)
  */
 export function checkIndianTaxMdrSchedule(gross: number, net: number): {
   matched: boolean;
@@ -104,6 +124,9 @@ export function checkIndianTaxMdrSchedule(gross: number, net: number): {
 
   const schedules = [
     { rule: "Razorpay Standard MDR (2% + 18% GST = 2.36%)", rate: 0.0236 },
+    { rule: "Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36%", rate: 0.1236 },
+    { rule: "Compound Razorpay MDR (2.36%) + Section 194C TDS (2%) = 4.36%", rate: 0.0436 },
+    { rule: "Compound Razorpay MDR (2.36%) + Section 194C TDS (1%) = 3.36%", rate: 0.0336 },
     { rule: "Section 194J TDS (10% Professional Withholding)", rate: 0.10 },
     { rule: "Section 194C TDS (2% Corporate Contractor)", rate: 0.02 },
     { rule: "Section 194C TDS (1% Individual Contractor)", rate: 0.01 },
@@ -118,11 +141,72 @@ export function checkIndianTaxMdrSchedule(gross: number, net: number): {
         matched: true,
         rule: s.rule,
         expectedNet: expected.toNumber(),
-        ratePct: s.rate * 100,
+        ratePct: +(s.rate * 100).toFixed(2),
       };
     }
   }
   return null;
+}
+
+/**
+ * Validates cross-currency FX corridors with realistic market bid-ask bounds:
+ * - EUR/USD & GBP/USD
+ * - USD/INR (70 - 100 INR/USD)
+ * - EUR/INR (75 - 115 INR/EUR)
+ * - GBP/INR (90 - 135 INR/GBP)
+ * - CAD/USD, AUD/USD, SGD/USD, JPY/USD
+ */
+export function isValidFxCorridor(curA: string, curB: string, amtA: number, amtB: number): boolean {
+  if (curA === curB) return false;
+  const da = Math.abs(amtA);
+  const db = Math.abs(amtB);
+  if (da === 0 || db === 0) return false;
+
+  const pairKey = [curA, curB].sort().join("/");
+
+  if (pairKey === "EUR/USD" || pairKey === "GBP/USD" || pairKey === "EUR/GBP") {
+    const r = Math.min(da, db) / Math.max(da, db);
+    return r >= 0.65 && r <= 1.35;
+  }
+
+  if (pairKey === "INR/USD") {
+    const usd = curA === "USD" ? da : db;
+    const inr = curA === "INR" ? da : db;
+    if (usd === 0) return false;
+    const rate = inr / usd;
+    return rate >= 70 && rate <= 100;
+  }
+
+  if (pairKey === "EUR/INR") {
+    const eur = curA === "EUR" ? da : db;
+    const inr = curA === "INR" ? da : db;
+    if (eur === 0) return false;
+    const rate = inr / eur;
+    return rate >= 75 && rate <= 115;
+  }
+
+  if (pairKey === "GBP/INR") {
+    const gbp = curA === "GBP" ? da : db;
+    const inr = curA === "INR" ? da : db;
+    if (gbp === 0) return false;
+    const rate = inr / gbp;
+    return rate >= 90 && rate <= 135;
+  }
+
+  if (pairKey === "CAD/USD" || pairKey === "AUD/USD" || pairKey === "SGD/USD") {
+    const r = Math.min(da, db) / Math.max(da, db);
+    return r >= 0.55 && r <= 1.70;
+  }
+
+  if (pairKey === "JPY/USD") {
+    const usd = curA === "USD" ? da : db;
+    const jpy = curA === "JPY" ? da : db;
+    if (usd === 0) return false;
+    const rate = jpy / usd;
+    return rate >= 100 && rate <= 180;
+  }
+
+  return false;
 }
 
 export function recordsShareInvoice(
@@ -182,8 +266,8 @@ export function tokenSim(a: string, b: string): number {
 }
 
 const VENDOR_STOP = new Set([
-  "invoice", "inv", "payment", "pmt", "batch", "the", "for", "and", "inc", "ltd", "llc", "corp", "co",
-  "debit", "credit", "transfer", "wire", "ach", "pos", "card", "refund", "reversal",
+  "invoice", "inv", "payment", "pmt", "batch", "the", "for", "and", "inc", "ltd", "llc", "corp", "co", "pvt",
+  "debit", "credit", "transfer", "wire", "ach", "pos", "card", "refund", "reversal", "net", "nodal",
   "txn", "trx", "ref", "ret", "retainer", "milestone", "project", "unallocated",
   "deposit", "settle", "settlement", "overseas", "consulting", "services", "monthly", "bill",
 ]);
@@ -203,6 +287,11 @@ export function vendorOverlap(a: string, b: string): number {
   let inter = 0;
   for (const t of A) if (B.has(t)) inter++;
   return inter / Math.min(A.size, B.size);
+}
+
+export function isUnmatchableNoise(r: { reference: string; description: string }): boolean {
+  const d = (r.description + " " + r.reference).toLowerCase();
+  return /\b(uncollected|unallocated|cancelled|canceled|void|suspense|unidentified)\b/.test(d) || /\b(draft\s+quote|pending\s+quote)\b/.test(d);
 }
 
 /**

@@ -233,5 +233,64 @@ describe("tier2Fuzzy", () => {
     expect(t2.outcomes.every((o) => o.status === "matched")).toBe(true);
     expect(t2.outcomes[0]?.reasonCode).toBe("currency_mismatch");
   });
+
+  it("auto-commits 3-source Razorpay settlement: Gross Ledger + Processor Capture + Net Bank Settlement", () => {
+    const gross = 100000;
+    const net = 97640; // 2.36% MDR
+    const t2 = tier2Fuzzy([
+      rec("L1", "ledger", gross, "2026-06-01", "order_123456", "Swiggy Bundl customer checkout", "INR"),
+      rec("P1", "processor", gross, "2026-06-01", "pay_987654", "Razorpay Captured fee ₹2360 for order_123456", "INR"),
+      rec("B1", "bank", net, "2026-06-02", "RZP-SETTLE-order_123456", "RAZORPAY NODAL SETTLEMENT NET FOR SWIGGY BUNDL", "INR"),
+    ]);
+    expect(t2.residual).toHaveLength(0);
+    expect(t2.outcomes).toHaveLength(3);
+    const bOut = t2.outcomes.find((o) => o.recordId === "B1");
+    expect(bOut?.status).toBe("matched");
+    if (bOut?.status === "matched") {
+      expect(bOut.matchedIds.sort()).toEqual(["L1", "P1"]);
+    }
+  });
+
+  it("auto-commits compound Razorpay MDR (2.36%) + Section 194J TDS (10%) deduction", () => {
+    const gross = 200000;
+    const net = 175280; // 12.36% compound deduction
+    const t2 = tier2Fuzzy([
+      rec("L1", "ledger", gross, "2026-06-05", "INV-TDS-8888", "Razorpay Software Pvt Ltd professional services", "INR"),
+      rec("B1", "bank", net, "2026-06-07", "BANK-TDS-8888", "RAZORPAY NODAL SETTLEMENT NET", "INR"),
+    ]);
+    expect(t2.residual).toHaveLength(0);
+    expect(t2.outcomes.every((o) => o.status === "matched")).toBe(true);
+    expect(t2.outcomes[0]?.reasonCode).toBe("amount_variance");
+  });
+
+  it("auto-commits extended value-date timing drift (25 days) with UTR tokens", () => {
+    const utr = "HDFCR52026060199999";
+    const t2 = tier2Fuzzy([
+      rec("L1", "ledger", 45000, "2026-06-01", "INV-RTGS-1001", `Freshworks Inc project retainer UTR:${utr}`, "INR"),
+      rec("B1", "bank", 45000, "2026-06-26", utr, `RTGS CR UTR ${utr} FRESHWORKS INC`, "INR"),
+    ]);
+    expect(t2.residual).toHaveLength(0);
+    expect(t2.outcomes.every((o) => o.status === "matched")).toBe(true);
+    expect(t2.outcomes[0]?.reasonCode).toBe("timing_gap");
+  });
+
+  it("auto-commits partial refund and chargeback credit note reversals", () => {
+    const t2 = tier2Fuzzy([
+      rec("L1", "ledger", -7500, "2026-06-10", "CN-55443", "Swiggy Bundl partial refund credit note CN-55443", "INR"),
+      rec("B1", "bank", -7500, "2026-06-11", "REFUND-55443", "REFUND REVERSAL FOR CN-55443 SWIGGY BUNDL", "INR"),
+    ]);
+    expect(t2.residual).toHaveLength(0);
+    expect(t2.outcomes.every((o) => o.status === "matched")).toBe(true);
+    expect(t2.outcomes[0]?.reasonCode).toBe("refund_reversal");
+  });
+
+  it("does not match same-amount distractor noise across unrelated vendors", () => {
+    const t2 = tier2Fuzzy([
+      rec("L1", "ledger", 25000, "2026-06-15", "QUOTE-1111", "Swiggy Bundl cancelled quote draft", "INR"),
+      rec("B1", "bank", 25000, "2026-06-15", "SUSPENSE-2222", "UNIDENTIFIED SUSPENSE ENTRY FOR ZOMATO MEDIA", "INR"),
+    ]);
+    expect(t2.outcomes.filter((o) => o.status === "matched")).toHaveLength(0);
+    expect(t2.residual).toHaveLength(2);
+  });
 });
 

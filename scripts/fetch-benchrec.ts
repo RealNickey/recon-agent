@@ -19,7 +19,7 @@ import { writeFileSync, existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { unzipSync } from "fflate";
 import Papa from "papaparse";
-import { mulberry32, round2, resolveExternalTruthPath } from "../src/util";
+import { mulberry32, round2, resolveExternalTruthPath, shuffle } from "../src/util";
 import { fingerprintRecord, selectReconstructingA } from "../src/benchrec-select";
 import { amountsClose } from "../src/normalize";
 import type { FinRecord, GroundTruth } from "../src/types";
@@ -87,7 +87,7 @@ try {
   // Reconstruct lazily after shuffle. Running subset-sum on all 30k groups
   // is a multi-minute job; we only need SAMPLE usable groups.
   const rng = mulberry32(2024);
-  const shuffledGroups = [...groups].sort(() => rng() - 0.5);
+  const shuffledGroups = shuffle(groups, rng);
   const reconstructed: Reconstructed[] = [];
   let skippedNoAmount = 0;
   let skippedNoSubset = 0;
@@ -195,9 +195,10 @@ try {
   const ledgerFile = join(DATA, "internal-ledger.json");
   const truthFile = resolveExternalTruthPath(false);
   if (existsSync(bankFile) && existsSync(ledgerFile) && truthFile && existsSync(truthFile)) {
-    const eb = JSON.parse(readFileSync(bankFile, "utf8")) as FinRecord[];
-    const el = JSON.parse(readFileSync(ledgerFile, "utf8")) as FinRecord[];
+    const eb = (JSON.parse(readFileSync(bankFile, "utf8")) as FinRecord[]).filter((r) => !r.id.startsWith("B7"));
+    const el = (JSON.parse(readFileSync(ledgerFile, "utf8")) as FinRecord[]).filter((r) => !r.id.startsWith("L7"));
     const et = JSON.parse(readFileSync(truthFile, "utf8")) as GroundTruth;
+    et.pairs = et.pairs.filter((p) => p.category !== "benchrec_real");
     writeFileSync(bankFile, JSON.stringify([...eb, ...bank], null, 2));
     writeFileSync(ledgerFile, JSON.stringify([...el, ...ledger], null, 2));
     for (const p of pairs) et.pairs.push(p);

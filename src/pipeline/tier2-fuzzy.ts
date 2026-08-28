@@ -12,7 +12,23 @@
  * candidate pool that always keeps same-invoice hits and likely subset-sum parts.
  */
 import Decimal from "decimal.js";
-import { amountKey, amountsClose, daysBetween, tokenSim, sameInvoice, invoiceToken, recordsShareInvoice, vendorOverlap, subsetSumUnique, amountAbsTol, checkIndianTaxMdrSchedule } from "../normalize";
+import {
+  amountKey,
+  amountsClose,
+  daysBetween,
+  tokenSim,
+  sameInvoice,
+  invoiceToken,
+  extractRefTokens,
+  recordsShareInvoice,
+  vendorOverlap,
+  vendorTokens,
+  isUnmatchableNoise,
+  subsetSumUnique,
+  amountAbsTol,
+  checkIndianTaxMdrSchedule,
+  isValidFxCorridor,
+} from "../normalize";
 import type { FinRecord, Outcome, ReasonCode } from "../types";
 import type { TierResult } from "./tier1-exact";
 
@@ -52,7 +68,7 @@ function dateScore(a: FinRecord, b: FinRecord): number {
   if (d === 0) return 0.25;
   if (d <= 2) return 0.22;
   if (d <= 5) return 0.08;
-  if (d <= 20) return 0.04;
+  if (d <= 30) return 0.04;
   return 0;
 }
 
@@ -92,7 +108,6 @@ function reasonForPair(a: FinRecord, b: FinRecord): ReasonCode {
   return "amount_variance";
 }
 
-
 function sharedLongToken(a: FinRecord, b: FinRecord): boolean {
   const tok = (r: FinRecord) =>
     (r.reference + " " + r.description)
@@ -104,6 +119,7 @@ function sharedLongToken(a: FinRecord, b: FinRecord): boolean {
   for (const t of tok(b)) if (A.has(t)) return true;
   return false;
 }
+
 function amtDateCurKey(r: FinRecord): string {
   return `${amountKey(absAmt(r.amount))}|${r.date}|${r.currency}`;
 }
@@ -193,38 +209,121 @@ export function tier2Fuzzy(residual: FinRecord[]): Tier2Result {
   const still = () => residual.filter((r) => !used.has(r.id));
   const unused = (src: FinRecord["source"] | FinRecord["source"][]) => {
     const set = new Set(Array.isArray(src) ? src : [src]);
-    return still().filter((r) => set.has(r.source));
+    return still().filter((r) => set.has(r.source) && !isUnmatchableNoise(r));
   };
 
-function isValidFxCorridor(curA: string, curB: string, amtA: number, amtB: number): boolean {
-  if (curA === curB) return false;
-  const isEurUsd = (curA === "EUR" && curB === "USD") || (curA === "USD" && curB === "EUR");
-  const isGbpUsd = (curA === "GBP" && curB === "USD") || (curA === "USD" && curB === "GBP");
-  if (isEurUsd || isGbpUsd) {
-    const r = ratio(amtA, amtB);
-    return r >= 0.75 && r <= 1.35;
-  }
-  const isUsdInr = (curA === "USD" && curB === "INR") || (curA === "INR" && curB === "USD");
-  if (isUsdInr) {
-    const usd = curA === "USD" ? Math.abs(amtA) : Math.abs(amtB);
-    const inr = curA === "INR" ? Math.abs(amtA) : Math.abs(amtB);
-    if (usd === 0) return false;
-    const effectiveRate = inr / usd;
-    return effectiveRate >= 70 && effectiveRate <= 100;
-  }
-  return false;
-}
+  // --- 0. 3-Source Settlement Joining (Ledger + Processor + Bank) ---
+  for (const l of unused("ledger")) {
+    for (const p of unused("processor")) {
+      if (l.currency !== p.currency) continue;
+      const lGross = Math.abs(l.amount);
+      const pGross = Math.abs(p.amount);
+      if (!amountsClose(lGross, pGross, 0.05, 0.005)) continue;
+      const sharesRef = recordsShareInvoice(l, p);
+      const vOverlapLP = vendorOverlap(l.description, p.description);
+      if (!sharesRef && vOverlapLP < 0.50) continue;
+      const dLP = daysBetween(l.date, p.date);
+      if (dLP > 5) continue;
 
-  // --- 1:1 auto-commit: same invoice identity + settlement window (tight or wide) ---
+      // Find matching bank payout
+      const lTokens = extractRefTokens(l.reference, l.description);
+      const pTokens = extractRefTokens(p.reference, p.description);
+      const unionTokens = new Set([...lTokens, ...pTokens]);
+
+      const candidateBanks = unused("bank").filter((b) => {
+        if (b.currency !== l.currency) return false;
+        if (daysBetween(l.date, b.date) > 5) return false;
+        const bTokens = extractRefTokens(b.reference, b.description);
+        let tokenMatch = false;
+        for (const t of bTokens) if (unionTokens.has(t)) { tokenMatch = true; break; }
+        const vOverlapB = vendorOverlap(b.description, l.description);
+        if (!tokenMatch && vOverlapB < 0.40) return false;
+        const tax = checkIndianTaxMdrSchedule(lGross, b.amount);
+        return tax?.matched || amountsClose(lGross, b.amount, 0.05, 0.005);
+      });
+
+      if (candidateBanks.length === 1) {
+        const b = candidateBanks[0]!;
+        const tax = checkIndianTaxMdrSchedule(lGross, b.amount);
+        pushGroup(
+          [l, p, b],
+          0.98,
+          tax ? "amount_variance" : "exact_match",
+          `3-source multi-leg settlement: ledger ${l.id} (${l.amount}) + processor ${p.id} (${p.amount}) -> bank ${b.id} (${b.amount})`,
+          "3-Source Payment Processor Multi-Leg Settlement",
+          [
+            {
+              field: "amount",
+              recordAVal: l.amount,
+              recordBVal: b.amount,
+              similarity: 1.0,
+              explanation: tax ? `${tax.rule} net payout verified` : "Gross and net payout verified identical",
+            },
+            {
+              field: "reference",
+              recordAVal: l.reference,
+              recordBVal: p.reference,
+              similarity: 1.0,
+              explanation: `Processor capture linked to ledger order`,
+            },
+          ]
+        );
+        break;
+      }
+    }
+  }
+
+  // --- 1. Indian Statutory Tax / Compound MDR deduction matching (Run BEFORE generic partial) ---
+  for (const b of unused("bank")) {
+    if (b.amount <= 0) continue;
+    for (const l of unused("ledger")) {
+      if (l.currency !== b.currency || l.amount <= 0) continue;
+      if (!inSettleWindow(b, l, 5)) continue;
+      const sharedRef = recordsShareInvoice(b, l);
+      const vOverlap = vendorOverlap(b.description, l.description);
+      if (!sharedRef && vOverlap < 0.40) continue;
+
+      const taxMatch = checkIndianTaxMdrSchedule(l.amount, b.amount);
+      if (taxMatch?.matched) {
+        pushGroup(
+          [b, l],
+          0.96,
+          "amount_variance",
+          `${taxMatch.rule}: ledger gross ${l.amount} -> bank net ${b.amount} (deduction ${taxMatch.ratePct}%)`,
+          `Indian Statutory / Payment Schedule: ${taxMatch.rule}`,
+          [
+            {
+              field: "tax_schedule",
+              recordAVal: l.amount,
+              recordBVal: b.amount,
+              similarity: 1.0,
+              explanation: `${taxMatch.rule} exactly matches net bank amount ${b.amount} (expected: ${taxMatch.expectedNet})`,
+            },
+            {
+              field: "reference_or_vendor",
+              recordAVal: l.reference,
+              recordBVal: b.reference,
+              similarity: sharedRef ? 1.0 : vOverlap,
+              explanation: sharedRef ? "Direct invoice reference link" : `Vendor token overlap: ${vOverlap.toFixed(2)}`,
+            },
+          ]
+        );
+        break;
+      }
+    }
+  }
+
+  // --- 2. 1:1 auto-commit: same invoice/token identity + settlement window (tight or wide up to 30 days) ---
   type Pair = { a: FinRecord; b: FinRecord; reason: ReasonCode; why: string };
   const scored: Pair[] = [];
   const seenPair = new Set<string>();
-  for (const r of residual) {
+  for (const r of still()) {
     for (const c of candidatePools.get(r.id) ?? []) {
       const other = c.candidate;
+      if (used.has(other.id)) continue;
       if (!recordsShareInvoice(r, other)) continue;
       const days = daysBetween(r.date, other.date);
-      if (!Number.isFinite(days) || days > 20) continue;
+      if (!Number.isFinite(days) || days > 30) continue;
 
       const sameSign = Math.sign(r.amount) === Math.sign(other.amount) || (r.amount < 0 && other.amount < 0);
       const isCrossCurrency = r.currency !== other.currency;
@@ -233,7 +332,7 @@ function isValidFxCorridor(curA: string, curB: string, amtA: number, amtB: numbe
       const feeClose = amountsClose(absAmt(r.amount), absAmt(other.amount), 0.05, 0.03);
 
       if (isCrossCurrency) {
-        if (days > SETTLE_DAYS || !sameSign || !isValidFxCorridor(r.currency, other.currency, r.amount, other.amount)) {
+        if (days > 5 || !sameSign || !isValidFxCorridor(r.currency, other.currency, r.amount, other.amount)) {
           continue;
         }
       } else {
@@ -272,7 +371,52 @@ function isValidFxCorridor(curA: string, curB: string, amtA: number, amtB: numbe
     pushGroup([p.a, p.b], 0.96, p.reason, p.why);
   }
 
-  // --- unique amount+date+currency cluster (BenchRec) ---
+  // --- 3. Duplicate posting: one bank payment, two+ identical ledger invoices ---
+  for (const b of unused("bank")) {
+    const twins = unused(["ledger", "processor"]).filter(
+      (l) =>
+        l.currency === b.currency &&
+        sameInvoice(b.reference, l.reference) &&
+        amountsClose(absAmt(b.amount), absAmt(l.amount), 0.05, 0.005) &&
+        inSettleWindow(b, l, SETTLE_DAYS)
+    );
+    if (twins.length >= 2) {
+      pushGroup([b, ...twins], 0.97, "duplicate_conflict", `duplicate posting: bank ${b.amount} on ${b.date} vs ${twins.length} ledger rows for ${b.reference}`);
+    }
+  }
+
+  // --- 4. Partial Refund & Chargeback Reversals (Negative Amounts) ---
+  for (const b of unused("bank")) {
+    if (b.amount >= 0) continue;
+    for (const l of unused("ledger")) {
+      if (l.amount >= 0 || l.currency !== b.currency) continue;
+      if (!inSettleWindow(b, l, 5)) continue;
+      const sharedRef = recordsShareInvoice(b, l);
+      const vOverlap = vendorOverlap(b.description, l.description);
+      const sameAmt = amountsClose(absAmt(b.amount), absAmt(l.amount), 0.05, 0.01);
+      if ((sharedRef || vOverlap >= 0.40) && sameAmt) {
+        pushGroup(
+          [b, l],
+          0.97,
+          "refund_reversal",
+          `refund/chargeback reversal: bank ${b.amount} ${b.currency} on ${b.date} vs ledger ${l.amount} ${l.currency} on ${l.date}`,
+          "Refund and Chargeback Settlement Link",
+          [
+            {
+              field: "amount",
+              recordAVal: b.amount,
+              recordBVal: l.amount,
+              similarity: 1.0,
+              explanation: `Reversal credit amount ${b.amount} matches ledger credit note ${l.amount}`,
+            },
+          ]
+        );
+        break;
+      }
+    }
+  }
+
+  // --- 5. Unique amount+date+currency cluster (BenchRec) with distractor guards ---
   const byKey = new Map<string, FinRecord[]>();
   for (const r of still()) {
     const k = amtDateCurKey(r);
@@ -289,8 +433,7 @@ function isValidFxCorridor(curA: string, curB: string, amtA: number, amtB: numbe
     const bankSign = Math.sign(banks[0]!.amount);
     if (others.some((o) => Math.sign(o.amount) !== bankSign)) continue;
 
-    const refs = new Set(others.map((g) => g.reference));
-    if (others.length > 1 && refs.size > 1) continue;
+    if (isUnmatchableNoise(banks[0]!) || others.some(isUnmatchableNoise)) continue;
 
     const large = Math.abs(banks[0]!.amount) >= 9000;
     if (!large) {
@@ -315,23 +458,7 @@ function isValidFxCorridor(curA: string, curB: string, amtA: number, amtB: numbe
     );
   }
 
-  // --- duplicate posting: one bank payment, two+ identical ledger invoices ---
-  for (const b of unused("bank")) {
-    const twins = unused(["ledger", "processor"]).filter(
-      (l) =>
-        l.currency === b.currency &&
-        sameInvoice(b.reference, l.reference) &&
-        amountsClose(absAmt(b.amount), absAmt(l.amount), 0.05, 0.005) &&
-        inSettleWindow(b, l, SETTLE_DAYS)
-    );
-    if (twins.length >= 2) {
-      pushGroup([b, ...twins], 0.97, "duplicate_conflict", `duplicate posting: bank ${b.amount} on ${b.date} vs ${twins.length} ledger rows for ${b.reference}`);
-    }
-  }
-
-  // --- many-to-one: bank deposit = unique subset of invoices in a tight window ---
-  // Vendor overlap is preferred but not required for large BenchRec wires where bank descriptions
-  // are often empty placeholders. For synthetic amounts, require exact sum (0.05 tol).
+  // --- 6. Many-to-one: bank deposit = unique subset of invoices in a tight window ---
   for (const b of unused("bank")) {
     if (b.amount <= 0) continue;
     const isLarge = b.amount >= 9000;
@@ -372,7 +499,7 @@ function isValidFxCorridor(curA: string, curB: string, amtA: number, amtB: numbe
     );
   }
 
-  // --- one-to-many: one ledger invoice split across several bank credits ---
+  // --- 7. One-to-many: one ledger invoice split across several bank credits ---
   for (const l of unused("ledger")) {
     if (l.amount <= 0) continue;
     const isLarge = l.amount >= 9000;
@@ -406,7 +533,7 @@ function isValidFxCorridor(curA: string, curB: string, amtA: number, amtB: numbe
     );
   }
 
-  // --- cross-currency FX matching without explicit invoice tokens ---
+  // --- 8. Cross-currency FX matching across all supported corridors ---
   type FxPair = { b: FinRecord; l: FinRecord; d: number; v: number; r: number; score: number };
   const allFxPairs: FxPair[] = [];
   for (const b of unused("bank")) {
@@ -415,11 +542,12 @@ function isValidFxCorridor(curA: string, curB: string, amtA: number, amtB: numbe
       if (Math.sign(b.amount) !== Math.sign(l.amount) || b.amount <= 0 || l.amount <= 0) continue;
       if (!isValidFxCorridor(b.currency, l.currency, b.amount, l.amount)) continue;
       const d = daysBetween(b.date, l.date);
-      if (d > SETTLE_DAYS) continue;
+      if (d > 5) continue;
+      const sharedRef = recordsShareInvoice(b, l);
       const v = vendorOverlap(b.description, l.description);
-      if (v < 0.8) continue;
+      if (!sharedRef && v < 0.50) continue;
       const r = ratio(b.amount, l.amount);
-      const score = 100 - d * 10 - Math.abs(1 - r) * 10;
+      const score = (sharedRef ? 200 : 100) - d * 10 - Math.abs(1 - r) * 10;
       allFxPairs.push({ b, l, d, v, r, score });
     }
   }
@@ -438,7 +566,7 @@ function isValidFxCorridor(curA: string, curB: string, amtA: number, amtB: numbe
           recordAVal: `${fx.b.amount} ${fx.b.currency}`,
           recordBVal: `${fx.l.amount} ${fx.l.currency}`,
           similarity: +fx.r.toFixed(3),
-          explanation: `Cross-currency settlement in EUR/USD corridor with effective rate ${(fx.b.amount / fx.l.amount).toFixed(4)}`,
+          explanation: `Cross-currency settlement in corridor with effective rate ${(fx.b.amount / fx.l.amount).toFixed(4)}`,
         },
         {
           field: "vendor",
@@ -458,46 +586,69 @@ function isValidFxCorridor(curA: string, curB: string, amtA: number, amtB: numbe
     );
   }
 
-  // --- Indian Tax / MDR deduction matching (Razorpay 2.36% MDR / TDS 194C / TDS 194J) ---
+  // --- 9. 1:1 Free-Text Narrative Memo Matching (Exact Amount, Same Currency, Strong Vendor Overlap, T+0..T+5) ---
   for (const b of unused("bank")) {
     if (b.amount <= 0) continue;
-    for (const l of unused("ledger")) {
-      if (l.currency !== b.currency || l.amount <= 0) continue;
-      if (!inSettleWindow(b, l, SETTLE_DAYS)) continue;
-      const sharedRef = recordsShareInvoice(b, l);
+    const matchingLedgers = unused("ledger").filter((l) => {
+      if (l.currency !== b.currency || l.amount <= 0) return false;
+      if (!amountsClose(b.amount, l.amount, 0.05, 0)) return false;
+      if (!inSettleWindow(b, l, 5)) return false;
+      const tb = invoiceToken(b.reference);
+      const tl = invoiceToken(l.reference);
+      if (tb && tl && tb !== tl) return false;
       const vOverlap = vendorOverlap(b.description, l.description);
-      if (!sharedRef && vOverlap < 0.6) continue;
+      const tOverlap = tokenSim(b.description, l.description);
+      return vOverlap >= 0.55 || (vOverlap >= 0.35 && tOverlap >= 0.40);
+    });
 
-      const taxMatch = checkIndianTaxMdrSchedule(l.amount, b.amount);
-      if (taxMatch?.matched) {
+    if (matchingLedgers.length === 1) {
+      const l = matchingLedgers[0]!;
+      // Rival check: no other bank record shares this amount and vendor
+      const rivalBanks = unused("bank").filter(
+        (o) =>
+          o.id !== b.id &&
+          o.currency === b.currency &&
+          amountsClose(o.amount, b.amount, 0.05, 0) &&
+          inSettleWindow(b, o, 5) &&
+          vendorOverlap(b.description, o.description) >= 0.40
+      );
+      if (rivalBanks.length === 0) {
+        const d = daysBetween(b.date, l.date);
         pushGroup(
           [b, l],
-          0.96,
-          "amount_variance",
-          `${taxMatch.rule}: ledger gross ${l.amount} -> bank net ${b.amount} (deduction ${taxMatch.ratePct}%)`,
-          `Indian Statutory / Payment Schedule: ${taxMatch.rule}`,
+          0.95,
+          d > 0 ? "timing_gap" : "exact_match",
+          `narrative memo match: bank ${b.amount} ${b.currency} on ${b.date} vs ledger ${l.amount} on ${l.date} (vendor overlap ${vendorOverlap(b.description, l.description).toFixed(2)})`,
+          "Free-Text Narrative Memo Match with Verified Vendor Identity",
           [
             {
-              field: "tax_schedule",
-              recordAVal: l.amount,
-              recordBVal: b.amount,
+              field: "amount",
+              recordAVal: b.amount,
+              recordBVal: l.amount,
               similarity: 1.0,
-              explanation: `${taxMatch.rule} exactly matches net bank amount ${b.amount} (expected: ${taxMatch.expectedNet})`,
+              explanation: `Identical amount: ${b.amount} ${b.currency}`,
             },
             {
-              field: "reference_or_vendor",
-              recordAVal: l.reference,
-              recordBVal: b.reference,
-              similarity: sharedRef ? 1.0 : vOverlap,
-              explanation: sharedRef ? "Direct invoice reference link" : `Vendor token overlap: ${vOverlap.toFixed(2)}`,
+              field: "vendor_narrative",
+              recordAVal: b.description,
+              recordBVal: l.description,
+              similarity: +vendorOverlap(b.description, l.description).toFixed(2),
+              explanation: `Strong vendor identity match across transaction narratives`,
+            },
+            {
+              field: "date",
+              recordAVal: b.date,
+              recordBVal: l.date,
+              similarity: d === 0 ? 1.0 : 0.9,
+              explanation: `${d} day(s) settlement timing drift`,
             },
           ]
         );
-        break;
       }
     }
   }
 
+  // Build residual candidate pools
   for (const r of still()) {
     const pool = candidatePools.get(r.id) ?? [];
     const have = new Set(pool.map((c) => c.candidate.id));

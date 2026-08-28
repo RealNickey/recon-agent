@@ -553,6 +553,7 @@
     </select>
     <button id="runBtn" class="primary">⚡ Run Pipeline</button>
     <button id="crossValBtn">📊 Run 10x Cross-Validation</button>
+    <a href="/api/exceptions/export" download="exception-ledger.csv" style="text-decoration:none"><button id="exportCsvBtn" style="background:var(--surface-hover);border-color:var(--border-light)">📥 Export Close Pack (CSV)</button></a>
   </div>
 </header>
 
@@ -575,9 +576,9 @@
       <div class="stat-sub" id="fpsVal">0 False Positives</div>
     </div>
     <div class="stat-card warn">
-      <div class="stat-title">Cash Position (USD)</div>
+      <div class="stat-title">Bank GL Balance</div>
       <div class="stat-value" id="cashUsdVal">$156.4K</div>
-      <div class="stat-sub" id="cashUsdSub">Unreconciled: $28.5K</div>
+      <div class="stat-sub" id="cashUsdSub">In-Transit: $28.5K</div>
     </div>
     <div class="stat-card tier3">
       <div class="stat-title">Engine Throughput</div>
@@ -615,7 +616,7 @@
           <span class="flow-badge t3">AI Batch</span>
         </div>
         <div class="flow-count" id="t3Count">0</div>
-        <div class="flow-desc">Batch Prompting (5-8x) with multi-model cascade</div>
+        <div class="flow-desc">Batch Prompting with sandboxed proposal verification</div>
       </div>
       <div class="flow-step">
         <div class="flow-step-header">
@@ -631,6 +632,8 @@
   <!-- Tabs Navigation -->
   <div class="tabs">
     <div class="tab active" data-tab="ledger">Reconciliation Ledger</div>
+    <div class="tab" data-tab="brs">Bank Reconciliation Statement (BRS)</div>
+    <div class="tab" data-tab="cashpos">Multi-Source Cash & GL Position</div>
     <div class="tab" data-tab="chat">AI Finance Controller Q&A</div>
     <div class="tab" data-tab="crossval">Multi-Seed Generalization Matrix</div>
     <div class="tab" data-tab="traces">Agent Reasoning Traces</div>
@@ -668,31 +671,54 @@
     </div>
   </div>
 
-  <!-- Tab 2: AI Finance Controller Assistant -->
+  <!-- Tab 2: Bank Reconciliation Statement (BRS) -->
+  <div id="tab-brs" class="tab-pane" style="display:none">
+    <div class="table-card" style="padding:20px" id="brsContainer">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px">
+        <div>
+          <h3 style="font-size:16px; font-weight:700">Bank Reconciliation Statement (BRS)</h3>
+          <p style="color:var(--text-dim); font-size:12px">Audit-grade reconciliation between Bank General Ledger, Subledger Billings, and Processor Nodal Settlements</p>
+        </div>
+        <a href="/api/exceptions/export" download="exception-ledger.csv" style="text-decoration:none"><button class="primary" style="font-size:12px">📥 Download Close Pack CSV</button></a>
+      </div>
+      <div id="brsTables"></div>
+    </div>
+  </div>
+
+  <!-- Tab 3: Multi-Source Cash & GL Position -->
+  <div id="tab-cashpos" class="tab-pane" style="display:none">
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:16px; margin-bottom:20px" id="cashPosCards"></div>
+    <div class="table-card" style="padding:16px">
+      <div class="section-title" style="margin-bottom:12px">Rejected Ingestion Ledger (Data Quality & Integrity Guard)</div>
+      <div id="rejectedRecordsContainer" style="color:var(--text-muted); font-size:12px">Zero ingestion rejections. All input records conform to ISO-4217 currency & calendar date constraints.</div>
+    </div>
+  </div>
+
+  <!-- Tab 4: AI Finance Controller Assistant -->
   <div id="tab-chat" class="tab-pane" style="display:none">
     <div class="chat-layout">
       <div class="chat-box">
         <div class="chat-messages" id="chatMessages">
           <div class="chat-msg agent">
-            👋 Greetings. I am your <strong>AI Finance Controller</strong>. I have real-time visibility into the reconciliation audit trail, cash positions, and exception ledgers. Ask me to audit any transaction, explain an exception, or forecast cash exposure.
+            👋 Greetings. I am your <strong>Lead AI Financial Controller</strong>. I have real-time visibility into the reconciliation audit trail, double-entry cash positions, statutory tax withholding (Razorpay MDR / TDS 194C/J), and exception ledgers. Ask me to audit any transaction, generate Bank Reconciliation Statements, or recommend adjusting journal entries.
           </div>
         </div>
         <div class="chat-input-bar">
-          <input type="text" id="chatInput" placeholder="Ask a financial controller question (e.g. 'Why was B5012 marked as an exception?')...">
+          <input type="text" id="chatInput" placeholder="Ask a financial controller question (e.g. 'Generate Bank Reconciliation Statement' or 'Audit B5012')...">
           <button id="sendChatBtn" class="primary">Send</button>
         </div>
       </div>
       <div class="preset-card">
         <div class="section-title" style="margin-bottom:12px">Suggested Controller Inquiries</div>
-        <div class="preset-query" onclick="sendPreset('Break down the unreconciled cash position and explain the financial risk.')">💰 Cash Position Risk Breakdown</div>
-        <div class="preset-query" onclick="sendPreset('Explain the reconciliation audit trail for batch wire deposit B5020.')">📑 Audit Batch Wire B5020</div>
-        <div class="preset-query" onclick="sendPreset('Why did Tier 2 auto-commit timing drift records up to 14 days?')">⏱️ Explain Wide Timing Policy</div>
-        <div class="preset-query" onclick="sendPreset('Check for Indian TDS / Gateway MDR deduction patterns.')">🇮🇳 Audit GST / TDS Withholding</div>
+        <div class="preset-query" onclick="sendPreset('Generate a comprehensive Bank Reconciliation Statement (BRS) with opening, in-transit, and closing variances.')">📑 Generate Bank Reconciliation Statement</div>
+        <div class="preset-query" onclick="sendPreset('Audit statutory tax withholding: verify Razorpay 2.36% MDR and Section 194J/194C TDS deductions.')">🇮🇳 Audit GST / TDS Withholding</div>
+        <div class="preset-query" onclick="sendPreset('Recommend double-entry adjusting journal entries (Debits/Credits) for all unresolved exceptions.')">⚖️ Recommend Adjusting Journal Entries</div>
+        <div class="preset-query" onclick="sendPreset('Break down the unreconciled in-transit bank deposits and explain cash exposure risks.')">💰 Cash Exposure & In-Transit Breakdown</div>
       </div>
     </div>
   </div>
 
-  <!-- Tab 3: Cross-Validation Matrix -->
+  <!-- Tab 5: Cross-Validation Matrix -->
   <div id="tab-crossval" class="tab-pane" style="display:none">
     <div class="table-card" style="padding:16px">
       <div class="section-title" style="margin-bottom:12px">10-Population Cross-Validation Scorecard</div>
@@ -715,7 +741,7 @@
     </div>
   </div>
 
-  <!-- Tab 4: Traces -->
+  <!-- Tab 6: Traces -->
   <div id="tab-traces" class="tab-pane" style="display:none">
     <div id="traceList" style="display:flex; flex-direction:column; gap:10px"></div>
   </div>
@@ -751,8 +777,92 @@ async function refreshAll() {
   currentRecords = recRes.records || [];
   renderStats(repRes, cvRes.summary);
   renderTable();
+  renderBrs(repRes.run?.cashPosition);
+  renderCashPosCards(repRes.run?.cashPosition, repRes.run?.rejectedRecords);
   renderCrossVal(cvRes.summary);
   renderTraces(traceRes.traces || []);
+}
+
+function renderBrs(cashPosition) {
+  const container = $('#brsTables');
+  if (!cashPosition || Object.keys(cashPosition).length === 0) {
+    container.innerHTML = '<div style="color:var(--text-dim);padding:24px;text-align:center">No Bank Reconciliation Statement generated yet. Run the pipeline to generate.</div>';
+    return;
+  }
+
+  let html = '';
+  for (const [cur, pos] of Object.entries(cashPosition)) {
+    const brs = pos.brs || {
+      closingBankBalance: pos.bankBalance || pos.netPosition || 0,
+      clearedDeposits: pos.reconciledAmount || 0,
+      clearedDisbursements: 0,
+      unreconciledInTransitDeposits: pos.unreconciledAmount || 0,
+      unreconciledOutstandingPayments: 0,
+      subledgerBalance: pos.internalLedgerBalance || 0,
+      processorNodalBalance: pos.processorNodalBalance || 0,
+      statutoryAccrualsMdrTds: pos.taxWithheldMdr || 0,
+      netVariance: pos.inTransitVariance || 0,
+    };
+
+    html += `
+      <div style="background:var(--surface-elevated);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:16px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;border-bottom:1px solid var(--border);padding-bottom:8px">
+          <span style="font-weight:700;font-size:14px;color:var(--primary)">Currency Account: ${escapeHtml(cur)}</span>
+          <span class="pill matched">Reconciliation Rate: ${(Number(pos.reconciliationRate || 1) * 100).toFixed(1)}%</span>
+        </div>
+        <table style="width:100%;font-size:12px">
+          <tbody>
+            <tr><td style="padding:6px 0"><strong>1. Closing Bank GL Balance</strong></td><td class="mono" style="text-align:right;font-weight:700">${(brs.closingBankBalance).toLocaleString(undefined, {minimumFractionDigits:2})} ${escapeHtml(cur)}</td></tr>
+            <tr><td style="padding-left:16px;color:var(--text-muted)">• Cleared Bank Credits (Reconciled Inflows)</td><td class="mono" style="text-align:right;color:var(--success)">+${(brs.clearedDeposits).toLocaleString(undefined, {minimumFractionDigits:2})} ${escapeHtml(cur)}</td></tr>
+            <tr><td style="padding-left:16px;color:var(--text-muted)">• In-Transit Unreconciled Deposits</td><td class="mono" style="text-align:right;color:var(--warning)">+${(brs.unreconciledInTransitDeposits).toLocaleString(undefined, {minimumFractionDigits:2})} ${escapeHtml(cur)}</td></tr>
+            <tr style="border-top:1px dashed var(--border)"><td style="padding:6px 0"><strong>2. Internal Subledger Balance (Billings & AR/AP)</strong></td><td class="mono" style="text-align:right;font-weight:700">${(brs.subledgerBalance).toLocaleString(undefined, {minimumFractionDigits:2})} ${escapeHtml(cur)}</td></tr>
+            ${brs.processorNodalBalance > 0 ? `<tr><td style="padding:4px 0"><strong>3. Payment Processor Nodal Pipeline</strong></td><td class="mono" style="text-align:right">${(brs.processorNodalBalance).toLocaleString(undefined, {minimumFractionDigits:2})} ${escapeHtml(cur)}</td></tr>` : ''}
+            ${brs.statutoryAccrualsMdrTds > 0 ? `<tr><td style="padding:4px 0"><strong>4. Statutory MDR & TDS Tax Withheld</strong></td><td class="mono" style="text-align:right;color:var(--tier3)">${(brs.statutoryAccrualsMdrTds).toLocaleString(undefined, {minimumFractionDigits:2})} ${escapeHtml(cur)}</td></tr>` : ''}
+            <tr style="border-top:1px solid var(--border)"><td style="padding:6px 0"><strong>5. Net Reconciliation Variance</strong></td><td class="mono" style="text-align:right;font-weight:700;color:${Math.abs(brs.netVariance) > 0.05 ? 'var(--warning)' : 'var(--success)'}">${(brs.netVariance).toLocaleString(undefined, {minimumFractionDigits:2})} ${escapeHtml(cur)}</td></tr>
+          </tbody>
+        </table>
+      </div>
+    `;
+  }
+  container.innerHTML = html;
+}
+
+function renderCashPosCards(cashPosition, rejectedRecords) {
+  const cardsContainer = $('#cashPosCards');
+  if (!cashPosition || Object.keys(cashPosition).length === 0) {
+    cardsContainer.innerHTML = '<div style="color:var(--text-dim)">No cash position loaded.</div>';
+  } else {
+    cardsContainer.innerHTML = Object.entries(cashPosition).map(([cur, pos]) => `
+      <div class="stat-card" style="background:var(--surface-elevated)">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+          <span style="font-weight:700;font-size:14px">${escapeHtml(cur)} Account Close</span>
+          <span class="pill matched">${pos.reconciledCount || 0} Reconciled</span>
+        </div>
+        <div style="font-size:18px;font-weight:700;font-family:'JetBrains Mono';margin-bottom:8px">${(pos.bankBalance || pos.netPosition || 0).toLocaleString(undefined, {minimumFractionDigits:2})} ${escapeHtml(cur)}</div>
+        <div style="font-size:11px;color:var(--text-muted);display:flex;flex-direction:column;gap:4px">
+          <div>• Reconciled Bank: <span class="mono" style="color:var(--success)">${(pos.reconciledAmount).toLocaleString(undefined, {minimumFractionDigits:2})} ${escapeHtml(cur)}</span></div>
+          <div>• In-Transit / Unreconciled: <span class="mono" style="color:var(--warning)">${(pos.unreconciledAmount).toLocaleString(undefined, {minimumFractionDigits:2})} ${escapeHtml(cur)}</span></div>
+          ${pos.internalLedgerBalance ? `<div>• Subledger Balance: <span class="mono">${(pos.internalLedgerBalance).toLocaleString(undefined, {minimumFractionDigits:2})} ${escapeHtml(cur)}</span></div>` : ''}
+          ${pos.taxWithheldMdr ? `<div>• Statutory Tax/MDR: <span class="mono" style="color:var(--tier3)">${(pos.taxWithheldMdr).toLocaleString(undefined, {minimumFractionDigits:2})} ${escapeHtml(cur)}</span></div>` : ''}
+        </div>
+      </div>
+    `).join('');
+  }
+
+  const rejectedContainer = $('#rejectedRecordsContainer');
+  if (rejectedRecords && rejectedRecords.length > 0) {
+    rejectedContainer.innerHTML = `
+      <div style="color:var(--danger);margin-bottom:8px;font-weight:600">⚠️ ${rejectedRecords.length} Malformed / Disallowed Ingestion Row(s) Captured:</div>
+      <table style="width:100%;font-size:11px">
+        <thead><tr><th>File</th><th>Source</th><th>Reason</th></tr></thead>
+        <tbody>
+          ${rejectedRecords.map(r => `<tr><td class="mono">${escapeHtml(r.file || '')}</td><td>${escapeHtml(r.source)}</td><td style="color:var(--danger)">${escapeHtml(r.reason)}</td></tr>`).join('')}
+        </tbody>
+      </table>
+    `;
+  } else {
+    rejectedContainer.innerHTML = 'Zero ingestion rejections. All input records conform to ISO-4217 currency & calendar date constraints.';
+  }
 }
 
 function renderStats(rep, cvSummary) {

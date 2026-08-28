@@ -13,9 +13,12 @@ import { tier3Agentic } from "../src/pipeline/tier3-agentic";
 import { scoreRun, type ScoreReport } from "../src/scoring";
 import type { FinRecord, GroundTruth, Outcome, RunResult } from "../src/types";
 
+import { hasApprovedProvider } from "../src/pipeline/agentic-providers";
+
 const args = process.argv.slice(2);
 const SEED_LIST = [42, 123, 555, 777, 999, 2026, 4040];
 const modeArg = args.includes("--mode") ? args[args.indexOf("--mode") + 1] : "all";
+const useAiArg = args.includes("--ai");
 
 interface SeedResult {
   seed: number;
@@ -52,14 +55,15 @@ export interface CrossValidationSummary {
 
 export async function runCrossValidation(
   seeds = SEED_LIST,
-  mode: "standard" | "hard" | "all" = "all"
+  mode: "standard" | "hard" | "all" = "all",
+  useAi = useAiArg
 ): Promise<CrossValidationSummary> {
   const results: SeedResult[] = [];
   const modesToTest: ("standard" | "hard")[] = mode === "all" ? ["standard", "hard"] : [mode];
 
   console.log(`\n===============================================================`);
   console.log(`🔄 RECON AGENT — MULTI-SEED GENERALIZATION BENCHMARK`);
-  console.log(`Evaluating across ${seeds.length} seeds in modes: [${modesToTest.join(", ")}]`);
+  console.log(`Evaluating across ${seeds.length} seeds in modes: [${modesToTest.join(", ")}] | AI: ${useAi ? "ENABLED" : "DISABLED (Deterministic)"}`);
   console.log(`===============================================================\n`);
 
   for (const testMode of modesToTest) {
@@ -68,38 +72,46 @@ export async function runCrossValidation(
       const dataset = generateDataset(seed, testMode);
       const allRecords = [...dataset.bank, ...dataset.ledger, ...dataset.processor];
 
-      // Run 3-tier pipeline
+      // Run complete 3-tier pipeline cascade
       const t1 = tier1Exact(allRecords);
-      const t2 = t1.residual.length ? tier2Fuzzy(t1.residual) : { outcomes: [] as Outcome[], residual: [] as FinRecord[], candidatePools: new Map() };
-      
-      const outcomes = [...t1.outcomes, ...t2.outcomes];
-      for (const r of t2.residual) {
-        outcomes.push({
-          status: "exception",
-          recordId: r.id,
-          source: r.source,
-          reasonCode: "no_candidate_found",
-          tier: 2,
-          candidatesConsidered: (t2.candidatePools.get(r.id) ?? []).length,
-          reasoning: "unmatched after tier 2",
-        });
+      const t2 = t1.residual.length
+        ? tier2Fuzzy(t1.residual)
+        : { outcomes: [] as Outcome[], residual: [] as FinRecord[], candidatePools: new Map() };
+
+      let t3 = { outcomes: [] as Outcome[], calls: 0, tokens: 0, costUsd: 0 };
+      if (useAi && hasApprovedProvider() && t2.residual.length > 0) {
+        t3 = await tier3Agentic(t2.residual, t2.candidatePools);
+      } else {
+        for (const r of t2.residual) {
+          const pool = t2.candidatePools.get(r.id) ?? [];
+          t3.outcomes.push({
+            status: "exception",
+            recordId: r.id,
+            source: r.source,
+            reasonCode: pool.length === 0 ? "no_candidate_found" : r.currency !== "USD" ? "currency_mismatch" : "low_confidence",
+            tier: 2,
+            candidatesConsidered: pool.length,
+            reasoning: pool.length === 0 ? "no cross-source candidate survived blocking" : "honest exception after deterministic tiers",
+          });
+        }
       }
 
+      const outcomes = [...t1.outcomes, ...t2.outcomes, ...t3.outcomes];
       const durationMs = Math.round(performance.now() - t0);
 
       const runResult: RunResult = {
         startedAt: new Date(Date.now() - durationMs).toISOString(),
         finishedAt: new Date().toISOString(),
         durationMs,
-        model: "deterministic-tiers",
+        model: useAi && hasApprovedProvider() ? process.env.MODEL ?? "agentic-ai" : "deterministic-tiers",
         outcomes,
         stats: {
           totalRecords: allRecords.length,
           matched: outcomes.filter((o) => o.status === "matched").length,
           exceptions: outcomes.filter((o) => o.status === "exception").length,
-          tier3Calls: 0,
-          tier3Tokens: 0,
-          tier3CostUsd: 0,
+          tier3Calls: t3.calls,
+          tier3Tokens: t3.tokens,
+          tier3CostUsd: t3.costUsd,
         },
       };
 

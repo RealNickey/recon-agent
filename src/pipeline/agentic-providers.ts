@@ -93,7 +93,7 @@ export function getAvailableProviderTargets(): ProviderTarget[] {
 
 export async function executeWithProviderFallback<T>(
   operation: (target: ProviderTarget) => Promise<T>,
-  targets = getAvailableProviderTargets()
+  targets = getAvailableProviderTargets().slice(0, 3)
 ): Promise<{ result: T; targetUsed: ProviderTarget; attempts: number }> {
   if (targets.length === 0) {
     throw new Error("No approved AI provider configured. Offline fail-safe active.");

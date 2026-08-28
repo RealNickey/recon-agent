@@ -172,6 +172,21 @@ app.get("/api/traces", (c) => {
   return c.json({ traces });
 });
 
+app.get("/api/exceptions/export", (c) => {
+  const p = "results/exception-ledger.csv";
+  if (!existsSync(p)) {
+    return c.text("Record ID,Source,Date,Amount,Currency,Reason Code,Candidates Considered,Suggested Action,SLA Priority,Reasoning\n", 200, {
+      "Content-Type": "text/csv",
+      "Content-Disposition": "attachment; filename=exception-ledger.csv",
+    });
+  }
+  const csv = readFileSync(p, "utf8");
+  return c.text(csv, 200, {
+    "Content-Type": "text/csv",
+    "Content-Disposition": "attachment; filename=exception-ledger.csv",
+  });
+});
+
 app.get("/*", serveStatic({ root: "./public" }));
 
 export default {

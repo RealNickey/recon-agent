@@ -7,7 +7,7 @@
  * one match — including duplicate same-source extras. Dropping extras was a
  * scoring bug: the answer key for "duplicate" is the full {bank, L1, L2} set.
  */
-import { amountKey, normalizeRef, invoiceToken, sameInvoice, checkIndianTaxMdrSchedule, daysBetween } from "../normalize";
+import { amountKey, normalizeRef, invoiceToken, sameInvoice, extractRefTokens, checkIndianTaxMdrSchedule, daysBetween } from "../normalize";
 import type { FinRecord, Outcome } from "../types";
 
 export interface TierResult {
@@ -50,18 +50,28 @@ export function tier1Exact(records: FinRecord[]): TierResult {
       const grpDate = group[0]!.date;
 
       const expandedGroup = [...group];
-      if (!hasBank && refToken) {
-        const candidateBanks = unmatched.filter(
-          (b) =>
-            b.source === "bank" &&
-            !claimedIds.has(b.id) &&
-            b.currency === cur &&
-            daysBetween(grpDate, b.date) <= 5 &&
-            (sameInvoice(b.reference, group[0]!.reference) ||
-             (b.reference + " " + b.description).includes(refToken)) &&
-            (checkIndianTaxMdrSchedule(grossAmt, b.amount)?.matched ||
-             Math.abs(b.amount - grossAmt) <= 0.05)
-        );
+      if (!hasBank) {
+        const grpTokens = new Set<string>();
+        for (const g of group) {
+          for (const t of extractRefTokens(g.reference, g.description)) grpTokens.add(t);
+        }
+
+        const candidateBanks = unmatched.filter((b) => {
+          if (b.source !== "bank" || claimedIds.has(b.id) || b.currency !== cur) return false;
+          if (daysBetween(grpDate, b.date) > 5) return false;
+          const bTokens = extractRefTokens(b.reference, b.description);
+          let sharesToken = false;
+          for (const t of bTokens) {
+            if (grpTokens.has(t)) {
+              sharesToken = true;
+              break;
+            }
+          }
+          if (!sharesToken && !sameInvoice(b.reference, group[0]!.reference)) return false;
+          const taxMatch = checkIndianTaxMdrSchedule(grossAmt, b.amount);
+          return taxMatch?.matched || Math.abs(b.amount - grossAmt) <= 0.05;
+        });
+
         if (candidateBanks.length === 1) {
           expandedGroup.push(candidateBanks[0]!);
           claimedIds.add(candidateBanks[0]!.id);
