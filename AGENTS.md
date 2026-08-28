@@ -11,6 +11,41 @@ Refer to [AGENT.md](AGENT.md) for the complete engineering reference, scoring fo
 
 ---
 
+## Autonomous AI Financial Controller Agent & Grounded Tools Specification
+
+The AI Finance Controller Agent is an autonomous, multi-step reconciliation controller powered by Vercel AI SDK (`ai@7.0.83`) and grounded deterministic financial operations. Located in `src/pipeline/controller-agent.ts`.
+
+### 1. Multi-Step Agent Reasoning Loop
+- **Architecture**: Operates on a sequential multi-step loop (`Plan` $\to$ `Tool Execution` $\to$ `Observe Evidence` $\to$ `Deterministic Verification` $\to$ `Respond`).
+- **Bounded Stopping Condition**: Uses `stopWhen: stepCountIs(5)` to prevent infinite recursion while allowing in-depth investigative traversals.
+- **Provider Resilience**: Integrates cascading provider fallbacks (Groq $\to$ OpenRouter $\to$ Cerebras $\to$ OpenAI) and an immediate zero-dependency deterministic multi-tool dispatcher for offline operation and network resilience.
+- **Audit Trace Logging**: All tool invocations, duration benchmarks, and reasoning paths are logged to `logs/reasoning-trace.jsonl`.
+
+### 2. The 10 Grounded Financial Controller Tools
+
+| # | Tool Name | Description & Grounding Scope | Guardrails & Verification |
+|---|---|---|---|
+| 1 | `get_run_summary` | Fetches aggregate reconciliation run statistics, record counts, tier breakdown (T1/T2/T3), execution duration, and model used. | Deterministic summary from `RunResult`. |
+| 2 | `get_cash_position` | Retrieves multi-currency cash balances, cleared vs. in-transit variance, and complete Bank Reconciliation Statements (BRS). | Decimal fixed-point arithmetic balance validation. |
+| 3 | `get_exceptions` | Queries unresolved exception ledger with filtering by `reasonCode` and `currency`. | Filtered slices with reason codes and candidate counts. |
+| 4 | `get_exception_detail` | Retrieves side-by-side field diffs, candidate pool records, and actionable finance recommendations for a specific `recordId`. | Computes vendor similarity, amount delta, and drift days. |
+| 5 | `explain_match` | Provides verifiable math justification (amounts, counterpart IDs, settlement timestamps, reference overlap) for matched records. | Strict Decimal equality check ($\Delta \le 0.05$). |
+| 6 | `force_match` | Proposes a manual override match for exceptions. | **HITL Guardrail**: Requires human controller token authorization before mutating state. Verifies math and FX corridor. |
+| 7 | `mark_as_suspense` | Routes unresolvable transactions to suspense clearing (`GL-9999-SUSPENSE-CLEARING`). | **HITL Guardrail**: Generates an approval request token and automated double-entry GL journal template. |
+| 8 | `re_run_residuals` | Re-evaluates residual exception pool under calibrated tolerances without modifying base datasets. | Calibrated confidence floor ($\ge 0.70$). |
+| 9 | `simulate_what_if` | Simulates tolerance changes or payment gateway MDR adjustments (e.g. 2.36% fee) without state mutation. | Quantifies recoverable match count and projected dollar volume. |
+| 10 | `export_audit_proof` | Produces cryptographically signed audit certificate with SHA-256 digests and Merkle root. | Verifies compliance checklist (SOX 404, Section 194 TDS, GST MDR, ISO-20022). |
+
+### 3. Human-in-the-Loop (HITL) Guardrails & Confirmation Flow
+- **High-Risk Actions**: `force_match` and `mark_as_suspense` never execute state mutations autonomously.
+- **Approval Tokens**: Generate cryptographically unique tokens (`TOKEN_MATCH_...`, `TOKEN_SUSPENSE_...`) registered in `pendingActionApprovals`.
+- **API Endpoints**:
+  - `GET /api/agent/pending-approvals`: Lists all awaiting approval requests.
+  - `POST /api/agent/approve-action`: Accepts `{ token, decision: "approve" | "reject", comment }` with idempotency guard.
+  - `GET /api/agent/tools`: Returns the 10 registered tool definitions and descriptions.
+
+---
+
 ## Razorpay Gateway & Standard Web Checkout Integration Reference
 
 The project includes an end-to-end integration with Razorpay Standard Web Checkout and Live Test-Mode API Connector in `src/integrations/razorpay.ts`.
@@ -32,4 +67,3 @@ The project includes an end-to-end integration with Razorpay Standard Web Checko
 - Normalizes raw payloads to typed `FinRecord` schema with Decimal conversion ($100\text{ paise} = \text{₹}1.00$).
 - Detects Indian payment rails: UPI VPAs, IMPS RRNs, NEFT/RTGS UTR numbers, and Razorpay standard MDR deductions ($2.36\% = 2\% \text{ fee} + 18\% \text{ GST}$).
 - Offline mock fallback guarantees $50+$ records across all 3 source files (`internal-ledger.json`, `processor-export.json`, `bank-statement.json`) for CI & test stability.
-

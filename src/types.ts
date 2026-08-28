@@ -193,12 +193,58 @@ export const AgentChatQuerySchema = z.object({
 });
 export type AgentChatQuery = z.infer<typeof AgentChatQuerySchema>;
 
+export const ToolCallRecordSchema = z.object({
+  toolName: z.string(),
+  args: z.record(z.string(), z.unknown()),
+  result: z.unknown(),
+  durationMs: z.number(),
+});
+export type ToolCallRecord = z.infer<typeof ToolCallRecordSchema>;
+
+export const ActionApprovalRequestSchema = z.object({
+  token: z.string(),
+  action: z.enum(["force_match", "mark_as_suspense"]),
+  targetRecordId: z.string(),
+  counterpartRecordIds: z.array(z.string()).optional(),
+  suspenseAccount: z.string().optional(),
+  reason: z.string(),
+  status: z.literal("PENDING_HUMAN_CONFIRMATION"),
+  createdAt: z.string(),
+  amountVariance: z.number().optional(),
+  verifiableMathCheck: z.boolean().optional(),
+  details: z.record(z.string(), z.unknown()).optional(),
+});
+export type ActionApprovalRequest = z.infer<typeof ActionApprovalRequestSchema>;
+
+export const AuditProofCertificateSchema = z.object({
+  proofId: z.string(),
+  scope: z.enum(["full_run", "exceptions", "matches"]),
+  timestamp: z.string(),
+  recordCount: z.number(),
+  matchedVolume: z.number(),
+  exceptionCount: z.number(),
+  sha256Digest: z.string(),
+  merkleRoot: z.string(),
+  signature: z.string(),
+  complianceChecklist: z.object({
+    soxSection404: z.boolean(),
+    indianTaxGstMdr: z.boolean(),
+    section194Tds: z.boolean(),
+    iso20022AuditIntegrity: z.boolean(),
+  }),
+});
+export type AuditProofCertificate = z.infer<typeof AuditProofCertificateSchema>;
+
 export const AgentChatResponseSchema = z.object({
   reply: z.string(),
   suggestedActions: z.array(z.string()).optional(),
   referencedRecords: z.array(z.string()).optional(),
   insights: z.array(z.string()).optional(),
   modelUsed: z.string(),
+  toolCalls: z.array(ToolCallRecordSchema).optional(),
+  approvalRequests: z.array(ActionApprovalRequestSchema).optional(),
+  auditProof: AuditProofCertificateSchema.optional(),
+  traceId: z.string().optional(),
 });
 export type AgentChatResponse = z.infer<typeof AgentChatResponseSchema>;
 

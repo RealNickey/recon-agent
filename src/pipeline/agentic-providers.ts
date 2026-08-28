@@ -54,7 +54,6 @@ export function getAvailableProviderTargets(): ProviderTarget[] {
     const freeModels = [
       "google/gemini-2.0-flash-exp:free",
       "meta-llama/llama-3.3-70b-instruct:free",
-      "mistralai/mistral-small-24b-instruct-2501:free",
       "qwen/qwen-2.5-72b-instruct:free",
       "z-ai/glm-5.2:free",
       "deepseek/deepseek-chat:free",

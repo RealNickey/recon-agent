@@ -4,8 +4,13 @@ import { readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { z } from "zod";
 import { runPipeline } from "./pipeline/run";
-import { askFinanceController } from "./pipeline/controller-agent";
 import { runCrossValidation } from "../scripts/cross-validate";
+import {
+  askFinanceController,
+  approveOrRejectActionToken,
+  pendingActionApprovals,
+  createControllerTools,
+} from "./pipeline/controller-agent";
 import {
   createRazorpayOrder,
   verifyPaymentSignature,
@@ -77,6 +82,12 @@ const CrossValBodySchema = z.object({
   mode: z.enum(["all", "standard", "hard"]).optional().default("all"),
 });
 
+const ApproveActionBodySchema = z.object({
+  token: z.string().min(1, "Approval token is required"),
+  decision: z.enum(["approve", "reject"]),
+  comment: z.string().optional(),
+});
+
 app.get("/api/report", (c) => {
   const historyPath = "logs/eval-history.jsonl";
   const runPath = "results/latest-run.json";
@@ -140,6 +151,45 @@ app.post("/api/agent/chat", async (c) => {
 
     const response = await askFinanceController(prompt, runResult, records, focusRecordId);
     return c.json(response);
+  } catch (err) {
+    return c.json({ error: err instanceof Error ? err.message : String(err) }, 500);
+  }
+});
+
+app.get("/api/agent/tools", (c) => {
+  const tools = createControllerTools(null, []);
+  const toolList = [
+    { name: "get_run_summary", description: tools.get_run_summary.description },
+    { name: "get_cash_position", description: tools.get_cash_position.description },
+    { name: "get_exceptions", description: tools.get_exceptions.description },
+    { name: "get_exception_detail", description: tools.get_exception_detail.description },
+    { name: "explain_match", description: tools.explain_match.description },
+    { name: "force_match", description: tools.force_match.description },
+    { name: "mark_as_suspense", description: tools.mark_as_suspense.description },
+    { name: "re_run_residuals", description: tools.re_run_residuals.description },
+    { name: "simulate_what_if", description: tools.simulate_what_if.description },
+    { name: "export_audit_proof", description: tools.export_audit_proof.description },
+  ];
+  return c.json({ tools: toolList, count: toolList.length });
+});
+
+app.get("/api/agent/pending-approvals", (c) => {
+  const list = Array.from(pendingActionApprovals.values());
+  return c.json({ approvals: list, count: list.length });
+});
+
+app.post("/api/agent/approve-action", async (c) => {
+  try {
+    const raw = await c.req.json().catch(() => ({}));
+    const parsed = ApproveActionBodySchema.safeParse(raw);
+    if (!parsed.success) {
+      return c.json({ error: "Invalid approval payload", details: parsed.error.format() }, 400);
+    }
+    const result = approveOrRejectActionToken(parsed.data.token, parsed.data.decision, parsed.data.comment);
+    if (!result.success) {
+      return c.json({ error: result.message }, 404);
+    }
+    return c.json(result);
   } catch (err) {
     return c.json({ error: err instanceof Error ? err.message : String(err) }, 500);
   }
