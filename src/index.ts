@@ -75,6 +75,7 @@ const AgentChatBodySchema = z.object({
   prompt: z.string().min(1).max(2000),
   focusRecordId: z.string().optional(),
   dataDir: z.string().optional().default("data"),
+  forceDeterministic: z.boolean().optional(),
 });
 
 const CrossValBodySchema = z.object({
@@ -149,7 +150,13 @@ app.post("/api/agent/chat", async (c) => {
     const runResult: RunResult | null = existsSync(runPath) ? JSON.parse(readFileSync(runPath, "utf8")) : null;
     const records = loadAllDatasetRecords(dataDir);
 
-    const response = await askFinanceController(prompt, runResult, records, focusRecordId);
+    const response = await askFinanceController(
+      prompt,
+      runResult,
+      records,
+      focusRecordId,
+      { forceDeterministic: parsed.data.forceDeterministic }
+    );
     return c.json(response);
   } catch (err) {
     return c.json({ error: err instanceof Error ? err.message : String(err) }, 500);

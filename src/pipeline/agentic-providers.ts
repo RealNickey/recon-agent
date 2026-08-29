@@ -1,8 +1,13 @@
 /**
- * Multi-provider & multi-model fallback engine for AI SDK.
- * Supports cascading fallback across providers (Groq -> OpenRouter -> Cerebras -> OpenAI)
- * and across models to eliminate rate limits and latency bottlenecks.
+ * Multi-provider & multi-model fallback engine powered by official AI SDK providers.
+ *
+ * Configured Providers:
+ * 1. Primary: Nvidia / Kimi K3 (@ai-sdk/openai-compatible)
+ * 2. Secondary: OpenRouter with GLM & standard models (@openrouter/ai-sdk-provider)
+ * 3. Fallbacks: Groq, Cerebras, Direct OpenAI (@ai-sdk/openai)
  */
+import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
+import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import { createOpenAI } from "@ai-sdk/openai";
 
 export interface ProviderTarget {
@@ -13,8 +18,10 @@ export interface ProviderTarget {
 
 export function hasApprovedProvider(): boolean {
   return Boolean(
-    process.env.GROQ_API_KEY ||
+    process.env.NVIDIA_API_KEY ||
+    process.env.MOONSHOT_API_KEY ||
     process.env.OPENROUTER_API_KEY ||
+    process.env.GROQ_API_KEY ||
     process.env.CEREBRAS_API_KEY ||
     process.env.OPENAI_API_KEY
   );
@@ -23,7 +30,52 @@ export function hasApprovedProvider(): boolean {
 export function getAvailableProviderTargets(): ProviderTarget[] {
   const targets: ProviderTarget[] = [];
 
-  // 1. Groq Provider (Ultra-fast 500+ tok/s if GROQ_API_KEY is available)
+  // 1. Primary: Nvidia / Kimi-K3 via @ai-sdk/openai-compatible
+  const nvidiaKey = process.env.NVIDIA_API_KEY || process.env.MOONSHOT_API_KEY;
+  if (nvidiaKey) {
+    const nvidia = createOpenAICompatible({
+      name: "nvidia",
+      baseURL: process.env.NVIDIA_BASE_URL ?? "https://integrate.api.nvidia.com/v1",
+      apiKey: nvidiaKey,
+    });
+    targets.push(
+      {
+        name: "Nvidia / Kimi (moonshotai/kimi-k3)",
+        model: "moonshotai/kimi-k3",
+        createModel: () => nvidia("moonshotai/kimi-k3"),
+      }
+    );
+  }
+
+  // 2. Secondary: OpenRouter via @openrouter/ai-sdk-provider (GLM and standard fallbacks)
+  const openrouterKey = process.env.OPENROUTER_API_KEY;
+  if (openrouterKey) {
+    const openrouter = createOpenRouter({
+      baseURL: process.env.OPENROUTER_BASE_URL ?? "https://openrouter.ai/api/v1",
+      apiKey: openrouterKey,
+    });
+
+    const userModel = process.env.MODEL;
+    if (userModel) {
+      targets.push({ name: `OpenRouter (${userModel})`, model: userModel, createModel: () => openrouter(userModel) });
+    }
+
+    const openRouterModels = [
+      "openai/gpt-4o-mini",
+      "anthropic/claude-3-5-haiku",
+      "meta-llama/llama-3.3-70b-instruct",
+      "z-ai/glm-5.2:free",
+      "deepseek/deepseek-chat",
+    ];
+
+    for (const m of openRouterModels) {
+      if (m !== userModel) {
+        targets.push({ name: `OpenRouter (${m})`, model: m, createModel: () => openrouter(m) });
+      }
+    }
+  }
+
+  // 3. Groq Provider (Ultra-fast 500+ tok/s if GROQ_API_KEY is available)
   const groqKey = process.env.GROQ_API_KEY;
   if (groqKey) {
     const groq = createOpenAI({
@@ -37,36 +89,7 @@ export function getAvailableProviderTargets(): ProviderTarget[] {
     );
   }
 
-  // 2. OpenRouter Provider (Default / Free tier fallback chain)
-  const openrouterKey = process.env.OPENROUTER_API_KEY;
-  if (openrouterKey) {
-    const openrouter = createOpenAI({
-      baseURL: process.env.OPENROUTER_BASE_URL ?? "https://openrouter.ai/api/v1",
-      apiKey: openrouterKey,
-      name: "openrouter",
-    });
-
-    const userModel = process.env.MODEL;
-    if (userModel) {
-      targets.push({ name: `OpenRouter (${userModel})`, model: userModel, createModel: () => openrouter(userModel) });
-    }
-
-    const freeModels = [
-      "google/gemini-2.0-flash-exp:free",
-      "meta-llama/llama-3.3-70b-instruct:free",
-      "qwen/qwen-2.5-72b-instruct:free",
-      "z-ai/glm-5.2:free",
-      "deepseek/deepseek-chat:free",
-    ];
-
-    for (const m of freeModels) {
-      if (m !== userModel) {
-        targets.push({ name: `OpenRouter (${m})`, model: m, createModel: () => openrouter(m) });
-      }
-    }
-  }
-
-  // 3. Cerebras Provider (if CEREBRAS_API_KEY is available)
+  // 4. Cerebras Provider (if CEREBRAS_API_KEY is available)
   const cerebrasKey = process.env.CEREBRAS_API_KEY;
   if (cerebrasKey) {
     const cerebras = createOpenAI({
@@ -77,7 +100,7 @@ export function getAvailableProviderTargets(): ProviderTarget[] {
     targets.push({ name: "Cerebras (Llama-3.3-70B)", model: "llama3.3-70b", createModel: () => cerebras("llama3.3-70b") });
   }
 
-  // 4. Direct OpenAI Provider (if OPENAI_API_KEY is available)
+  // 5. Direct OpenAI Provider (if OPENAI_API_KEY is available)
   const openaiKey = process.env.OPENAI_API_KEY;
   if (openaiKey) {
     const openai = createOpenAI({
@@ -92,7 +115,7 @@ export function getAvailableProviderTargets(): ProviderTarget[] {
 
 export async function executeWithProviderFallback<T>(
   operation: (target: ProviderTarget) => Promise<T>,
-  targets = getAvailableProviderTargets().slice(0, 3)
+  targets = getAvailableProviderTargets()
 ): Promise<{ result: T; targetUsed: ProviderTarget; attempts: number }> {
   if (targets.length === 0) {
     throw new Error("No approved AI provider configured. Offline fail-safe active.");
@@ -106,12 +129,8 @@ export async function executeWithProviderFallback<T>(
       return { result, targetUsed: target, attempts: i + 1 };
     } catch (err) {
       lastError = err instanceof Error ? err : new Error(String(err));
-      // Log provider fallback attempt
-      const msg = lastError.message;
-      if (msg.includes("401") && targets.length === 1) {
-        throw lastError; // only 1 provider and bad key
-      }
-      // If 429 rate limit or 5xx, proceed to next target in fallback cascade
+      const msg = lastError.message.slice(0, 120);
+      console.warn(`⚠️ [AI Fallback Warning] Target '${target.name}' failed: "${msg}". Cascading to next available target (${i + 1}/${targets.length})...`);
     }
   }
 

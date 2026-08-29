@@ -300,7 +300,9 @@ describe("askFinanceController Agent Execution", () => {
     const chatRes = await askFinanceController(
       "Generate the Bank Reconciliation Statement and cash position for USD and INR.",
       mockRunResult,
-      mockRecords
+      mockRecords,
+      undefined,
+      { forceDeterministic: true }
     );
 
     expect(chatRes.reply).toContain("Bank Reconciliation & Cash Position Statement");
@@ -308,43 +310,49 @@ describe("askFinanceController Agent Execution", () => {
     expect(chatRes.modelUsed).toContain("deterministic-controller");
     expect(chatRes.toolCalls && chatRes.toolCalls.length).toBeGreaterThan(0);
     expect(chatRes.traceId).toBeDefined();
-  }, 15000);
+  });
 
   it("executes multi-step tool loop for specific record inquiry", async () => {
     const chatRes = await askFinanceController(
       "Explain match for B101",
       mockRunResult,
       mockRecords,
-      "B101"
+      "B101",
+      { forceDeterministic: true }
     );
 
     expect(chatRes.reply).toContain("Match Audit for Record B101");
     expect(chatRes.reply).toContain("MATCHED");
     expect(chatRes.toolCalls?.some((t) => t.toolName === "explain_match")).toBe(true);
-  }, 15000);
+  });
 
   it("executes multi-step tool loop for what-if simulation", async () => {
     const chatRes = await askFinanceController(
       "Simulate what-if fee schedule adjustment to 2.36% MDR.",
       mockRunResult,
-      mockRecords
+      mockRecords,
+      undefined,
+      { forceDeterministic: true }
     );
 
     expect(chatRes.reply).toContain("What-If Simulation Report");
     expect(chatRes.toolCalls?.some((t) => t.toolName === "simulate_what_if")).toBe(true);
-  }, 15000);
+  });
 
   it("executes multi-step tool loop for audit proof export", async () => {
     const chatRes = await askFinanceController(
       "Generate cryptographic audit proof certificate for compliance.",
       mockRunResult,
-      mockRecords
+      mockRecords,
+      undefined,
+      { forceDeterministic: true }
     );
 
     expect(chatRes.reply).toContain("Cryptographic Audit Certificate Generated");
+    expect(chatRes.toolCalls?.some((t) => t.toolName === "export_audit_proof")).toBe(true);
     expect(chatRes.auditProof).toBeDefined();
     expect(chatRes.auditProof?.sha256Digest).toHaveLength(64);
-  }, 15000);
+  });
 });
 
 describe("HTTP API Endpoints for Controller Agent & Approvals", () => {
@@ -370,7 +378,7 @@ describe("HTTP API Endpoints for Controller Agent & Approvals", () => {
     const res = await app.fetch(new Request("http://localhost/api/agent/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt: "Provide high level run summary." }),
+      body: JSON.stringify({ prompt: "Provide high level run summary.", forceDeterministic: true }),
     }));
     expect(res.status).toBe(200);
     const body = (await res.json()) as any;

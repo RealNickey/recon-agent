@@ -1111,7 +1111,8 @@ export async function askFinanceController(
   prompt: string,
   runResult: RunResult | null,
   records: FinRecord[] = [],
-  focusRecordId?: string
+  focusRecordId?: string,
+  options?: { forceDeterministic?: boolean; timeoutMs?: number }
 ): Promise<AgentChatResponse> {
   const traceId = `TRACE-${randomUUID().slice(0, 8)}`;
   const toolCalls: ToolCallRecord[] = [];
@@ -1145,8 +1146,8 @@ ${focusRecord ? `- Focus Record: ${JSON.stringify(focusRecord)}\n- Focus Outcome
 - Run Summary: ${runResult ? `Total: ${runResult.stats.totalRecords}, Matched: ${runResult.stats.matched}, Exceptions: ${runResult.stats.exceptions}` : "No run loaded"}
 `;
 
-  // Fallback if no online AI provider is available
-  if (!hasApprovedProvider()) {
+  // Fallback if no online AI provider is available or forced deterministic
+  if (options?.forceDeterministic || !hasApprovedProvider()) {
     return dispatchDeterministicTools(
       prompt,
       runResult,
@@ -1162,6 +1163,7 @@ ${focusRecord ? `- Focus Record: ${JSON.stringify(focusRecord)}\n- Focus Outcome
   // Online Multi-Step Tool Calling Loop with AI SDK
   try {
     const { direct: _d, ...aiTools } = tools;
+    const timeoutMs = options?.timeoutMs ?? 15_000;
     const fallbackExec = await executeWithProviderFallback(
       async (target: ProviderTarget) => {
         const res = await generateText({
@@ -1170,11 +1172,11 @@ ${focusRecord ? `- Focus Record: ${JSON.stringify(focusRecord)}\n- Focus Outcome
           prompt: `User Question: ${prompt}\n\nExecute any necessary grounded tools, verify accounting math, and provide a thorough, evidence-backed answer.`,
           tools: aiTools,
           stopWhen: stepCountIs(5),
-          abortSignal: AbortSignal.timeout(2_000),
+          abortSignal: AbortSignal.timeout(timeoutMs),
         });
         return res;
       },
-      getAvailableProviderTargets().slice(0, 1)
+      getAvailableProviderTargets()
     );
 
     const reply = fallbackExec.result.text;

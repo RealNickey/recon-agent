@@ -20,10 +20,13 @@
     "cross-validate:full": "bun run scripts/cross-validate.ts --seeds 7",
     "gen:adversarial": "bun run scripts/generate-adversarial.ts",
     "pipeline:adversarial": "bun run src/pipeline/run.ts --data data/adversarial --out results/adversarial-run.json",
+    "showcase:agent": "bun run scripts/run-agent-showcase.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@ai-sdk/openai": "4.0.50",
+    "@ai-sdk/openai-compatible": "^3.0.40",
+    "@openrouter/ai-sdk-provider": "^3.0.0",
     "ai": "7.0.83",
     "decimal.js": "10.6.0",
     "fastest-levenshtein": "1.0.16",
