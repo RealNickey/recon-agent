@@ -21,6 +21,8 @@
     "gen:adversarial": "bun run scripts/generate-adversarial.ts",
     "pipeline:adversarial": "bun run src/pipeline/run.ts --data data/adversarial --out results/adversarial-run.json",
     "showcase:agent": "bun run scripts/run-agent-showcase.ts",
+    "build:ui": "cd client && bun run build",
+    "dev:ui": "cd client && bun run dev",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
