@@ -63641,6 +63641,9 @@ function validateDataDir(dir) {
   }
   return norm;
 }
+function resolveRepoPath(...paths) {
+  return join4(process.cwd(), ...paths);
+}
 function validateOutFile(file2) {
   const norm = file2.replace(/\\/g, "/").replace(/^\.\//, "");
   if (norm.includes("..") || !norm.startsWith("results/")) {
@@ -63652,7 +63655,7 @@ function loadAllDatasetRecords(dataDir = "data") {
   const safeDir = validateDataDir(dataDir);
   const records = [];
   for (const file2 of ["bank-statement.json", "internal-ledger.json", "processor-export.json"]) {
-    const p = join4(safeDir, file2);
+    const p = resolveRepoPath(safeDir, file2);
     if (existsSync5(p)) {
       try {
         const raw2 = JSON.parse(readFileSync2(p, "utf8"));
@@ -63684,8 +63687,8 @@ var ApproveActionBodySchema = exports_external.object({
   comment: exports_external.string().optional()
 });
 app.get("/api/report", (c) => {
-  const historyPath = "logs/eval-history.jsonl";
-  const runPath = "results/latest-run.json";
+  const historyPath = resolveRepoPath("logs/eval-history.jsonl");
+  const runPath = resolveRepoPath("results/latest-run.json");
   const history = existsSync5(historyPath) ? readFileSync2(historyPath, "utf8").trim().split(`
 `).filter(Boolean).map((l) => JSON.parse(l)) : [];
   const run = existsSync5(runPath) ? JSON.parse(readFileSync2(runPath, "utf8")) : null;
@@ -63736,7 +63739,7 @@ app.post("/api/agent/chat", async (c) => {
     const prompt = parsed.data.prompt;
     const focusRecordId = parsed.data.focusRecordId;
     const dataDir = validateDataDir(parsed.data.dataDir);
-    const runPath = "results/latest-run.json";
+    const runPath = resolveRepoPath("results/latest-run.json");
     const runResult = existsSync5(runPath) ? JSON.parse(readFileSync2(runPath, "utf8")) : null;
     const records = loadAllDatasetRecords(dataDir);
     const response = await askFinanceController(prompt, runResult, records, focusRecordId, { forceDeterministic: parsed.data.forceDeterministic });
@@ -63782,7 +63785,7 @@ app.post("/api/agent/approve-action", async (c) => {
   }
 });
 app.get("/api/cross-validate", (c) => {
-  const p = "results/cross-validation.json";
+  const p = resolveRepoPath("results/cross-validation.json");
   if (!existsSync5(p))
     return c.json({ summary: null });
   try {
@@ -63809,7 +63812,7 @@ app.post("/api/cross-validate/run", async (c) => {
 });
 app.get("/api/traces", (c) => {
   const limit = Math.min(parseInt(c.req.query("limit") ?? "50", 10), 200);
-  const path = "logs/reasoning-trace.jsonl";
+  const path = resolveRepoPath("logs/reasoning-trace.jsonl");
   if (!existsSync5(path))
     return c.json({ traces: [] });
   const lines = readFileSync2(path, "utf8").trim().split(`
@@ -63818,7 +63821,7 @@ app.get("/api/traces", (c) => {
   return c.json({ traces });
 });
 app.get("/api/exceptions/export", (c) => {
-  const p = "results/exception-ledger.csv";
+  const p = resolveRepoPath("results/exception-ledger.csv");
   if (!existsSync5(p)) {
     return c.text(`Record ID,Source,Date,Amount,Currency,Reason Code,Candidates Considered,Suggested Action,SLA Priority,Reasoning
 `, 200, {

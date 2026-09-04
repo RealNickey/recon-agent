@@ -52,6 +52,10 @@ function validateDataDir(dir: string): string {
   return norm;
 }
 
+function resolveRepoPath(...paths: string[]): string {
+  return join(process.cwd(), ...paths);
+}
+
 function validateOutFile(file: string): string {
   const norm = file.replace(/\\/g, "/").replace(/^\.\//, "");
   if (norm.includes("..") || !norm.startsWith("results/")) {
@@ -64,7 +68,7 @@ function loadAllDatasetRecords(dataDir = "data"): FinRecord[] {
   const safeDir = validateDataDir(dataDir);
   const records: FinRecord[] = [];
   for (const file of ["bank-statement.json", "internal-ledger.json", "processor-export.json"]) {
-    const p = join(safeDir, file);
+    const p = resolveRepoPath(safeDir, file);
     if (existsSync(p)) {
       try {
         const raw = JSON.parse(readFileSync(p, "utf8"));
@@ -100,8 +104,8 @@ const ApproveActionBodySchema = z.object({
 });
 
 app.get("/api/report", (c) => {
-  const historyPath = "logs/eval-history.jsonl";
-  const runPath = "results/latest-run.json";
+  const historyPath = resolveRepoPath("logs/eval-history.jsonl");
+  const runPath = resolveRepoPath("results/latest-run.json");
   const history = existsSync(historyPath)
     ? readFileSync(historyPath, "utf8").trim().split("\n").filter(Boolean).map((l) => JSON.parse(l))
     : [];
@@ -156,7 +160,7 @@ app.post("/api/agent/chat", async (c) => {
     const focusRecordId = parsed.data.focusRecordId;
     const dataDir = validateDataDir(parsed.data.dataDir);
 
-    const runPath = "results/latest-run.json";
+    const runPath = resolveRepoPath("results/latest-run.json");
     const runResult: RunResult | null = existsSync(runPath) ? JSON.parse(readFileSync(runPath, "utf8")) : null;
     const records = loadAllDatasetRecords(dataDir);
 
@@ -213,7 +217,7 @@ app.post("/api/agent/approve-action", async (c) => {
 });
 
 app.get("/api/cross-validate", (c) => {
-  const p = "results/cross-validation.json";
+  const p = resolveRepoPath("results/cross-validation.json");
   if (!existsSync(p)) return c.json({ summary: null });
   try {
     const summary = JSON.parse(readFileSync(p, "utf8"));
@@ -241,7 +245,7 @@ app.post("/api/cross-validate/run", async (c) => {
 
 app.get("/api/traces", (c) => {
   const limit = Math.min(parseInt(c.req.query("limit") ?? "50", 10), 200);
-  const path = "logs/reasoning-trace.jsonl";
+  const path = resolveRepoPath("logs/reasoning-trace.jsonl");
   if (!existsSync(path)) return c.json({ traces: [] });
   const lines = readFileSync(path, "utf8").trim().split("\n").filter(Boolean);
   const traces = lines.slice(-limit).map((l) => JSON.parse(l));
@@ -249,7 +253,7 @@ app.get("/api/traces", (c) => {
 });
 
 app.get("/api/exceptions/export", (c) => {
-  const p = "results/exception-ledger.csv";
+  const p = resolveRepoPath("results/exception-ledger.csv");
   if (!existsSync(p)) {
     return c.text("Record ID,Source,Date,Amount,Currency,Reason Code,Candidates Considered,Suggested Action,SLA Priority,Reasoning\n", 200, {
       "Content-Type": "text/csv",

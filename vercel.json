@@ -3,6 +3,11 @@
   "framework": "vite",
   "buildCommand": "bun run vercel-build",
   "outputDirectory": "public",
+  "functions": {
+    "api/index.js": {
+      "includeFiles": "{data/**,results/**,logs/**}"
+    }
+  },
   "rewrites": [
     {
       "source": "/api/(.*)",
