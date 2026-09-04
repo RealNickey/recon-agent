@@ -1849,7 +1849,7 @@ var init_websocket2 = __esm(() => {
 });
 
 // node_modules/hono/dist/adapter/bun/conninfo.js
-var getConnInfo2 = (c) => {
+var getConnInfo = (c) => {
   const server = getBunServer(c);
   if (!server) {
     throw new TypeError("env has to include the 2nd argument of fetch.");
@@ -1882,7 +1882,7 @@ __export(exports_bun, {
   upgradeWebSocket: () => upgradeWebSocket,
   toSSG: () => toSSG2,
   serveStatic: () => serveStatic2,
-  getConnInfo: () => getConnInfo2,
+  getConnInfo: () => getConnInfo,
   getBunServer: () => getBunServer,
   createBunWebSocket: () => createBunWebSocket,
   bunFileSystemModule: () => bunFileSystemModule
@@ -1894,11 +1894,6 @@ var init_bun = __esm(() => {
   init_conninfo();
   init_server();
 });
-
-// node_modules/hono/dist/adapter/vercel/handler.js
-var handle = (app) => (req) => {
-  return app.fetch(req);
-};
 
 // node_modules/hono/dist/compose.js
 var compose = (middleware, onError, onNotFound) => {
@@ -63933,11 +63928,19 @@ var src_default = {
 };
 
 // src/vercel-entry.ts
-var config3 = {
-  runtime: "nodejs"
-};
-var vercel_entry_default = handle(app);
+var GET = (req) => app.fetch(req);
+var POST = (req) => app.fetch(req);
+var PUT = (req) => app.fetch(req);
+var DELETE = (req) => app.fetch(req);
+var OPTIONS = (req) => app.fetch(req);
+var PATCH = (req) => app.fetch(req);
+var vercel_entry_default = (req) => app.fetch(req);
 export {
   vercel_entry_default as default,
-  config3 as config
+  PUT,
+  POST,
+  PATCH,
+  OPTIONS,
+  GET,
+  DELETE
 };
