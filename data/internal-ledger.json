@@ -1,0 +1,1010 @@
+[
+  {
+    "id": "L1017",
+    "source": "ledger",
+    "date": "2026-06-22",
+    "amount": 1509.7,
+    "currency": "USD",
+    "description": "Vandelay Industries invoice INV-30086",
+    "reference": "INV-30086"
+  },
+  {
+    "id": "L1057",
+    "source": "ledger",
+    "date": "2026-06-10",
+    "amount": 1995.87,
+    "currency": "USD",
+    "description": "Aperture Science invoice INV-89188",
+    "reference": "INV-89188"
+  },
+  {
+    "id": "L1066",
+    "source": "ledger",
+    "date": "2026-06-23",
+    "amount": 2679.61,
+    "currency": "USD",
+    "description": "Hooli invoice INV-56607",
+    "reference": "INV-56607"
+  },
+  {
+    "id": "L1058",
+    "source": "ledger",
+    "date": "2026-06-10",
+    "amount": 1995.87,
+    "currency": "USD",
+    "description": "Aperture Science invoice INV-89188",
+    "reference": "INV-89188"
+  },
+  {
+    "id": "L1043",
+    "source": "ledger",
+    "date": "2026-06-20",
+    "amount": 2363.06,
+    "currency": "USD",
+    "description": "Soylent Co invoice INV-88358",
+    "reference": "INV-88358"
+  },
+  {
+    "id": "L1009",
+    "source": "ledger",
+    "date": "2026-06-14",
+    "amount": 837.94,
+    "currency": "USD",
+    "description": "Oscorp invoice INV-94806",
+    "reference": "INV-94806"
+  },
+  {
+    "id": "L1025",
+    "source": "ledger",
+    "date": "2026-06-18",
+    "amount": 2358.49,
+    "currency": "USD",
+    "description": "Oscorp invoice INV-59172",
+    "reference": "INV-59172"
+  },
+  {
+    "id": "L1076",
+    "source": "ledger",
+    "date": "2026-06-16",
+    "amount": 894.64,
+    "currency": "USD",
+    "description": "Hooli invoice INV-26954",
+    "reference": "INV-26954"
+  },
+  {
+    "id": "L1001",
+    "source": "ledger",
+    "date": "2026-06-15",
+    "amount": 5642.86,
+    "currency": "USD",
+    "description": "Stark Industries invoice INV-32493",
+    "reference": "INV-32493"
+  },
+  {
+    "id": "L1070",
+    "source": "ledger",
+    "date": "2026-06-08",
+    "amount": 1471.48,
+    "currency": "USD",
+    "description": "Wayne Enterprises invoice INV-99134",
+    "reference": "INV-99134"
+  },
+  {
+    "id": "L1049",
+    "source": "ledger",
+    "date": "2026-06-25",
+    "amount": 1698.56,
+    "currency": "USD",
+    "description": "Soylent Co invoice INV-97898",
+    "reference": "INV-97898"
+  },
+  {
+    "id": "L1079",
+    "source": "ledger",
+    "date": "2026-06-24",
+    "amount": 1342.51,
+    "currency": "USD",
+    "description": "Wayne Enterprises invoice INV-50136",
+    "reference": "INV-50136"
+  },
+  {
+    "id": "L1045",
+    "source": "ledger",
+    "date": "2026-06-03",
+    "amount": 1781.56,
+    "currency": "USD",
+    "description": "Massive Dynamic invoice INV-18515",
+    "reference": "INV-18515"
+  },
+  {
+    "id": "L1031",
+    "source": "ledger",
+    "date": "2026-06-16",
+    "amount": 3319.98,
+    "currency": "USD",
+    "description": "Wayne Enterprises invoice INV-87353",
+    "reference": "INV-87353"
+  },
+  {
+    "id": "L1061",
+    "source": "ledger",
+    "date": "2026-06-09",
+    "amount": 3489.15,
+    "currency": "USD",
+    "description": "Oscorp invoice INV-96529",
+    "reference": "INV-96529"
+  },
+  {
+    "id": "L1085",
+    "source": "ledger",
+    "date": "2026-06-28",
+    "amount": -788.72,
+    "currency": "USD",
+    "description": "Initech LLC credit memo INV-35111",
+    "reference": "INV-35111"
+  },
+  {
+    "id": "L1016",
+    "source": "ledger",
+    "date": "2026-06-15",
+    "amount": 7248.09,
+    "currency": "USD",
+    "description": "Cyberdyne Systems invoice INV-83975",
+    "reference": "INV-83975"
+  },
+  {
+    "id": "L1041",
+    "source": "ledger",
+    "date": "2026-06-20",
+    "amount": 437.5,
+    "currency": "USD",
+    "description": "Initech LLC invoice INV-34065",
+    "reference": "INV-34065"
+  },
+  {
+    "id": "L1012",
+    "source": "ledger",
+    "date": "2026-07-01",
+    "amount": 7406.12,
+    "currency": "USD",
+    "description": "Massive Dynamic invoice INV-60652",
+    "reference": "INV-60652"
+  },
+  {
+    "id": "L1059",
+    "source": "ledger",
+    "date": "2026-06-26",
+    "amount": 1764.53,
+    "currency": "USD",
+    "description": "Hooli invoice INV-65607",
+    "reference": "INV-65607"
+  },
+  {
+    "id": "L1020",
+    "source": "ledger",
+    "date": "2026-06-28",
+    "amount": 5926.63,
+    "currency": "USD",
+    "description": "Acme Corp invoice INV-91734",
+    "reference": "INV-91734"
+  },
+  {
+    "id": "L1034",
+    "source": "ledger",
+    "date": "2026-06-28",
+    "amount": 2171.44,
+    "currency": "USD",
+    "description": "Soylent Co invoice INV-71288",
+    "reference": "INV-71288"
+  },
+  {
+    "id": "L1063",
+    "source": "ledger",
+    "date": "2026-06-24",
+    "amount": 1446.63,
+    "currency": "USD",
+    "description": "Massive Dynamic invoice INV-76446",
+    "reference": "INV-76446"
+  },
+  {
+    "id": "L1007",
+    "source": "ledger",
+    "date": "2026-06-27",
+    "amount": 2767.73,
+    "currency": "USD",
+    "description": "Umbrella Inc invoice INV-55719",
+    "reference": "INV-55719"
+  },
+  {
+    "id": "L1062",
+    "source": "ledger",
+    "date": "2026-06-09",
+    "amount": 3489.15,
+    "currency": "USD",
+    "description": "Oscorp invoice INV-96529",
+    "reference": "INV-96529"
+  },
+  {
+    "id": "L1067",
+    "source": "ledger",
+    "date": "2026-06-03",
+    "amount": 5034.68,
+    "currency": "USD",
+    "description": "Aperture Science invoice INV-12952",
+    "reference": "INV-12952"
+  },
+  {
+    "id": "L1024",
+    "source": "ledger",
+    "date": "2026-06-20",
+    "amount": 3097.41,
+    "currency": "USD",
+    "description": "Wayne Enterprises invoice INV-45866",
+    "reference": "INV-45866"
+  },
+  {
+    "id": "L1078",
+    "source": "ledger",
+    "date": "2026-06-05",
+    "amount": 2629.67,
+    "currency": "USD",
+    "description": "Tyrell Corp invoice INV-98113",
+    "reference": "INV-98113"
+  },
+  {
+    "id": "L1044",
+    "source": "ledger",
+    "date": "2026-06-03",
+    "amount": 217.37,
+    "currency": "USD",
+    "description": "Massive Dynamic invoice INV-30673",
+    "reference": "INV-30673"
+  },
+  {
+    "id": "L1010",
+    "source": "ledger",
+    "date": "2026-06-15",
+    "amount": 191.36,
+    "currency": "USD",
+    "description": "Globex Ltd invoice INV-65072",
+    "reference": "INV-65072"
+  },
+  {
+    "id": "L1037",
+    "source": "ledger",
+    "date": "2026-06-09",
+    "amount": 4274.14,
+    "currency": "USD",
+    "description": "Hooli invoice INV-22522",
+    "reference": "INV-22522"
+  },
+  {
+    "id": "L1048",
+    "source": "ledger",
+    "date": "2026-06-25",
+    "amount": 224.26,
+    "currency": "USD",
+    "description": "Soylent Co invoice INV-70492",
+    "reference": "INV-70492"
+  },
+  {
+    "id": "L1051",
+    "source": "ledger",
+    "date": "2026-06-11",
+    "amount": 2366.95,
+    "currency": "USD",
+    "description": "Wayne Enterprises invoice INV-33962",
+    "reference": "INV-33962"
+  },
+  {
+    "id": "L1022",
+    "source": "ledger",
+    "date": "2026-06-01",
+    "amount": 2276.33,
+    "currency": "USD",
+    "description": "Stark Industries invoice INV-29880",
+    "reference": "INV-29880"
+  },
+  {
+    "id": "L1039",
+    "source": "ledger",
+    "date": "2026-06-20",
+    "amount": 1153.46,
+    "currency": "USD",
+    "description": "Initech LLC invoice INV-51315",
+    "reference": "INV-51315"
+  },
+  {
+    "id": "L1021",
+    "source": "ledger",
+    "date": "2026-06-02",
+    "amount": 3965.18,
+    "currency": "USD",
+    "description": "Tyrell Corp invoice INV-73499",
+    "reference": "INV-73499"
+  },
+  {
+    "id": "L1015",
+    "source": "ledger",
+    "date": "2026-06-04",
+    "amount": 4407.29,
+    "currency": "USD",
+    "description": "Hooli invoice INV-72704",
+    "reference": "INV-72704"
+  },
+  {
+    "id": "L1075",
+    "source": "ledger",
+    "date": "2026-06-24",
+    "amount": 1440.71,
+    "currency": "USD",
+    "description": "Acme Corp invoice INV-32593",
+    "reference": "INV-32593"
+  },
+  {
+    "id": "L1084",
+    "source": "ledger",
+    "date": "2026-06-01",
+    "amount": -111.7,
+    "currency": "USD",
+    "description": "Soylent Co credit memo INV-72199",
+    "reference": "INV-72199"
+  },
+  {
+    "id": "L1055",
+    "source": "ledger",
+    "date": "2026-06-20",
+    "amount": 3856.3,
+    "currency": "USD",
+    "description": "Vandelay Industries invoice INV-70112",
+    "reference": "INV-70112"
+  },
+  {
+    "id": "L1083",
+    "source": "ledger",
+    "date": "2026-06-14",
+    "amount": -1005.51,
+    "currency": "USD",
+    "description": "Soylent Co credit memo INV-50548",
+    "reference": "INV-50548"
+  },
+  {
+    "id": "L1029",
+    "source": "ledger",
+    "date": "2026-06-25",
+    "amount": 3132.15,
+    "currency": "USD",
+    "description": "Aperture Science invoice INV-57310",
+    "reference": "INV-57310"
+  },
+  {
+    "id": "L1005",
+    "source": "ledger",
+    "date": "2026-06-26",
+    "amount": 7592.48,
+    "currency": "USD",
+    "description": "Initech LLC invoice INV-38751",
+    "reference": "INV-38751"
+  },
+  {
+    "id": "L1008",
+    "source": "ledger",
+    "date": "2026-06-21",
+    "amount": 2672.07,
+    "currency": "USD",
+    "description": "Stark Industries invoice INV-71269",
+    "reference": "INV-71269"
+  },
+  {
+    "id": "L1026",
+    "source": "ledger",
+    "date": "2026-06-09",
+    "amount": 2345.29,
+    "currency": "USD",
+    "description": "Umbrella Inc invoice INV-70236",
+    "reference": "INV-70236"
+  },
+  {
+    "id": "L1018",
+    "source": "ledger",
+    "date": "2026-06-07",
+    "amount": 5272.33,
+    "currency": "USD",
+    "description": "Initech LLC invoice INV-66601",
+    "reference": "INV-66601"
+  },
+  {
+    "id": "L1027",
+    "source": "ledger",
+    "date": "2026-06-04",
+    "amount": 4896.31,
+    "currency": "USD",
+    "description": "Initech LLC invoice INV-38241",
+    "reference": "INV-38241"
+  },
+  {
+    "id": "L1056",
+    "source": "ledger",
+    "date": "2026-06-20",
+    "amount": 3856.3,
+    "currency": "USD",
+    "description": "Vandelay Industries invoice INV-70112",
+    "reference": "INV-70112"
+  },
+  {
+    "id": "L1028",
+    "source": "ledger",
+    "date": "2026-06-11",
+    "amount": 1533.48,
+    "currency": "USD",
+    "description": "Soylent Co invoice INV-74084",
+    "reference": "INV-74084"
+  },
+  {
+    "id": "L1074",
+    "source": "ledger",
+    "date": "2026-06-30",
+    "amount": 3032.04,
+    "currency": "USD",
+    "description": "Massive Dynamic invoice INV-62232",
+    "reference": "INV-62232"
+  },
+  {
+    "id": "L1030",
+    "source": "ledger",
+    "date": "2026-06-18",
+    "amount": 3206.14,
+    "currency": "USD",
+    "description": "Oscorp invoice INV-82683",
+    "reference": "INV-82683"
+  },
+  {
+    "id": "L1081",
+    "source": "ledger",
+    "date": "2026-06-21",
+    "amount": 2718.04,
+    "currency": "USD",
+    "description": "Umbrella Inc invoice INV-15828",
+    "reference": "INV-15828"
+  },
+  {
+    "id": "L1071",
+    "source": "ledger",
+    "date": "2026-06-23",
+    "amount": 1365.68,
+    "currency": "USD",
+    "description": "Acme Corp invoice INV-43829",
+    "reference": "INV-43829"
+  },
+  {
+    "id": "L1035",
+    "source": "ledger",
+    "date": "2026-06-27",
+    "amount": 3793.32,
+    "currency": "USD",
+    "description": "Vandelay Industries invoice INV-23643",
+    "reference": "INV-23643"
+  },
+  {
+    "id": "L1073",
+    "source": "ledger",
+    "date": "2026-06-08",
+    "amount": 1308.47,
+    "currency": "USD",
+    "description": "Cyberdyne Systems invoice INV-69389",
+    "reference": "INV-69389"
+  },
+  {
+    "id": "L1011",
+    "source": "ledger",
+    "date": "2026-06-09",
+    "amount": 6491.93,
+    "currency": "USD",
+    "description": "Globex Ltd invoice INV-73592",
+    "reference": "INV-73592"
+  },
+  {
+    "id": "L1019",
+    "source": "ledger",
+    "date": "2026-06-05",
+    "amount": 6360.39,
+    "currency": "USD",
+    "description": "Stark Industries invoice INV-87733",
+    "reference": "INV-87733"
+  },
+  {
+    "id": "L1080",
+    "source": "ledger",
+    "date": "2026-06-27",
+    "amount": 2697.03,
+    "currency": "USD",
+    "description": "Umbrella Inc invoice INV-42724",
+    "reference": "INV-42724"
+  },
+  {
+    "id": "L1023",
+    "source": "ledger",
+    "date": "2026-06-05",
+    "amount": 6922.16,
+    "currency": "USD",
+    "description": "Soylent Co invoice INV-60486",
+    "reference": "INV-60486"
+  },
+  {
+    "id": "L1065",
+    "source": "ledger",
+    "date": "2026-06-28",
+    "amount": 1148.84,
+    "currency": "USD",
+    "description": "Wonka Labs invoice INV-59025",
+    "reference": "INV-59025"
+  },
+  {
+    "id": "L1038",
+    "source": "ledger",
+    "date": "2026-06-23",
+    "amount": 2702.56,
+    "currency": "USD",
+    "description": "Stark Industries invoice INV-81421",
+    "reference": "INV-81421"
+  },
+  {
+    "id": "L1072",
+    "source": "ledger",
+    "date": "2026-06-27",
+    "amount": 2756.92,
+    "currency": "USD",
+    "description": "Hooli invoice INV-54417",
+    "reference": "INV-54417"
+  },
+  {
+    "id": "L1003",
+    "source": "ledger",
+    "date": "2026-06-02",
+    "amount": 4263.83,
+    "currency": "USD",
+    "description": "Acme Corp invoice INV-63309",
+    "reference": "INV-63309"
+  },
+  {
+    "id": "L1033",
+    "source": "ledger",
+    "date": "2026-06-20",
+    "amount": 5950.81,
+    "currency": "USD",
+    "description": "Cyberdyne Systems invoice INV-85327",
+    "reference": "INV-85327"
+  },
+  {
+    "id": "L1002",
+    "source": "ledger",
+    "date": "2026-06-16",
+    "amount": 2797.19,
+    "currency": "USD",
+    "description": "Cyberdyne Systems invoice INV-71795",
+    "reference": "INV-71795"
+  },
+  {
+    "id": "L1082",
+    "source": "ledger",
+    "date": "2026-06-02",
+    "amount": -1343.81,
+    "currency": "USD",
+    "description": "Cyberdyne Systems credit memo INV-62800",
+    "reference": "INV-62800"
+  },
+  {
+    "id": "L1060",
+    "source": "ledger",
+    "date": "2026-06-26",
+    "amount": 1764.53,
+    "currency": "USD",
+    "description": "Hooli invoice INV-65607",
+    "reference": "INV-65607"
+  },
+  {
+    "id": "L1006",
+    "source": "ledger",
+    "date": "2026-06-19",
+    "amount": 510.55,
+    "currency": "USD",
+    "description": "Acme Corp invoice INV-32065",
+    "reference": "INV-32065"
+  },
+  {
+    "id": "L1004",
+    "source": "ledger",
+    "date": "2026-06-25",
+    "amount": 603.18,
+    "currency": "USD",
+    "description": "Stark Industries invoice INV-57730",
+    "reference": "INV-57730"
+  },
+  {
+    "id": "L1000",
+    "source": "ledger",
+    "date": "2026-06-21",
+    "amount": 4062.85,
+    "currency": "USD",
+    "description": "Tyrell Corp invoice INV-25733",
+    "reference": "INV-25733"
+  },
+  {
+    "id": "L1054",
+    "source": "ledger",
+    "date": "2026-06-29",
+    "amount": 1743.55,
+    "currency": "USD",
+    "description": "Aperture Science invoice INV-59141",
+    "reference": "INV-59141"
+  },
+  {
+    "id": "L1064",
+    "source": "ledger",
+    "date": "2026-06-24",
+    "amount": 1446.63,
+    "currency": "USD",
+    "description": "Massive Dynamic invoice INV-76446",
+    "reference": "INV-76446"
+  },
+  {
+    "id": "L1046",
+    "source": "ledger",
+    "date": "2026-06-03",
+    "amount": 2419.75,
+    "currency": "USD",
+    "description": "Massive Dynamic invoice INV-69508",
+    "reference": "INV-69508"
+  },
+  {
+    "id": "L1040",
+    "source": "ledger",
+    "date": "2026-06-20",
+    "amount": 1109.33,
+    "currency": "USD",
+    "description": "Initech LLC invoice INV-37683",
+    "reference": "INV-37683"
+  },
+  {
+    "id": "L1042",
+    "source": "ledger",
+    "date": "2026-06-20",
+    "amount": 406,
+    "currency": "USD",
+    "description": "Soylent Co invoice INV-23335",
+    "reference": "INV-23335"
+  },
+  {
+    "id": "L1053",
+    "source": "ledger",
+    "date": "2026-06-29",
+    "amount": 1276.75,
+    "currency": "USD",
+    "description": "Aperture Science invoice INV-59475",
+    "reference": "INV-59475"
+  },
+  {
+    "id": "L1052",
+    "source": "ledger",
+    "date": "2026-06-29",
+    "amount": 1456.8,
+    "currency": "USD",
+    "description": "Aperture Science invoice INV-38077",
+    "reference": "INV-38077"
+  },
+  {
+    "id": "L1014",
+    "source": "ledger",
+    "date": "2026-06-22",
+    "amount": 4075.84,
+    "currency": "USD",
+    "description": "Stark Industries invoice INV-99461",
+    "reference": "INV-99461"
+  },
+  {
+    "id": "L1077",
+    "source": "ledger",
+    "date": "2026-06-07",
+    "amount": 718.99,
+    "currency": "USD",
+    "description": "Globex Ltd invoice INV-52442",
+    "reference": "INV-52442"
+  },
+  {
+    "id": "L1013",
+    "source": "ledger",
+    "date": "2026-06-19",
+    "amount": 5227.33,
+    "currency": "USD",
+    "description": "Hooli invoice INV-39066",
+    "reference": "INV-39066"
+  },
+  {
+    "id": "L1047",
+    "source": "ledger",
+    "date": "2026-06-25",
+    "amount": 508.07,
+    "currency": "USD",
+    "description": "Soylent Co invoice INV-18628",
+    "reference": "INV-18628"
+  },
+  {
+    "id": "L1032",
+    "source": "ledger",
+    "date": "2026-06-06",
+    "amount": 415.06,
+    "currency": "USD",
+    "description": "Cyberdyne Systems invoice INV-55588",
+    "reference": "INV-55588"
+  },
+  {
+    "id": "L1069",
+    "source": "ledger",
+    "date": "2026-06-04",
+    "amount": 2949.59,
+    "currency": "USD",
+    "description": "Massive Dynamic invoice INV-80374",
+    "reference": "INV-80374"
+  },
+  {
+    "id": "L1050",
+    "source": "ledger",
+    "date": "2026-06-11",
+    "amount": 2096.53,
+    "currency": "USD",
+    "description": "Wayne Enterprises invoice INV-28446",
+    "reference": "INV-28446"
+  },
+  {
+    "id": "L1036",
+    "source": "ledger",
+    "date": "2026-06-23",
+    "amount": 604.64,
+    "currency": "USD",
+    "description": "Acme Corp invoice INV-96034",
+    "reference": "INV-96034"
+  },
+  {
+    "id": "L1068",
+    "source": "ledger",
+    "date": "2026-06-04",
+    "amount": 5334.34,
+    "currency": "USD",
+    "description": "Oscorp invoice INV-66449",
+    "reference": "INV-66449"
+  },
+  {
+    "id": "L71000",
+    "source": "ledger",
+    "date": "2023-04-21",
+    "amount": 4642799.85,
+    "currency": "USD",
+    "description": "66912 0147701477895933641477JADE104 OFF TMH SEE FAMES SMILAX BOLL 00895933641477",
+    "reference": "008959336 41477 JADE104 L9K60FV UPCLOSER"
+  },
+  {
+    "id": "L71001",
+    "source": "ledger",
+    "date": "2023-05-19",
+    "amount": 50542100,
+    "currency": "USD",
+    "description": "66912 0147701477376228541477LYSIN22 IF TMH SEE FAMES SMILAX BOLL 00376228541477L",
+    "reference": "003762285 41477 LYSIN22 L9K366E UPCLOSER"
+  },
+  {
+    "id": "L71002",
+    "source": "ledger",
+    "date": "2023-04-21",
+    "amount": 9547.03,
+    "currency": "USD",
+    "description": "66912 66325663250 32566DHYMK 088 JOQVY DE-BAS - T SMILAX GFG VC0 32566DHYMK 088 ",
+    "reference": "32566DHYMK 32566DHYMK JOQVY DE-BAS - T"
+  },
+  {
+    "id": "L71003",
+    "source": "ledger",
+    "date": "2023-04-27",
+    "amount": 695481204.8,
+    "currency": "USD",
+    "description": "66912 6682866828SHAMESICK FROM JAUN UNFED JEE - DESINENT SMILAX FGGQQ PHOTOACTIV",
+    "reference": "6666666667668988 P676689886371810 JEE - "
+  },
+  {
+    "id": "L71004",
+    "source": "ledger",
+    "date": "2023-05-19",
+    "amount": 637200,
+    "currency": "USD",
+    "description": "66912 66325663250 32566DR6IA 088 JOQVY - ELUVIA - SMILAX GFG VC0 32566DR6IA 088 ",
+    "reference": "32566DR6IA 32566DR6IA JOQVY - ELUVIA -"
+  },
+  {
+    "id": "L71005",
+    "source": "ledger",
+    "date": "2023-03-26",
+    "amount": 56426480,
+    "currency": "USD",
+    "description": "66912 0147701477854927041477MEGGY88 IF TMH SEE FAMES SMILAX BOLL 00854927041477M",
+    "reference": "008549270 41477 MEGGY88 L9HR03J UPCLOSER"
+  },
+  {
+    "id": "L71006",
+    "source": "ledger",
+    "date": "2023-04-01",
+    "amount": 36225876,
+    "currency": "USD",
+    "description": "66912 6033960339 SMILAX GPD",
+    "reference": "AHT9126666104741 AHT9126666104741"
+  },
+  {
+    "id": "L71007",
+    "source": "ledger",
+    "date": "2023-05-03",
+    "amount": 46800000,
+    "currency": "USD",
+    "description": "66912 0147701477362357941477ARGAS08 IF TMH SEE FAMES SMILAX BOLL 00362357941477A",
+    "reference": "003623579 41477 ARGAS08 L9K771P UPCLOSER"
+  },
+  {
+    "id": "L71008",
+    "source": "ledger",
+    "date": "2023-04-01",
+    "amount": 775000,
+    "currency": "USD",
+    "description": "66912 0147601476896595741476 IF TMH ENQUIRE WOLD SMILAX BOLL 00896595741476 IF T",
+    "reference": "008965957 41476 L9MS0K8 NONIC WILLI MIZE"
+  },
+  {
+    "id": "L71009",
+    "source": "ledger",
+    "date": "2023-03-29",
+    "amount": 1398820,
+    "currency": "USD",
+    "description": "66912 0156801568854548517667CHARE00 MORIBUND ROTENONES S SMILAX BOLL 00854548517",
+    "reference": "008545485 17667 CHARE00 RHODIZITE UNSOLA"
+  },
+  {
+    "id": "L71010",
+    "source": "ledger",
+    "date": "2023-03-08",
+    "amount": 74844.5,
+    "currency": "USD",
+    "description": "66912 02566025660666H3 6666666666 SMILAX FGGKR FW0666H3 6666666666",
+    "reference": "35730008 V35730008 JO TONITE SAUNT 66495"
+  },
+  {
+    "id": "L71011",
+    "source": "ledger",
+    "date": "2023-03-08",
+    "amount": 1295673.58,
+    "currency": "USD",
+    "description": "66912 02566025660666H3 6666666666 SMILAX FGGKR FW0666H3 6666666666",
+    "reference": "47760710 V47760710 JO TONITE SAUNT 66495"
+  },
+  {
+    "id": "L71012",
+    "source": "ledger",
+    "date": "2023-03-08",
+    "amount": 39906.19,
+    "currency": "USD",
+    "description": "66912 02566025660666H3 6666666666 SMILAX FGGKR FW0666H3 6666666666",
+    "reference": "35747475 V35747475 JO TONITE SAUNT 66495"
+  },
+  {
+    "id": "L71013",
+    "source": "ledger",
+    "date": "2023-05-03",
+    "amount": 1314.2,
+    "currency": "USD",
+    "description": "66912 0646006460S BURO JADY GAT AUG - SMILAX RAMON GFG BURO JADY GAT IT X - T JO",
+    "reference": "HEY RAMON DISNEY JOQ ELUVIA KR - TA"
+  },
+  {
+    "id": "L71014",
+    "source": "ledger",
+    "date": "2023-05-03",
+    "amount": 1281019.4,
+    "currency": "USD",
+    "description": "66912 0646006460S BURO JADY GAT AUG - SMILAX RAMON GFG BURO JADY GAT IT X - T JO",
+    "reference": "HEY RAMON DISNEY JOQ ELUVIA KR - TA"
+  },
+  {
+    "id": "L71015",
+    "source": "ledger",
+    "date": "2023-04-07",
+    "amount": 15000,
+    "currency": "USD",
+    "description": "66912 6653566535QTO LX30700 SMILAX GESS KENAI LX30700",
+    "reference": "666372 666666661869422"
+  },
+  {
+    "id": "L71016",
+    "source": "ledger",
+    "date": "2023-04-07",
+    "amount": 1000,
+    "currency": "USD",
+    "description": "66912 6653566535QTO LX30700 SMILAX GESS KENAI LX30700",
+    "reference": "666372 666666661869429"
+  },
+  {
+    "id": "L71017",
+    "source": "ledger",
+    "date": "2023-04-07",
+    "amount": 36000,
+    "currency": "USD",
+    "description": "66912 6653566535QTO LX30700 SMILAX GESS KENAI LX30700",
+    "reference": "666372 666666661869421"
+  },
+  {
+    "id": "L71018",
+    "source": "ledger",
+    "date": "2023-05-17",
+    "amount": 221498.82,
+    "currency": "USD",
+    "description": "66912 02566025660666H3 6666666666 SMILAX FGGKR FW0666H3 6666666666",
+    "reference": "35201716 V35201716 JO TONITE SAUNT 66495"
+  },
+  {
+    "id": "L71019",
+    "source": "ledger",
+    "date": "2023-05-17",
+    "amount": 340711.96,
+    "currency": "USD",
+    "description": "66912 02566025660666H3 6666666666 SMILAX FGGKR FW0666H3 6666666666",
+    "reference": "35269184 V35269184 JO TONITE SAUNT 66495"
+  },
+  {
+    "id": "L71020",
+    "source": "ledger",
+    "date": "2023-05-17",
+    "amount": 11752323.06,
+    "currency": "USD",
+    "description": "66912 02566025660666H3 6666666666 SMILAX FGGKR FW0666H3 6666666666",
+    "reference": "15108906 V15108906 JO TONITE SAUNT 66495"
+  },
+  {
+    "id": "L71021",
+    "source": "ledger",
+    "date": "2023-05-17",
+    "amount": 436785.08,
+    "currency": "USD",
+    "description": "66912 02566025660666H3 6666666666 SMILAX FGGKR FW0666H3 6666666666",
+    "reference": "15104236 V15104236 JO TONITE SAUNT 66495"
+  },
+  {
+    "id": "L71022",
+    "source": "ledger",
+    "date": "2023-05-07",
+    "amount": 14000000,
+    "currency": "USD",
+    "description": "66912 0703607036 SMILAX FGGKR",
+    "reference": "40259586 1643JOQG7U BEYERITE CROM IW5614"
+  },
+  {
+    "id": "L71023",
+    "source": "ledger",
+    "date": "2023-05-07",
+    "amount": 1000000,
+    "currency": "USD",
+    "description": "66912 0703607036 SMILAX FGGKR",
+    "reference": "88957956 0744JOQG7U BEYERITE CROM IW5614"
+  },
+  {
+    "id": "L71024",
+    "source": "ledger",
+    "date": "2023-05-07",
+    "amount": 40000000,
+    "currency": "USD",
+    "description": "66912 0703607036 SMILAX FGGKR",
+    "reference": "88951626 9509JOQG7U BEYERITE CROM IW5614"
+  },
+  {
+    "id": "L71025",
+    "source": "ledger",
+    "date": "2023-05-07",
+    "amount": 2300000,
+    "currency": "USD",
+    "description": "66912 0703607036 SMILAX FGGKR",
+    "reference": "88951036 7529JOQG7U BEYERITE CROM IW5614"
+  }
+]

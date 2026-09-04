@@ -1,0 +1,934 @@
+{
+  "startedAt": "2026-08-29T07:01:52.221Z",
+  "finishedAt": "2026-08-29T07:01:52.235Z",
+  "durationMs": 14,
+  "model": "none",
+  "outcomes": [
+    {
+      "status": "matched",
+      "recordId": "B-SHOWCASE-106",
+      "source": "bank",
+      "matchedIds": [
+        "L-SHOWCASE-106"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "partial_payment",
+      "reasoning": "invoice WIRE-INI-7711-A~INI-7711 days=2 3000 USD vs 5000 USD",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 3000,
+            "recordBVal": 5000,
+            "similarity": 0.8,
+            "explanation": "3000 USD vs 5000 USD"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-26",
+            "recordBVal": "2026-06-24",
+            "similarity": 0.85,
+            "explanation": "2 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "WIRE-INI-7711-A",
+            "recordBVal": "INI-7711",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L-SHOWCASE-106",
+      "source": "ledger",
+      "matchedIds": [
+        "B-SHOWCASE-106"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "partial_payment",
+      "reasoning": "invoice WIRE-INI-7711-A~INI-7711 days=2 3000 USD vs 5000 USD",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 3000,
+            "recordBVal": 5000,
+            "similarity": 0.8,
+            "explanation": "3000 USD vs 5000 USD"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-26",
+            "recordBVal": "2026-06-24",
+            "similarity": 0.85,
+            "explanation": "2 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "WIRE-INI-7711-A",
+            "recordBVal": "INI-7711",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "B-SHOWCASE-102",
+      "source": "bank",
+      "matchedIds": [
+        "L-SHOWCASE-102A",
+        "L-SHOWCASE-102B"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "many_to_one",
+      "reasoning": "subset-sum: B-SHOWCASE-102 8750 USD on 2026-06-18 = L-SHOWCASE-102A:5000 + L-SHOWCASE-102B:3750",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 8750,
+            "recordBVal": 5000,
+            "similarity": 0.8,
+            "explanation": "8750 USD vs 5000 USD"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-18",
+            "recordBVal": "2026-06-16",
+            "similarity": 0.85,
+            "explanation": "2 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "WIRE-BATCH-4412",
+            "recordBVal": "INV-GBX-101",
+            "similarity": 0.5,
+            "explanation": "Invoice / PO token alignment: approximate"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L-SHOWCASE-102A",
+      "source": "ledger",
+      "matchedIds": [
+        "B-SHOWCASE-102",
+        "L-SHOWCASE-102B"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "many_to_one",
+      "reasoning": "subset-sum: B-SHOWCASE-102 8750 USD on 2026-06-18 = L-SHOWCASE-102A:5000 + L-SHOWCASE-102B:3750",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 8750,
+            "recordBVal": 5000,
+            "similarity": 0.8,
+            "explanation": "8750 USD vs 5000 USD"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-18",
+            "recordBVal": "2026-06-16",
+            "similarity": 0.85,
+            "explanation": "2 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "WIRE-BATCH-4412",
+            "recordBVal": "INV-GBX-101",
+            "similarity": 0.5,
+            "explanation": "Invoice / PO token alignment: approximate"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L-SHOWCASE-102B",
+      "source": "ledger",
+      "matchedIds": [
+        "B-SHOWCASE-102",
+        "L-SHOWCASE-102A"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "many_to_one",
+      "reasoning": "subset-sum: B-SHOWCASE-102 8750 USD on 2026-06-18 = L-SHOWCASE-102A:5000 + L-SHOWCASE-102B:3750",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 8750,
+            "recordBVal": 5000,
+            "similarity": 0.8,
+            "explanation": "8750 USD vs 5000 USD"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-18",
+            "recordBVal": "2026-06-16",
+            "similarity": 0.85,
+            "explanation": "2 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "WIRE-BATCH-4412",
+            "recordBVal": "INV-GBX-101",
+            "similarity": 0.5,
+            "explanation": "Invoice / PO token alignment: approximate"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "B-SHOWCASE-104",
+      "source": "bank",
+      "matchedIds": [
+        "L-SHOWCASE-104"
+      ],
+      "confidence": 0.95,
+      "tier": 2,
+      "reasonCode": "currency_mismatch",
+      "reasoning": "cross-currency FX match: bank 10850 USD on 2026-06-22 vs ledger 10000 EUR on 2026-06-21 (vendor overlap 0.5)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Cross-Currency FX Corridor Match",
+        "confidence": 0.95,
+        "evidence": [
+          {
+            "field": "currency_and_rate",
+            "recordAVal": "10850 USD",
+            "recordBVal": "10000 EUR",
+            "similarity": 0.922,
+            "explanation": "Cross-currency settlement in corridor with effective rate 1.0850"
+          },
+          {
+            "field": "vendor",
+            "recordAVal": "International wire credit Tyrell Robotics Corp for EUR invoice TYR-4412 at 1.085 FX rate",
+            "recordBVal": "Tyrell Corp AI Robotics Subsystem Deliverable",
+            "similarity": 0.5,
+            "explanation": "Shared vendor identity across bank and ledger postings"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-22",
+            "recordBVal": "2026-06-21",
+            "similarity": 0.9,
+            "explanation": "1 day(s) settlement timing delta"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L-SHOWCASE-104",
+      "source": "ledger",
+      "matchedIds": [
+        "B-SHOWCASE-104"
+      ],
+      "confidence": 0.95,
+      "tier": 2,
+      "reasonCode": "currency_mismatch",
+      "reasoning": "cross-currency FX match: bank 10850 USD on 2026-06-22 vs ledger 10000 EUR on 2026-06-21 (vendor overlap 0.5)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Cross-Currency FX Corridor Match",
+        "confidence": 0.95,
+        "evidence": [
+          {
+            "field": "currency_and_rate",
+            "recordAVal": "10850 USD",
+            "recordBVal": "10000 EUR",
+            "similarity": 0.922,
+            "explanation": "Cross-currency settlement in corridor with effective rate 1.0850"
+          },
+          {
+            "field": "vendor",
+            "recordAVal": "International wire credit Tyrell Robotics Corp for EUR invoice TYR-4412 at 1.085 FX rate",
+            "recordBVal": "Tyrell Corp AI Robotics Subsystem Deliverable",
+            "similarity": 0.5,
+            "explanation": "Shared vendor identity across bank and ledger postings"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-22",
+            "recordBVal": "2026-06-21",
+            "similarity": 0.9,
+            "explanation": "1 day(s) settlement timing delta"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B-SHOWCASE-101",
+      "source": "bank",
+      "reasonCode": "low_confidence",
+      "tier": 2,
+      "candidatesConsidered": 6,
+      "reasoning": "candidate pool (6 candidates, top score 0.91) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "14500 USD",
+            "recordBVal": "14500 USD",
+            "similarity": 1,
+            "explanation": "Amount comparison: 14500 USD vs 14500 USD"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-15",
+            "recordBVal": "2026-06-14",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "FEDWIRE-TX-990142",
+            "recordBVal": "PO-ACME-8841",
+            "similarity": 0,
+            "explanation": "Reference comparison: \"FEDWIRE-TX-990142\" vs \"PO-ACME-8841\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "6 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.91",
+            "similarity": 0.91,
+            "explanation": "Top candidate score 0.91 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B-SHOWCASE-103",
+      "source": "bank",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 7,
+      "reasoning": "candidate pool (7 candidates, top score 0.33) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.33,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "438200 INR",
+            "recordBVal": "500000 INR",
+            "similarity": 0.5,
+            "explanation": "Amount comparison: 438200 INR vs 500000 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-20",
+            "recordBVal": "2026-06-19",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "UTR-HDFC-9910842",
+            "recordBVal": "ST-9910",
+            "similarity": 0,
+            "explanation": "Reference comparison: \"UTR-HDFC-9910842\" vs \"ST-9910\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "7 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.33",
+            "similarity": 0.33,
+            "explanation": "Top candidate score 0.33 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B-SHOWCASE-105",
+      "source": "bank",
+      "reasonCode": "low_confidence",
+      "tier": 2,
+      "candidatesConsidered": 4,
+      "reasoning": "candidate pool (4 candidates, top score 0.77) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "6200 USD",
+            "recordBVal": "6200 USD",
+            "similarity": 1,
+            "explanation": "Amount comparison: 6200 USD vs 6200 USD"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-25",
+            "recordBVal": "2026-06-23",
+            "similarity": 0.93,
+            "explanation": "2 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "ACH-WYN-3301",
+            "recordBVal": "WYN-3301",
+            "similarity": 0.6666666666666666,
+            "explanation": "Reference comparison: \"ACH-WYN-3301\" vs \"WYN-3301\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "4 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.77",
+            "similarity": 0.77,
+            "explanation": "Top candidate score 0.77 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B-SHOWCASE-107",
+      "source": "bank",
+      "reasonCode": "low_confidence",
+      "tier": 2,
+      "candidatesConsidered": 3,
+      "reasoning": "candidate pool (3 candidates, top score 0.40) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.4,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "2000 USD",
+            "recordBVal": "5000 USD",
+            "similarity": 0.5,
+            "explanation": "Amount comparison: 2000 USD vs 5000 USD"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-27",
+            "recordBVal": "2026-06-24",
+            "similarity": 0.9,
+            "explanation": "3 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "WIRE-INI-7711-B",
+            "recordBVal": "INI-7711",
+            "similarity": 1,
+            "explanation": "Reference comparison: \"WIRE-INI-7711-B\" vs \"INI-7711\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "3 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.40",
+            "similarity": 0.4,
+            "explanation": "Top candidate score 0.40 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B-SHOWCASE-901",
+      "source": "bank",
+      "reasonCode": "low_confidence",
+      "tier": 2,
+      "candidatesConsidered": 3,
+      "reasoning": "candidate pool (3 candidates, top score 0.27) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.27,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "9940 USD",
+            "recordBVal": "18450 USD",
+            "similarity": 0.5,
+            "explanation": "Amount comparison: 9940 USD vs 18450 USD"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-28",
+            "recordBVal": "2026-06-29",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "SUSPENSE-WIRE-9940",
+            "recordBVal": "DRAFT-MEMO-99",
+            "similarity": 0,
+            "explanation": "Reference comparison: \"SUSPENSE-WIRE-9940\" vs \"DRAFT-MEMO-99\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "3 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.27",
+            "similarity": 0.27,
+            "explanation": "Top candidate score 0.27 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B-SHOWCASE-902",
+      "source": "bank",
+      "reasonCode": "low_confidence",
+      "tier": 2,
+      "candidatesConsidered": 1,
+      "reasoning": "candidate pool (1 candidates, top score 0.22) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.22,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "150 USD",
+            "recordBVal": "18450 USD",
+            "similarity": 0.5,
+            "explanation": "Amount comparison: 150 USD vs 18450 USD"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-30",
+            "recordBVal": "2026-06-29",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "BANK-FEE-JUN26",
+            "recordBVal": "DRAFT-MEMO-99",
+            "similarity": 0,
+            "explanation": "Reference comparison: \"BANK-FEE-JUN26\" vs \"DRAFT-MEMO-99\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "1 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.22",
+            "similarity": 0.22,
+            "explanation": "Top candidate score 0.22 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "L-SHOWCASE-101",
+      "source": "ledger",
+      "reasonCode": "low_confidence",
+      "tier": 2,
+      "candidatesConsidered": 4,
+      "reasoning": "candidate pool (4 candidates, top score 0.91) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "14500 USD",
+            "recordBVal": "14500 USD",
+            "similarity": 1,
+            "explanation": "Amount comparison: 14500 USD vs 14500 USD"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-14",
+            "recordBVal": "2026-06-15",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "PO-ACME-8841",
+            "recordBVal": "FEDWIRE-TX-990142",
+            "similarity": 0,
+            "explanation": "Reference comparison: \"PO-ACME-8841\" vs \"FEDWIRE-TX-990142\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "4 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.91",
+            "similarity": 0.91,
+            "explanation": "Top candidate score 0.91 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "L-SHOWCASE-103",
+      "source": "ledger",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 6,
+      "reasoning": "candidate pool (6 candidates, top score 0.60) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "500000 INR",
+            "recordBVal": "488200 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 500000 INR vs 488200 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-19",
+            "recordBVal": "2026-06-19",
+            "similarity": 1,
+            "explanation": "0 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "ST-9910",
+            "recordBVal": "pay_stark_9910",
+            "similarity": 0.3333333333333333,
+            "explanation": "Reference comparison: \"ST-9910\" vs \"pay_stark_9910\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "6 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.60",
+            "similarity": 0.6,
+            "explanation": "Top candidate score 0.60 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "L-SHOWCASE-105",
+      "source": "ledger",
+      "reasonCode": "low_confidence",
+      "tier": 2,
+      "candidatesConsidered": 8,
+      "reasoning": "candidate pool (8 candidates, top score 0.77) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "6200 USD",
+            "recordBVal": "6200 USD",
+            "similarity": 1,
+            "explanation": "Amount comparison: 6200 USD vs 6200 USD"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-23",
+            "recordBVal": "2026-06-25",
+            "similarity": 0.93,
+            "explanation": "2 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "WYN-3301",
+            "recordBVal": "ACH-WYN-3301",
+            "similarity": 0.6666666666666666,
+            "explanation": "Reference comparison: \"WYN-3301\" vs \"ACH-WYN-3301\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "8 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.77",
+            "similarity": 0.77,
+            "explanation": "Top candidate score 0.77 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "L-SHOWCASE-903",
+      "source": "ledger",
+      "reasonCode": "low_confidence",
+      "tier": 2,
+      "candidatesConsidered": 5,
+      "reasoning": "candidate pool (5 candidates, top score 0.27) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.27,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "18450 USD",
+            "recordBVal": "9940 USD",
+            "similarity": 0.5,
+            "explanation": "Amount comparison: 18450 USD vs 9940 USD"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-29",
+            "recordBVal": "2026-06-28",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "DRAFT-MEMO-99",
+            "recordBVal": "SUSPENSE-WIRE-9940",
+            "similarity": 0,
+            "explanation": "Reference comparison: \"DRAFT-MEMO-99\" vs \"SUSPENSE-WIRE-9940\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "5 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.27",
+            "similarity": 0.27,
+            "explanation": "Top candidate score 0.27 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "P-SHOWCASE-103",
+      "source": "processor",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 11,
+      "reasoning": "candidate pool (11 candidates, top score 0.60) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "488200 INR",
+            "recordBVal": "500000 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 488200 INR vs 500000 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-19",
+            "recordBVal": "2026-06-19",
+            "similarity": 1,
+            "explanation": "0 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "pay_stark_9910",
+            "recordBVal": "ST-9910",
+            "similarity": 0.3333333333333333,
+            "explanation": "Reference comparison: \"pay_stark_9910\" vs \"ST-9910\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "11 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.60",
+            "similarity": 0.6,
+            "explanation": "Top candidate score 0.60 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "P-SHOWCASE-101",
+      "source": "processor",
+      "reasonCode": "low_confidence",
+      "tier": 2,
+      "candidatesConsidered": 6,
+      "reasoning": "candidate pool (6 candidates, top score 0.83) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "14500 USD",
+            "recordBVal": "14500 USD",
+            "similarity": 1,
+            "explanation": "Amount comparison: 14500 USD vs 14500 USD"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-14",
+            "recordBVal": "2026-06-14",
+            "similarity": 1,
+            "explanation": "0 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "ch_acme_8841",
+            "recordBVal": "PO-ACME-8841",
+            "similarity": 1,
+            "explanation": "Reference comparison: \"ch_acme_8841\" vs \"PO-ACME-8841\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "6 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.83",
+            "similarity": 0.83,
+            "explanation": "Top candidate score 0.83 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    }
+  ],
+  "inputManifest": [
+    {
+      "file": "data\\agent-showcase\\bank-statement.json",
+      "source": "bank",
+      "totalRows": 9,
+      "validRecords": 9,
+      "sha256": "9238ef2316a41ee0f577d38a168c3f5727f0153cedf51645b564a1e3ab826cb4"
+    },
+    {
+      "file": "data\\agent-showcase\\internal-ledger.json",
+      "source": "ledger",
+      "totalRows": 8,
+      "validRecords": 8,
+      "sha256": "232f27b1e71cd82c62eb7a4f69cae849aff5b999a9f742fa63df7eda1a040bec"
+    },
+    {
+      "file": "data\\agent-showcase\\processor-export.json",
+      "source": "processor",
+      "totalRows": 2,
+      "validRecords": 2,
+      "sha256": "f76b8ab9ff51d982ce22b9da23bae747b1ba08426a9d9875414b66e870a16bca"
+    }
+  ],
+  "cashPosition": {
+    "USD": {
+      "currency": "USD",
+      "reconciledAmount": 22600,
+      "unreconciledAmount": 32790,
+      "netPosition": 55390,
+      "bankBalance": 55390,
+      "internalLedgerBalance": 52900,
+      "processorNodalBalance": 14500,
+      "taxWithheldMdr": 2000,
+      "inTransitVariance": -30300,
+      "reconciledCount": 3,
+      "unreconciledCount": 5,
+      "reconciliationRate": 0.375,
+      "brs": {
+        "currency": "USD",
+        "openingBankBalance": 0,
+        "clearedDeposits": 22600,
+        "clearedDisbursements": 0,
+        "closingBankBalance": 55390,
+        "unreconciledInTransitDeposits": 32790,
+        "unreconciledOutstandingPayments": 0,
+        "subledgerBalance": 52900,
+        "processorNodalBalance": 14500,
+        "statutoryAccrualsMdrTds": 2000,
+        "netVariance": -30300
+      }
+    },
+    "INR": {
+      "currency": "INR",
+      "reconciledAmount": 0,
+      "unreconciledAmount": 438200,
+      "netPosition": 438200,
+      "bankBalance": 438200,
+      "internalLedgerBalance": 500000,
+      "processorNodalBalance": 488200,
+      "taxWithheldMdr": 0,
+      "inTransitVariance": -500000,
+      "reconciledCount": 0,
+      "unreconciledCount": 1,
+      "reconciliationRate": 0,
+      "brs": {
+        "currency": "INR",
+        "openingBankBalance": 0,
+        "clearedDeposits": 0,
+        "clearedDisbursements": 0,
+        "closingBankBalance": 438200,
+        "unreconciledInTransitDeposits": 438200,
+        "unreconciledOutstandingPayments": 0,
+        "subledgerBalance": 500000,
+        "processorNodalBalance": 488200,
+        "statutoryAccrualsMdrTds": 0,
+        "netVariance": -500000
+      }
+    },
+    "EUR": {
+      "currency": "EUR",
+      "reconciledAmount": 0,
+      "unreconciledAmount": 0,
+      "netPosition": 0,
+      "bankBalance": 0,
+      "internalLedgerBalance": 10000,
+      "processorNodalBalance": 0,
+      "taxWithheldMdr": 0,
+      "inTransitVariance": -10000,
+      "reconciledCount": 0,
+      "unreconciledCount": 0,
+      "reconciliationRate": 1,
+      "brs": {
+        "currency": "EUR",
+        "openingBankBalance": 0,
+        "clearedDeposits": 0,
+        "clearedDisbursements": 0,
+        "closingBankBalance": 0,
+        "unreconciledInTransitDeposits": 0,
+        "unreconciledOutstandingPayments": 0,
+        "subledgerBalance": 10000,
+        "processorNodalBalance": 0,
+        "statutoryAccrualsMdrTds": 0,
+        "netVariance": -10000
+      }
+    }
+  },
+  "stats": {
+    "totalRecords": 19,
+    "matched": 7,
+    "exceptions": 12,
+    "skippedInvalid": 0,
+    "tier3Calls": 0,
+    "tier3Tokens": 0,
+    "tier3CostUsd": 0
+  }
+}

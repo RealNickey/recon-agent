@@ -1,0 +1,56 @@
+[
+  {
+    "id": "P9000",
+    "source": "processor",
+    "date": "2026-06-14",
+    "amount": 111699,
+    "currency": "INR",
+    "description": "Razorpay Captured Payment fee (MDR 2.36% + TDS 194J 10%) for order_656627",
+    "reference": "pay_237052"
+  },
+  {
+    "id": "P9001",
+    "source": "processor",
+    "date": "2026-06-07",
+    "amount": 210282,
+    "currency": "INR",
+    "description": "Razorpay Captured Payment fee (MDR 2.36% + TDS 194C 2%) for order_138401",
+    "reference": "pay_159928"
+  },
+  {
+    "id": "P9002",
+    "source": "processor",
+    "date": "2026-06-04",
+    "amount": 72900,
+    "currency": "INR",
+    "description": "Razorpay Captured Payment fee (MDR 2.36% (2% fee + 18% GST)) for order_397954",
+    "reference": "pay_466030"
+  },
+  {
+    "id": "P9003",
+    "source": "processor",
+    "date": "2026-06-05",
+    "amount": 50346,
+    "currency": "INR",
+    "description": "Razorpay Captured Payment fee (MDR 2.36% + TDS 194J 10%) for order_348485",
+    "reference": "pay_800247"
+  },
+  {
+    "id": "P9004",
+    "source": "processor",
+    "date": "2026-06-06",
+    "amount": 203032,
+    "currency": "INR",
+    "description": "Razorpay Captured Payment fee (MDR 2.36% + TDS 194C 2%) for order_346686",
+    "reference": "pay_472625"
+  },
+  {
+    "id": "P9005",
+    "source": "processor",
+    "date": "2026-06-07",
+    "amount": 218490,
+    "currency": "INR",
+    "description": "Razorpay Captured Payment fee (MDR 2.36% (2% fee + 18% GST)) for order_926777",
+    "reference": "pay_172340"
+  }
+]

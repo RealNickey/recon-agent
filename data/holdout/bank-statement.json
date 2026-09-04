@@ -1,0 +1,704 @@
+[
+  {
+    "id": "B5013",
+    "source": "bank",
+    "date": "2026-06-08",
+    "amount": 5003.1,
+    "currency": "USD",
+    "description": "Aperture Science payment INV-78099",
+    "reference": "INV-78099"
+  },
+  {
+    "id": "B5040",
+    "source": "bank",
+    "date": "2026-06-26",
+    "amount": 1196.97,
+    "currency": "USD",
+    "description": "Globex Ltd batch payment",
+    "reference": "BATCH-7968"
+  },
+  {
+    "id": "B5048",
+    "source": "bank",
+    "date": "2026-06-28",
+    "amount": 579.73,
+    "currency": "USD",
+    "description": "Wayne Enterprises payment INV-34140",
+    "reference": "INV-34140"
+  },
+  {
+    "id": "B5011",
+    "source": "bank",
+    "date": "2026-06-12",
+    "amount": 5402.68,
+    "currency": "USD",
+    "description": "Umbrella Inc payment INV-66727",
+    "reference": "INV-66727"
+  },
+  {
+    "id": "B5007",
+    "source": "bank",
+    "date": "2026-07-01",
+    "amount": 1294.76,
+    "currency": "USD",
+    "description": "Tyrell Corp payment INV-88119",
+    "reference": "INV-88119"
+  },
+  {
+    "id": "B5026",
+    "source": "bank",
+    "date": "2026-06-19",
+    "amount": 247.17,
+    "currency": "USD",
+    "description": "Massive Dynamic payment INV-30489",
+    "reference": "INV-30489"
+  },
+  {
+    "id": "B5009",
+    "source": "bank",
+    "date": "2026-06-09",
+    "amount": 7625.21,
+    "currency": "USD",
+    "description": "Wonka Labs payment INV-30870",
+    "reference": "INV-30870"
+  },
+  {
+    "id": "B5015",
+    "source": "bank",
+    "date": "2026-06-28",
+    "amount": 5906.42,
+    "currency": "USD",
+    "description": "Hooli payment INV-60057",
+    "reference": "INV-60057"
+  },
+  {
+    "id": "B5043",
+    "source": "bank",
+    "date": "2026-06-04",
+    "amount": 2240.12,
+    "currency": "USD",
+    "description": "Tyrell Corp batch payment",
+    "reference": "BATCH-6935"
+  },
+  {
+    "id": "B5029",
+    "source": "bank",
+    "date": "2026-06-10",
+    "amount": 3600.46,
+    "currency": "USD",
+    "description": "Oscorp payment INV-30832",
+    "reference": "INV-30832"
+  },
+  {
+    "id": "B5004",
+    "source": "bank",
+    "date": "2026-06-23",
+    "amount": 5256.63,
+    "currency": "USD",
+    "description": "Cyberdyne Systems payment INV-11957",
+    "reference": "INV-11957"
+  },
+  {
+    "id": "B5000",
+    "source": "bank",
+    "date": "2026-06-04",
+    "amount": 358.19,
+    "currency": "USD",
+    "description": "Wonka Labs payment INV-66967",
+    "reference": "INV-66967"
+  },
+  {
+    "id": "B5021",
+    "source": "bank",
+    "date": "2026-06-06",
+    "amount": 2024.07,
+    "currency": "USD",
+    "description": "Vandelay Industries payment INV-29158",
+    "reference": "INV-29158"
+  },
+  {
+    "id": "B5018",
+    "source": "bank",
+    "date": "2026-06-10",
+    "amount": 820.67,
+    "currency": "USD",
+    "description": "Aperture Science payment INV-96948",
+    "reference": "INV-96948"
+  },
+  {
+    "id": "B5022",
+    "source": "bank",
+    "date": "2026-06-14",
+    "amount": 5151.85,
+    "currency": "USD",
+    "description": "Acme Corp payment INV-30192",
+    "reference": "INV-30192"
+  },
+  {
+    "id": "B5010",
+    "source": "bank",
+    "date": "2026-06-16",
+    "amount": 7856.2,
+    "currency": "USD",
+    "description": "Massive Dynamic payment INV-27794",
+    "reference": "INV-27794"
+  },
+  {
+    "id": "B5008",
+    "source": "bank",
+    "date": "2026-06-08",
+    "amount": 8979.61,
+    "currency": "USD",
+    "description": "Initech LLC payment INV-86483",
+    "reference": "INV-86483"
+  },
+  {
+    "id": "B5070",
+    "source": "bank",
+    "date": "2026-06-06",
+    "amount": 1781.12,
+    "currency": "USD",
+    "description": "Oscorp partial INV-45816",
+    "reference": "INV-45816"
+  },
+  {
+    "id": "B5069",
+    "source": "bank",
+    "date": "2026-06-15",
+    "amount": 2944.77,
+    "currency": "EUR",
+    "description": "Vandelay Industries payment INV-32837",
+    "reference": "INV-32837"
+  },
+  {
+    "id": "B5077",
+    "source": "bank",
+    "date": "2026-06-23",
+    "amount": -534.74,
+    "currency": "USD",
+    "description": "Initech LLC refund INV-86920",
+    "reference": "INV-86920"
+  },
+  {
+    "id": "B5012",
+    "source": "bank",
+    "date": "2026-06-19",
+    "amount": 8648.77,
+    "currency": "USD",
+    "description": "Cyberdyne Systems payment INV-71758",
+    "reference": "INV-71758"
+  },
+  {
+    "id": "B5050",
+    "source": "bank",
+    "date": "2026-06-07",
+    "amount": 1820.47,
+    "currency": "USD",
+    "description": "Soylent Co payment INV-20142",
+    "reference": "INV-20142"
+  },
+  {
+    "id": "B5058",
+    "source": "bank",
+    "date": "2026-06-29",
+    "amount": 156.12,
+    "currency": "USD",
+    "description": "Stark Industries installment 1 INV-49305",
+    "reference": "INV-49305-1"
+  },
+  {
+    "id": "B5039",
+    "source": "bank",
+    "date": "2026-06-03",
+    "amount": 3419.29,
+    "currency": "USD",
+    "description": "Wayne Enterprises batch payment",
+    "reference": "BATCH-4646"
+  },
+  {
+    "id": "B5024",
+    "source": "bank",
+    "date": "2026-06-05",
+    "amount": 2466.56,
+    "currency": "USD",
+    "description": "Massive Dynamic payment INV-83702",
+    "reference": "INV-83702"
+  },
+  {
+    "id": "B5062",
+    "source": "bank",
+    "date": "2026-06-25",
+    "amount": 834.79,
+    "currency": "USD",
+    "description": "Tyrell Corp installment 3 INV-57326",
+    "reference": "INV-57326-3"
+  },
+  {
+    "id": "B5023",
+    "source": "bank",
+    "date": "2026-06-13",
+    "amount": 873.08,
+    "currency": "USD",
+    "description": "Stark Industries payment INV-25930",
+    "reference": "INV-25930"
+  },
+  {
+    "id": "B5067",
+    "source": "bank",
+    "date": "2026-06-23",
+    "amount": 4408.63,
+    "currency": "EUR",
+    "description": "Soylent Co payment INV-88559",
+    "reference": "INV-88559"
+  },
+  {
+    "id": "B5034",
+    "source": "bank",
+    "date": "2026-06-11",
+    "amount": 1385.92,
+    "currency": "USD",
+    "description": "Vandelay Industries payment inv 70160",
+    "reference": "inv 70160"
+  },
+  {
+    "id": "B5064",
+    "source": "bank",
+    "date": "2026-06-27",
+    "amount": 617.79,
+    "currency": "USD",
+    "description": "Vandelay Industries installment 2 INV-85901",
+    "reference": "INV-85901-2"
+  },
+  {
+    "id": "B5002",
+    "source": "bank",
+    "date": "2026-06-29",
+    "amount": 6197.55,
+    "currency": "USD",
+    "description": "Initech LLC payment INV-57248",
+    "reference": "INV-57248"
+  },
+  {
+    "id": "B5001",
+    "source": "bank",
+    "date": "2026-06-24",
+    "amount": 6699.61,
+    "currency": "USD",
+    "description": "Umbrella Inc payment INV-73312",
+    "reference": "INV-73312"
+  },
+  {
+    "id": "B5019",
+    "source": "bank",
+    "date": "2026-06-13",
+    "amount": 5434.44,
+    "currency": "USD",
+    "description": "Tyrell Corp payment INV-16312",
+    "reference": "INV-16312"
+  },
+  {
+    "id": "B5044",
+    "source": "bank",
+    "date": "2026-06-14",
+    "amount": 1978.29,
+    "currency": "USD",
+    "description": "Umbrella Inc batch payment",
+    "reference": "BATCH-6277"
+  },
+  {
+    "id": "B5031",
+    "source": "bank",
+    "date": "2026-06-14",
+    "amount": 1916.8,
+    "currency": "USD",
+    "description": "Acme Corp payment 90609",
+    "reference": "90609"
+  },
+  {
+    "id": "B5068",
+    "source": "bank",
+    "date": "2026-06-19",
+    "amount": 2187.85,
+    "currency": "EUR",
+    "description": "Massive Dynamic payment INV-35019",
+    "reference": "INV-35019"
+  },
+  {
+    "id": "B5036",
+    "source": "bank",
+    "date": "2026-06-20",
+    "amount": 5340.89,
+    "currency": "USD",
+    "description": "Initech LLC payment inv 11053",
+    "reference": "inv 11053"
+  },
+  {
+    "id": "B5017",
+    "source": "bank",
+    "date": "2026-06-04",
+    "amount": 3908.45,
+    "currency": "USD",
+    "description": "Aperture Science payment INV-85808",
+    "reference": "INV-85808"
+  },
+  {
+    "id": "B5025",
+    "source": "bank",
+    "date": "2026-06-02",
+    "amount": 4098.51,
+    "currency": "USD",
+    "description": "Aperture Science payment INV-12033",
+    "reference": "INV-12033"
+  },
+  {
+    "id": "B5014",
+    "source": "bank",
+    "date": "2026-06-23",
+    "amount": 2726.8,
+    "currency": "USD",
+    "description": "Initech LLC payment INV-14082",
+    "reference": "INV-14082"
+  },
+  {
+    "id": "B5061",
+    "source": "bank",
+    "date": "2026-06-24",
+    "amount": 1080.9,
+    "currency": "USD",
+    "description": "Tyrell Corp installment 2 INV-57326",
+    "reference": "INV-57326-2"
+  },
+  {
+    "id": "B5016",
+    "source": "bank",
+    "date": "2026-06-10",
+    "amount": 6249.15,
+    "currency": "USD",
+    "description": "Hooli payment INV-28026",
+    "reference": "INV-28026"
+  },
+  {
+    "id": "B5066",
+    "source": "bank",
+    "date": "2026-06-24",
+    "amount": 3986.43,
+    "currency": "EUR",
+    "description": "Acme Corp payment INV-57824",
+    "reference": "INV-57824"
+  },
+  {
+    "id": "B5006",
+    "source": "bank",
+    "date": "2026-06-14",
+    "amount": 3463.67,
+    "currency": "USD",
+    "description": "Tyrell Corp payment INV-47307",
+    "reference": "INV-47307"
+  },
+  {
+    "id": "B5045",
+    "source": "bank",
+    "date": "2026-06-24",
+    "amount": 2951.12,
+    "currency": "USD",
+    "description": "Aperture Science payment INV-69271",
+    "reference": "INV-69271"
+  },
+  {
+    "id": "B5059",
+    "source": "bank",
+    "date": "2026-06-30",
+    "amount": 693.69,
+    "currency": "USD",
+    "description": "Stark Industries installment 2 INV-49305",
+    "reference": "INV-49305-2"
+  },
+  {
+    "id": "B5037",
+    "source": "bank",
+    "date": "2026-06-13",
+    "amount": 4330.11,
+    "currency": "USD",
+    "description": "Umbrella Inc payment inv 94293",
+    "reference": "inv 94293"
+  },
+  {
+    "id": "B5072",
+    "source": "bank",
+    "date": "2026-06-26",
+    "amount": 1350.26,
+    "currency": "USD",
+    "description": "Aperture Science partial INV-53786",
+    "reference": "INV-53786"
+  },
+  {
+    "id": "B5049",
+    "source": "bank",
+    "date": "2026-06-07",
+    "amount": 2713.1,
+    "currency": "USD",
+    "description": "Aperture Science payment INV-22097",
+    "reference": "INV-22097"
+  },
+  {
+    "id": "B5027",
+    "source": "bank",
+    "date": "2026-06-08",
+    "amount": 2210.54,
+    "currency": "USD",
+    "description": "Hooli payment INV-98512",
+    "reference": "INV-98512"
+  },
+  {
+    "id": "B5074",
+    "source": "bank",
+    "date": "2026-06-19",
+    "amount": -1170.63,
+    "currency": "USD",
+    "description": "Hooli refund INV-89970",
+    "reference": "INV-89970"
+  },
+  {
+    "id": "B5028",
+    "source": "bank",
+    "date": "2026-06-12",
+    "amount": 2619.29,
+    "currency": "USD",
+    "description": "Soylent Co payment INV-24364",
+    "reference": "INV-24364"
+  },
+  {
+    "id": "B5073",
+    "source": "bank",
+    "date": "2026-06-25",
+    "amount": 3406.22,
+    "currency": "USD",
+    "description": "Cyberdyne Systems partial INV-97669",
+    "reference": "INV-97669"
+  },
+  {
+    "id": "B5052",
+    "source": "bank",
+    "date": "2026-06-16",
+    "amount": 284.67,
+    "currency": "USD",
+    "description": "Stark Industries payment INV-67295",
+    "reference": "INV-67295"
+  },
+  {
+    "id": "B5076",
+    "source": "bank",
+    "date": "2026-06-23",
+    "amount": -244.84,
+    "currency": "USD",
+    "description": "Initech LLC refund INV-86083",
+    "reference": "INV-86083"
+  },
+  {
+    "id": "B5063",
+    "source": "bank",
+    "date": "2026-06-26",
+    "amount": 1383.08,
+    "currency": "USD",
+    "description": "Vandelay Industries installment 1 INV-85901",
+    "reference": "INV-85901-1"
+  },
+  {
+    "id": "B5033",
+    "source": "bank",
+    "date": "2026-06-02",
+    "amount": 3069.89,
+    "currency": "USD",
+    "description": "Wayne Enterprises payment inv 42848",
+    "reference": "inv 42848"
+  },
+  {
+    "id": "B5054",
+    "source": "bank",
+    "date": "2026-06-05",
+    "amount": 115.9,
+    "currency": "USD",
+    "description": "Massive Dynamic payment INV-54261",
+    "reference": "INV-54261"
+  },
+  {
+    "id": "B5075",
+    "source": "bank",
+    "date": "2026-06-26",
+    "amount": -853.49,
+    "currency": "USD",
+    "description": "Initech LLC refund INV-88089",
+    "reference": "INV-88089"
+  },
+  {
+    "id": "B5035",
+    "source": "bank",
+    "date": "2026-06-10",
+    "amount": 3372.85,
+    "currency": "USD",
+    "description": "Massive Dynamic payment INV26949",
+    "reference": "INV26949"
+  },
+  {
+    "id": "B5051",
+    "source": "bank",
+    "date": "2026-06-15",
+    "amount": 5245.77,
+    "currency": "USD",
+    "description": "Tyrell Corp payment INV-85210",
+    "reference": "INV-85210"
+  },
+  {
+    "id": "B5020",
+    "source": "bank",
+    "date": "2026-06-24",
+    "amount": 483.77,
+    "currency": "USD",
+    "description": "Wayne Enterprises payment INV-26580",
+    "reference": "INV-26580"
+  },
+  {
+    "id": "B5065",
+    "source": "bank",
+    "date": "2026-06-28",
+    "amount": 1390.29,
+    "currency": "USD",
+    "description": "Vandelay Industries installment 3 INV-85901",
+    "reference": "INV-85901-3"
+  },
+  {
+    "id": "B5030",
+    "source": "bank",
+    "date": "2026-06-29",
+    "amount": 2918.46,
+    "currency": "USD",
+    "description": "Oscorp payment INV-99593",
+    "reference": "INV-99593"
+  },
+  {
+    "id": "B5046",
+    "source": "bank",
+    "date": "2026-06-09",
+    "amount": 3187.38,
+    "currency": "USD",
+    "description": "Cyberdyne Systems payment INV-57506",
+    "reference": "INV-57506"
+  },
+  {
+    "id": "B5042",
+    "source": "bank",
+    "date": "2026-06-21",
+    "amount": 2228.21,
+    "currency": "USD",
+    "description": "Vandelay Industries batch payment",
+    "reference": "BATCH-1682"
+  },
+  {
+    "id": "B5005",
+    "source": "bank",
+    "date": "2026-06-15",
+    "amount": 2508.66,
+    "currency": "USD",
+    "description": "Acme Corp payment INV-17476",
+    "reference": "INV-17476"
+  },
+  {
+    "id": "B5032",
+    "source": "bank",
+    "date": "2026-06-14",
+    "amount": 5638.75,
+    "currency": "USD",
+    "description": "Globex Ltd payment INV-80265-A",
+    "reference": "INV-80265-A"
+  },
+  {
+    "id": "B5003",
+    "source": "bank",
+    "date": "2026-06-04",
+    "amount": 6606.98,
+    "currency": "USD",
+    "description": "Oscorp payment INV-42830",
+    "reference": "INV-42830"
+  },
+  {
+    "id": "B5047",
+    "source": "bank",
+    "date": "2026-06-28",
+    "amount": 552.23,
+    "currency": "USD",
+    "description": "Stark Industries payment INV-54794",
+    "reference": "INV-54794"
+  },
+  {
+    "id": "B5071",
+    "source": "bank",
+    "date": "2026-06-06",
+    "amount": 2171.28,
+    "currency": "USD",
+    "description": "Hooli partial INV-16805",
+    "reference": "INV-16805"
+  },
+  {
+    "id": "B5038",
+    "source": "bank",
+    "date": "2026-06-17",
+    "amount": 2243.6,
+    "currency": "USD",
+    "description": "Cyberdyne Systems payment INV15188",
+    "reference": "INV15188"
+  },
+  {
+    "id": "B5053",
+    "source": "bank",
+    "date": "2026-06-04",
+    "amount": 2367.38,
+    "currency": "USD",
+    "description": "Aperture Science payment INV-64844",
+    "reference": "INV-64844"
+  },
+  {
+    "id": "B5055",
+    "source": "bank",
+    "date": "2026-06-16",
+    "amount": 1117.71,
+    "currency": "USD",
+    "description": "Wayne Enterprises installment 1 INV-25275",
+    "reference": "INV-25275-1"
+  },
+  {
+    "id": "B5060",
+    "source": "bank",
+    "date": "2026-06-23",
+    "amount": 1160.88,
+    "currency": "USD",
+    "description": "Tyrell Corp installment 1 INV-57326",
+    "reference": "INV-57326-1"
+  },
+  {
+    "id": "B5057",
+    "source": "bank",
+    "date": "2026-06-18",
+    "amount": 1422.75,
+    "currency": "USD",
+    "description": "Wayne Enterprises installment 3 INV-25275",
+    "reference": "INV-25275-3"
+  },
+  {
+    "id": "B5041",
+    "source": "bank",
+    "date": "2026-06-28",
+    "amount": 4548.61,
+    "currency": "USD",
+    "description": "Acme Corp batch payment",
+    "reference": "BATCH-4536"
+  },
+  {
+    "id": "B5056",
+    "source": "bank",
+    "date": "2026-06-17",
+    "amount": 1302.78,
+    "currency": "USD",
+    "description": "Wayne Enterprises installment 2 INV-25275",
+    "reference": "INV-25275-2"
+  }
+]

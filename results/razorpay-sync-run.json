@@ -1,0 +1,3719 @@
+{
+  "startedAt": "2026-09-04T15:35:54.346Z",
+  "finishedAt": "2026-09-04T15:35:54.829Z",
+  "durationMs": 483,
+  "model": "none",
+  "outcomes": [
+    {
+      "status": "matched",
+      "recordId": "B_B2B_201",
+      "source": "bank",
+      "matchedIds": [
+        "L_B2B_201"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "amount_variance",
+      "reasoning": "Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36%: ledger gross 60000 -> bank net 52584 (deduction 12.36%)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Indian Statutory / Payment Schedule: Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36%",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "tax_schedule",
+            "recordAVal": 60000,
+            "recordBVal": 52584,
+            "similarity": 1,
+            "explanation": "Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36% exactly matches net bank amount 52584 (expected: 52584)"
+          },
+          {
+            "field": "reference_or_vendor",
+            "recordAVal": "order_b2b_201",
+            "recordBVal": "RZP-SETTLE-order_b2b_201",
+            "similarity": 0.6,
+            "explanation": "Vendor token overlap: 0.60"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L_B2B_201",
+      "source": "ledger",
+      "matchedIds": [
+        "B_B2B_201"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "amount_variance",
+      "reasoning": "Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36%: ledger gross 60000 -> bank net 52584 (deduction 12.36%)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Indian Statutory / Payment Schedule: Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36%",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "tax_schedule",
+            "recordAVal": 60000,
+            "recordBVal": 52584,
+            "similarity": 1,
+            "explanation": "Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36% exactly matches net bank amount 52584 (expected: 52584)"
+          },
+          {
+            "field": "reference_or_vendor",
+            "recordAVal": "order_b2b_201",
+            "recordBVal": "RZP-SETTLE-order_b2b_201",
+            "similarity": 0.6,
+            "explanation": "Vendor token overlap: 0.60"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "B_B2B_202",
+      "source": "bank",
+      "matchedIds": [
+        "L_B2B_202"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "amount_variance",
+      "reasoning": "Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36%: ledger gross 70000 -> bank net 61348 (deduction 12.36%)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Indian Statutory / Payment Schedule: Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36%",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "tax_schedule",
+            "recordAVal": 70000,
+            "recordBVal": 61348,
+            "similarity": 1,
+            "explanation": "Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36% exactly matches net bank amount 61348 (expected: 61348)"
+          },
+          {
+            "field": "reference_or_vendor",
+            "recordAVal": "order_b2b_202",
+            "recordBVal": "RZP-SETTLE-order_b2b_202",
+            "similarity": 0.6,
+            "explanation": "Vendor token overlap: 0.60"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L_B2B_202",
+      "source": "ledger",
+      "matchedIds": [
+        "B_B2B_202"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "amount_variance",
+      "reasoning": "Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36%: ledger gross 70000 -> bank net 61348 (deduction 12.36%)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Indian Statutory / Payment Schedule: Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36%",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "tax_schedule",
+            "recordAVal": 70000,
+            "recordBVal": 61348,
+            "similarity": 1,
+            "explanation": "Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36% exactly matches net bank amount 61348 (expected: 61348)"
+          },
+          {
+            "field": "reference_or_vendor",
+            "recordAVal": "order_b2b_202",
+            "recordBVal": "RZP-SETTLE-order_b2b_202",
+            "similarity": 0.6,
+            "explanation": "Vendor token overlap: 0.60"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "B_B2B_203",
+      "source": "bank",
+      "matchedIds": [
+        "L_B2B_203"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "amount_variance",
+      "reasoning": "Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36%: ledger gross 80000 -> bank net 70112 (deduction 12.36%)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Indian Statutory / Payment Schedule: Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36%",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "tax_schedule",
+            "recordAVal": 80000,
+            "recordBVal": 70112,
+            "similarity": 1,
+            "explanation": "Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36% exactly matches net bank amount 70112 (expected: 70112)"
+          },
+          {
+            "field": "reference_or_vendor",
+            "recordAVal": "order_b2b_203",
+            "recordBVal": "RZP-SETTLE-order_b2b_203",
+            "similarity": 0.6,
+            "explanation": "Vendor token overlap: 0.60"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L_B2B_203",
+      "source": "ledger",
+      "matchedIds": [
+        "B_B2B_203"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "amount_variance",
+      "reasoning": "Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36%: ledger gross 80000 -> bank net 70112 (deduction 12.36%)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Indian Statutory / Payment Schedule: Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36%",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "tax_schedule",
+            "recordAVal": 80000,
+            "recordBVal": 70112,
+            "similarity": 1,
+            "explanation": "Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36% exactly matches net bank amount 70112 (expected: 70112)"
+          },
+          {
+            "field": "reference_or_vendor",
+            "recordAVal": "order_b2b_203",
+            "recordBVal": "RZP-SETTLE-order_b2b_203",
+            "similarity": 0.6,
+            "explanation": "Vendor token overlap: 0.60"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "B_B2B_204",
+      "source": "bank",
+      "matchedIds": [
+        "L_B2B_204"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "amount_variance",
+      "reasoning": "Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36%: ledger gross 90000 -> bank net 78876 (deduction 12.36%)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Indian Statutory / Payment Schedule: Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36%",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "tax_schedule",
+            "recordAVal": 90000,
+            "recordBVal": 78876,
+            "similarity": 1,
+            "explanation": "Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36% exactly matches net bank amount 78876 (expected: 78876)"
+          },
+          {
+            "field": "reference_or_vendor",
+            "recordAVal": "order_b2b_204",
+            "recordBVal": "RZP-SETTLE-order_b2b_204",
+            "similarity": 0.6,
+            "explanation": "Vendor token overlap: 0.60"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L_B2B_204",
+      "source": "ledger",
+      "matchedIds": [
+        "B_B2B_204"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "amount_variance",
+      "reasoning": "Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36%: ledger gross 90000 -> bank net 78876 (deduction 12.36%)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Indian Statutory / Payment Schedule: Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36%",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "tax_schedule",
+            "recordAVal": 90000,
+            "recordBVal": 78876,
+            "similarity": 1,
+            "explanation": "Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36% exactly matches net bank amount 78876 (expected: 78876)"
+          },
+          {
+            "field": "reference_or_vendor",
+            "recordAVal": "order_b2b_204",
+            "recordBVal": "RZP-SETTLE-order_b2b_204",
+            "similarity": 0.6,
+            "explanation": "Vendor token overlap: 0.60"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "B_B2B_205",
+      "source": "bank",
+      "matchedIds": [
+        "L_B2B_205"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "amount_variance",
+      "reasoning": "Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36%: ledger gross 100000 -> bank net 87640 (deduction 12.36%)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Indian Statutory / Payment Schedule: Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36%",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "tax_schedule",
+            "recordAVal": 100000,
+            "recordBVal": 87640,
+            "similarity": 1,
+            "explanation": "Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36% exactly matches net bank amount 87640 (expected: 87640)"
+          },
+          {
+            "field": "reference_or_vendor",
+            "recordAVal": "order_b2b_205",
+            "recordBVal": "RZP-SETTLE-order_b2b_205",
+            "similarity": 0.6,
+            "explanation": "Vendor token overlap: 0.60"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L_B2B_205",
+      "source": "ledger",
+      "matchedIds": [
+        "B_B2B_205"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "amount_variance",
+      "reasoning": "Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36%: ledger gross 100000 -> bank net 87640 (deduction 12.36%)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Indian Statutory / Payment Schedule: Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36%",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "tax_schedule",
+            "recordAVal": 100000,
+            "recordBVal": 87640,
+            "similarity": 1,
+            "explanation": "Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36% exactly matches net bank amount 87640 (expected: 87640)"
+          },
+          {
+            "field": "reference_or_vendor",
+            "recordAVal": "order_b2b_205",
+            "recordBVal": "RZP-SETTLE-order_b2b_205",
+            "similarity": 0.6,
+            "explanation": "Vendor token overlap: 0.60"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L_RZP_0001",
+      "source": "ledger",
+      "matchedIds": [
+        "P_RZP_0001"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0001~pay_test_0001 days=0 5750 INR vs 5750 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 5750,
+            "recordBVal": 5750,
+            "similarity": 1,
+            "explanation": "5750 INR vs 5750 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0001",
+            "recordBVal": "pay_test_0001",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "P_RZP_0001",
+      "source": "processor",
+      "matchedIds": [
+        "L_RZP_0001"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0001~pay_test_0001 days=0 5750 INR vs 5750 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 5750,
+            "recordBVal": 5750,
+            "similarity": 1,
+            "explanation": "5750 INR vs 5750 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0001",
+            "recordBVal": "pay_test_0001",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L_RZP_0002",
+      "source": "ledger",
+      "matchedIds": [
+        "P_RZP_0002"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0002~pay_test_0002 days=0 6500 INR vs 6500 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 6500,
+            "recordBVal": 6500,
+            "similarity": 1,
+            "explanation": "6500 INR vs 6500 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0002",
+            "recordBVal": "pay_test_0002",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "P_RZP_0002",
+      "source": "processor",
+      "matchedIds": [
+        "L_RZP_0002"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0002~pay_test_0002 days=0 6500 INR vs 6500 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 6500,
+            "recordBVal": 6500,
+            "similarity": 1,
+            "explanation": "6500 INR vs 6500 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0002",
+            "recordBVal": "pay_test_0002",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L_RZP_0003",
+      "source": "ledger",
+      "matchedIds": [
+        "P_RZP_0003"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0003~pay_test_0003 days=0 7250 INR vs 7250 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 7250,
+            "recordBVal": 7250,
+            "similarity": 1,
+            "explanation": "7250 INR vs 7250 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0003",
+            "recordBVal": "pay_test_0003",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "P_RZP_0003",
+      "source": "processor",
+      "matchedIds": [
+        "L_RZP_0003"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0003~pay_test_0003 days=0 7250 INR vs 7250 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 7250,
+            "recordBVal": 7250,
+            "similarity": 1,
+            "explanation": "7250 INR vs 7250 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0003",
+            "recordBVal": "pay_test_0003",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L_RZP_0004",
+      "source": "ledger",
+      "matchedIds": [
+        "P_RZP_0004"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0004~pay_test_0004 days=0 8000 INR vs 8000 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 8000,
+            "recordBVal": 8000,
+            "similarity": 1,
+            "explanation": "8000 INR vs 8000 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0004",
+            "recordBVal": "pay_test_0004",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "P_RZP_0004",
+      "source": "processor",
+      "matchedIds": [
+        "L_RZP_0004"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0004~pay_test_0004 days=0 8000 INR vs 8000 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 8000,
+            "recordBVal": 8000,
+            "similarity": 1,
+            "explanation": "8000 INR vs 8000 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0004",
+            "recordBVal": "pay_test_0004",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L_RZP_0005",
+      "source": "ledger",
+      "matchedIds": [
+        "P_RZP_0005"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0005~pay_test_0005 days=0 8750 INR vs 8750 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 8750,
+            "recordBVal": 8750,
+            "similarity": 1,
+            "explanation": "8750 INR vs 8750 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0005",
+            "recordBVal": "pay_test_0005",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "P_RZP_0005",
+      "source": "processor",
+      "matchedIds": [
+        "L_RZP_0005"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0005~pay_test_0005 days=0 8750 INR vs 8750 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 8750,
+            "recordBVal": 8750,
+            "similarity": 1,
+            "explanation": "8750 INR vs 8750 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0005",
+            "recordBVal": "pay_test_0005",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L_RZP_0006",
+      "source": "ledger",
+      "matchedIds": [
+        "P_RZP_0006"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0006~pay_test_0006 days=0 9500 INR vs 9500 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 9500,
+            "recordBVal": 9500,
+            "similarity": 1,
+            "explanation": "9500 INR vs 9500 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0006",
+            "recordBVal": "pay_test_0006",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "P_RZP_0006",
+      "source": "processor",
+      "matchedIds": [
+        "L_RZP_0006"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0006~pay_test_0006 days=0 9500 INR vs 9500 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 9500,
+            "recordBVal": 9500,
+            "similarity": 1,
+            "explanation": "9500 INR vs 9500 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0006",
+            "recordBVal": "pay_test_0006",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L_RZP_0007",
+      "source": "ledger",
+      "matchedIds": [
+        "P_RZP_0007"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0007~pay_test_0007 days=0 10250 INR vs 10250 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 10250,
+            "recordBVal": 10250,
+            "similarity": 1,
+            "explanation": "10250 INR vs 10250 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0007",
+            "recordBVal": "pay_test_0007",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "P_RZP_0007",
+      "source": "processor",
+      "matchedIds": [
+        "L_RZP_0007"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0007~pay_test_0007 days=0 10250 INR vs 10250 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 10250,
+            "recordBVal": 10250,
+            "similarity": 1,
+            "explanation": "10250 INR vs 10250 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0007",
+            "recordBVal": "pay_test_0007",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L_RZP_0008",
+      "source": "ledger",
+      "matchedIds": [
+        "P_RZP_0008"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0008~pay_test_0008 days=0 11000 INR vs 11000 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 11000,
+            "recordBVal": 11000,
+            "similarity": 1,
+            "explanation": "11000 INR vs 11000 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0008",
+            "recordBVal": "pay_test_0008",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "P_RZP_0008",
+      "source": "processor",
+      "matchedIds": [
+        "L_RZP_0008"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0008~pay_test_0008 days=0 11000 INR vs 11000 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 11000,
+            "recordBVal": 11000,
+            "similarity": 1,
+            "explanation": "11000 INR vs 11000 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0008",
+            "recordBVal": "pay_test_0008",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L_RZP_0009",
+      "source": "ledger",
+      "matchedIds": [
+        "P_RZP_0009"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0009~pay_test_0009 days=0 11750 INR vs 11750 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 11750,
+            "recordBVal": 11750,
+            "similarity": 1,
+            "explanation": "11750 INR vs 11750 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0009",
+            "recordBVal": "pay_test_0009",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "P_RZP_0009",
+      "source": "processor",
+      "matchedIds": [
+        "L_RZP_0009"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0009~pay_test_0009 days=0 11750 INR vs 11750 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 11750,
+            "recordBVal": 11750,
+            "similarity": 1,
+            "explanation": "11750 INR vs 11750 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0009",
+            "recordBVal": "pay_test_0009",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L_RZP_0010",
+      "source": "ledger",
+      "matchedIds": [
+        "P_RZP_0010"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0010~pay_test_0010 days=0 12500 INR vs 12500 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 12500,
+            "recordBVal": 12500,
+            "similarity": 1,
+            "explanation": "12500 INR vs 12500 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0010",
+            "recordBVal": "pay_test_0010",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "P_RZP_0010",
+      "source": "processor",
+      "matchedIds": [
+        "L_RZP_0010"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0010~pay_test_0010 days=0 12500 INR vs 12500 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 12500,
+            "recordBVal": 12500,
+            "similarity": 1,
+            "explanation": "12500 INR vs 12500 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0010",
+            "recordBVal": "pay_test_0010",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L_RZP_0011",
+      "source": "ledger",
+      "matchedIds": [
+        "P_RZP_0011"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0011~pay_test_0011 days=0 13250 INR vs 13250 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 13250,
+            "recordBVal": 13250,
+            "similarity": 1,
+            "explanation": "13250 INR vs 13250 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0011",
+            "recordBVal": "pay_test_0011",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "P_RZP_0011",
+      "source": "processor",
+      "matchedIds": [
+        "L_RZP_0011"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0011~pay_test_0011 days=0 13250 INR vs 13250 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 13250,
+            "recordBVal": 13250,
+            "similarity": 1,
+            "explanation": "13250 INR vs 13250 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0011",
+            "recordBVal": "pay_test_0011",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L_RZP_0012",
+      "source": "ledger",
+      "matchedIds": [
+        "P_RZP_0012"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0012~pay_test_0012 days=0 14000 INR vs 14000 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 14000,
+            "recordBVal": 14000,
+            "similarity": 1,
+            "explanation": "14000 INR vs 14000 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0012",
+            "recordBVal": "pay_test_0012",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "P_RZP_0012",
+      "source": "processor",
+      "matchedIds": [
+        "L_RZP_0012"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0012~pay_test_0012 days=0 14000 INR vs 14000 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 14000,
+            "recordBVal": 14000,
+            "similarity": 1,
+            "explanation": "14000 INR vs 14000 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0012",
+            "recordBVal": "pay_test_0012",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L_RZP_0013",
+      "source": "ledger",
+      "matchedIds": [
+        "P_RZP_0013"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0013~pay_test_0013 days=0 14750 INR vs 14750 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 14750,
+            "recordBVal": 14750,
+            "similarity": 1,
+            "explanation": "14750 INR vs 14750 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0013",
+            "recordBVal": "pay_test_0013",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "P_RZP_0013",
+      "source": "processor",
+      "matchedIds": [
+        "L_RZP_0013"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0013~pay_test_0013 days=0 14750 INR vs 14750 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 14750,
+            "recordBVal": 14750,
+            "similarity": 1,
+            "explanation": "14750 INR vs 14750 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0013",
+            "recordBVal": "pay_test_0013",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L_RZP_0014",
+      "source": "ledger",
+      "matchedIds": [
+        "P_RZP_0014"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0014~pay_test_0014 days=0 15500 INR vs 15500 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 15500,
+            "recordBVal": 15500,
+            "similarity": 1,
+            "explanation": "15500 INR vs 15500 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0014",
+            "recordBVal": "pay_test_0014",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "P_RZP_0014",
+      "source": "processor",
+      "matchedIds": [
+        "L_RZP_0014"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0014~pay_test_0014 days=0 15500 INR vs 15500 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 15500,
+            "recordBVal": 15500,
+            "similarity": 1,
+            "explanation": "15500 INR vs 15500 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0014",
+            "recordBVal": "pay_test_0014",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L_RZP_0015",
+      "source": "ledger",
+      "matchedIds": [
+        "P_RZP_0015"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0015~pay_test_0015 days=0 16250 INR vs 16250 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 16250,
+            "recordBVal": 16250,
+            "similarity": 1,
+            "explanation": "16250 INR vs 16250 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0015",
+            "recordBVal": "pay_test_0015",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "P_RZP_0015",
+      "source": "processor",
+      "matchedIds": [
+        "L_RZP_0015"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0015~pay_test_0015 days=0 16250 INR vs 16250 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 16250,
+            "recordBVal": 16250,
+            "similarity": 1,
+            "explanation": "16250 INR vs 16250 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0015",
+            "recordBVal": "pay_test_0015",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L_RZP_0016",
+      "source": "ledger",
+      "matchedIds": [
+        "P_RZP_0016"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0016~pay_test_0016 days=0 17000 INR vs 17000 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 17000,
+            "recordBVal": 17000,
+            "similarity": 1,
+            "explanation": "17000 INR vs 17000 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0016",
+            "recordBVal": "pay_test_0016",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "P_RZP_0016",
+      "source": "processor",
+      "matchedIds": [
+        "L_RZP_0016"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0016~pay_test_0016 days=0 17000 INR vs 17000 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 17000,
+            "recordBVal": 17000,
+            "similarity": 1,
+            "explanation": "17000 INR vs 17000 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0016",
+            "recordBVal": "pay_test_0016",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L_RZP_0017",
+      "source": "ledger",
+      "matchedIds": [
+        "P_RZP_0017"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0017~pay_test_0017 days=0 17750 INR vs 17750 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 17750,
+            "recordBVal": 17750,
+            "similarity": 1,
+            "explanation": "17750 INR vs 17750 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0017",
+            "recordBVal": "pay_test_0017",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "P_RZP_0017",
+      "source": "processor",
+      "matchedIds": [
+        "L_RZP_0017"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0017~pay_test_0017 days=0 17750 INR vs 17750 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 17750,
+            "recordBVal": 17750,
+            "similarity": 1,
+            "explanation": "17750 INR vs 17750 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0017",
+            "recordBVal": "pay_test_0017",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L_RZP_0018",
+      "source": "ledger",
+      "matchedIds": [
+        "P_RZP_0018"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0018~pay_test_0018 days=0 18500 INR vs 18500 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 18500,
+            "recordBVal": 18500,
+            "similarity": 1,
+            "explanation": "18500 INR vs 18500 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0018",
+            "recordBVal": "pay_test_0018",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "P_RZP_0018",
+      "source": "processor",
+      "matchedIds": [
+        "L_RZP_0018"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0018~pay_test_0018 days=0 18500 INR vs 18500 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 18500,
+            "recordBVal": 18500,
+            "similarity": 1,
+            "explanation": "18500 INR vs 18500 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0018",
+            "recordBVal": "pay_test_0018",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L_RZP_0019",
+      "source": "ledger",
+      "matchedIds": [
+        "P_RZP_0019"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0019~pay_test_0019 days=0 19250 INR vs 19250 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 19250,
+            "recordBVal": 19250,
+            "similarity": 1,
+            "explanation": "19250 INR vs 19250 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0019",
+            "recordBVal": "pay_test_0019",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "P_RZP_0019",
+      "source": "processor",
+      "matchedIds": [
+        "L_RZP_0019"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0019~pay_test_0019 days=0 19250 INR vs 19250 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 19250,
+            "recordBVal": 19250,
+            "similarity": 1,
+            "explanation": "19250 INR vs 19250 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0019",
+            "recordBVal": "pay_test_0019",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L_RZP_0020",
+      "source": "ledger",
+      "matchedIds": [
+        "P_RZP_0020"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0020~pay_test_0020 days=0 20000 INR vs 20000 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 20000,
+            "recordBVal": 20000,
+            "similarity": 1,
+            "explanation": "20000 INR vs 20000 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0020",
+            "recordBVal": "pay_test_0020",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "P_RZP_0020",
+      "source": "processor",
+      "matchedIds": [
+        "L_RZP_0020"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0020~pay_test_0020 days=0 20000 INR vs 20000 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 20000,
+            "recordBVal": 20000,
+            "similarity": 1,
+            "explanation": "20000 INR vs 20000 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0020",
+            "recordBVal": "pay_test_0020",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L_RZP_0021",
+      "source": "ledger",
+      "matchedIds": [
+        "P_RZP_0021"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0021~pay_test_0021 days=0 20750 INR vs 20750 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 20750,
+            "recordBVal": 20750,
+            "similarity": 1,
+            "explanation": "20750 INR vs 20750 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0021",
+            "recordBVal": "pay_test_0021",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "P_RZP_0021",
+      "source": "processor",
+      "matchedIds": [
+        "L_RZP_0021"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0021~pay_test_0021 days=0 20750 INR vs 20750 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 20750,
+            "recordBVal": 20750,
+            "similarity": 1,
+            "explanation": "20750 INR vs 20750 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0021",
+            "recordBVal": "pay_test_0021",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L_RZP_0022",
+      "source": "ledger",
+      "matchedIds": [
+        "P_RZP_0022"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0022~pay_test_0022 days=0 21500 INR vs 21500 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 21500,
+            "recordBVal": 21500,
+            "similarity": 1,
+            "explanation": "21500 INR vs 21500 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0022",
+            "recordBVal": "pay_test_0022",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "P_RZP_0022",
+      "source": "processor",
+      "matchedIds": [
+        "L_RZP_0022"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0022~pay_test_0022 days=0 21500 INR vs 21500 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 21500,
+            "recordBVal": 21500,
+            "similarity": 1,
+            "explanation": "21500 INR vs 21500 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0022",
+            "recordBVal": "pay_test_0022",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L_RZP_0023",
+      "source": "ledger",
+      "matchedIds": [
+        "P_RZP_0023"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0023~pay_test_0023 days=0 22250 INR vs 22250 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 22250,
+            "recordBVal": 22250,
+            "similarity": 1,
+            "explanation": "22250 INR vs 22250 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0023",
+            "recordBVal": "pay_test_0023",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "P_RZP_0023",
+      "source": "processor",
+      "matchedIds": [
+        "L_RZP_0023"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0023~pay_test_0023 days=0 22250 INR vs 22250 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 22250,
+            "recordBVal": 22250,
+            "similarity": 1,
+            "explanation": "22250 INR vs 22250 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0023",
+            "recordBVal": "pay_test_0023",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L_RZP_0024",
+      "source": "ledger",
+      "matchedIds": [
+        "P_RZP_0024"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0024~pay_test_0024 days=0 23000 INR vs 23000 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 23000,
+            "recordBVal": 23000,
+            "similarity": 1,
+            "explanation": "23000 INR vs 23000 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0024",
+            "recordBVal": "pay_test_0024",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "P_RZP_0024",
+      "source": "processor",
+      "matchedIds": [
+        "L_RZP_0024"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0024~pay_test_0024 days=0 23000 INR vs 23000 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 23000,
+            "recordBVal": 23000,
+            "similarity": 1,
+            "explanation": "23000 INR vs 23000 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0024",
+            "recordBVal": "pay_test_0024",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L_RZP_0025",
+      "source": "ledger",
+      "matchedIds": [
+        "P_RZP_0025"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0025~pay_test_0025 days=0 23750 INR vs 23750 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 23750,
+            "recordBVal": 23750,
+            "similarity": 1,
+            "explanation": "23750 INR vs 23750 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0025",
+            "recordBVal": "pay_test_0025",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "P_RZP_0025",
+      "source": "processor",
+      "matchedIds": [
+        "L_RZP_0025"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "id_drift",
+      "reasoning": "invoice order_test_0025~pay_test_0025 days=0 23750 INR vs 23750 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 23750,
+            "recordBVal": 23750,
+            "similarity": 1,
+            "explanation": "23750 INR vs 23750 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-01",
+            "recordBVal": "2026-06-01",
+            "similarity": 1,
+            "explanation": "0 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_test_0025",
+            "recordBVal": "pay_test_0025",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B_RZP_0001",
+      "source": "bank",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 12,
+      "reasoning": "candidate pool (12 candidates, top score 0.67) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "5614.3 INR",
+            "recordBVal": "5750 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 5614.3 INR vs 5750 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-02",
+            "recordBVal": "2026-06-01",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "RZP-SETTLE-order_test_0001",
+            "recordBVal": "pay_test_0001",
+            "similarity": 0.3333333333333333,
+            "explanation": "Reference comparison: \"RZP-SETTLE-order_test_0001\" vs \"pay_test_0001\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.67",
+            "similarity": 0.67,
+            "explanation": "Top candidate score 0.67 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B_RZP_0002",
+      "source": "bank",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 12,
+      "reasoning": "candidate pool (12 candidates, top score 0.67) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "6346.6 INR",
+            "recordBVal": "6500 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 6346.6 INR vs 6500 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-02",
+            "recordBVal": "2026-06-01",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "RZP-SETTLE-order_test_0002",
+            "recordBVal": "pay_test_0002",
+            "similarity": 0.3333333333333333,
+            "explanation": "Reference comparison: \"RZP-SETTLE-order_test_0002\" vs \"pay_test_0002\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.67",
+            "similarity": 0.67,
+            "explanation": "Top candidate score 0.67 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B_RZP_0003",
+      "source": "bank",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 12,
+      "reasoning": "candidate pool (12 candidates, top score 0.67) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "7078.9 INR",
+            "recordBVal": "7250 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 7078.9 INR vs 7250 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-02",
+            "recordBVal": "2026-06-01",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "RZP-SETTLE-order_test_0003",
+            "recordBVal": "pay_test_0003",
+            "similarity": 0.3333333333333333,
+            "explanation": "Reference comparison: \"RZP-SETTLE-order_test_0003\" vs \"pay_test_0003\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.67",
+            "similarity": 0.67,
+            "explanation": "Top candidate score 0.67 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B_RZP_0004",
+      "source": "bank",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 12,
+      "reasoning": "candidate pool (12 candidates, top score 0.67) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "7811.2 INR",
+            "recordBVal": "8000 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 7811.2 INR vs 8000 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-02",
+            "recordBVal": "2026-06-01",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "RZP-SETTLE-order_test_0004",
+            "recordBVal": "pay_test_0004",
+            "similarity": 0.3333333333333333,
+            "explanation": "Reference comparison: \"RZP-SETTLE-order_test_0004\" vs \"pay_test_0004\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.67",
+            "similarity": 0.67,
+            "explanation": "Top candidate score 0.67 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B_RZP_0005",
+      "source": "bank",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 12,
+      "reasoning": "candidate pool (12 candidates, top score 0.67) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "8543.5 INR",
+            "recordBVal": "8750 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 8543.5 INR vs 8750 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-02",
+            "recordBVal": "2026-06-01",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "RZP-SETTLE-order_test_0005",
+            "recordBVal": "pay_test_0005",
+            "similarity": 0.3333333333333333,
+            "explanation": "Reference comparison: \"RZP-SETTLE-order_test_0005\" vs \"pay_test_0005\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.67",
+            "similarity": 0.67,
+            "explanation": "Top candidate score 0.67 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B_RZP_0006",
+      "source": "bank",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 12,
+      "reasoning": "candidate pool (12 candidates, top score 0.67) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "9275.8 INR",
+            "recordBVal": "9500 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 9275.8 INR vs 9500 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-02",
+            "recordBVal": "2026-06-01",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "RZP-SETTLE-order_test_0006",
+            "recordBVal": "pay_test_0006",
+            "similarity": 0.3333333333333333,
+            "explanation": "Reference comparison: \"RZP-SETTLE-order_test_0006\" vs \"pay_test_0006\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.67",
+            "similarity": 0.67,
+            "explanation": "Top candidate score 0.67 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B_RZP_0007",
+      "source": "bank",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 12,
+      "reasoning": "candidate pool (12 candidates, top score 0.67) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "10008.1 INR",
+            "recordBVal": "10250 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 10008.1 INR vs 10250 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-02",
+            "recordBVal": "2026-06-01",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "RZP-SETTLE-order_test_0007",
+            "recordBVal": "pay_test_0007",
+            "similarity": 0.3333333333333333,
+            "explanation": "Reference comparison: \"RZP-SETTLE-order_test_0007\" vs \"pay_test_0007\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.67",
+            "similarity": 0.67,
+            "explanation": "Top candidate score 0.67 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B_RZP_0008",
+      "source": "bank",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 12,
+      "reasoning": "candidate pool (12 candidates, top score 0.67) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "10740.4 INR",
+            "recordBVal": "11000 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 10740.4 INR vs 11000 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-02",
+            "recordBVal": "2026-06-01",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "RZP-SETTLE-order_test_0008",
+            "recordBVal": "pay_test_0008",
+            "similarity": 0.3333333333333333,
+            "explanation": "Reference comparison: \"RZP-SETTLE-order_test_0008\" vs \"pay_test_0008\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.67",
+            "similarity": 0.67,
+            "explanation": "Top candidate score 0.67 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B_RZP_0009",
+      "source": "bank",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 12,
+      "reasoning": "candidate pool (12 candidates, top score 0.67) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "11472.7 INR",
+            "recordBVal": "11750 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 11472.7 INR vs 11750 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-02",
+            "recordBVal": "2026-06-01",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "RZP-SETTLE-order_test_0009",
+            "recordBVal": "pay_test_0009",
+            "similarity": 0.3333333333333333,
+            "explanation": "Reference comparison: \"RZP-SETTLE-order_test_0009\" vs \"pay_test_0009\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.67",
+            "similarity": 0.67,
+            "explanation": "Top candidate score 0.67 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B_RZP_0010",
+      "source": "bank",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 12,
+      "reasoning": "candidate pool (12 candidates, top score 0.67) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "12205 INR",
+            "recordBVal": "12500 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 12205 INR vs 12500 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-02",
+            "recordBVal": "2026-06-01",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "RZP-SETTLE-order_test_0010",
+            "recordBVal": "pay_test_0010",
+            "similarity": 0.3333333333333333,
+            "explanation": "Reference comparison: \"RZP-SETTLE-order_test_0010\" vs \"pay_test_0010\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.67",
+            "similarity": 0.67,
+            "explanation": "Top candidate score 0.67 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B_RZP_0011",
+      "source": "bank",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 12,
+      "reasoning": "candidate pool (12 candidates, top score 0.67) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "12937.3 INR",
+            "recordBVal": "13250 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 12937.3 INR vs 13250 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-02",
+            "recordBVal": "2026-06-01",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "RZP-SETTLE-order_test_0011",
+            "recordBVal": "pay_test_0011",
+            "similarity": 0.3333333333333333,
+            "explanation": "Reference comparison: \"RZP-SETTLE-order_test_0011\" vs \"pay_test_0011\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.67",
+            "similarity": 0.67,
+            "explanation": "Top candidate score 0.67 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B_RZP_0012",
+      "source": "bank",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 12,
+      "reasoning": "candidate pool (12 candidates, top score 0.67) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "13669.6 INR",
+            "recordBVal": "14000 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 13669.6 INR vs 14000 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-02",
+            "recordBVal": "2026-06-01",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "RZP-SETTLE-order_test_0012",
+            "recordBVal": "pay_test_0012",
+            "similarity": 0.3333333333333333,
+            "explanation": "Reference comparison: \"RZP-SETTLE-order_test_0012\" vs \"pay_test_0012\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.67",
+            "similarity": 0.67,
+            "explanation": "Top candidate score 0.67 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B_RZP_0013",
+      "source": "bank",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 12,
+      "reasoning": "candidate pool (12 candidates, top score 0.67) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "14401.9 INR",
+            "recordBVal": "14000 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 14401.9 INR vs 14000 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-02",
+            "recordBVal": "2026-06-01",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "RZP-SETTLE-order_test_0013",
+            "recordBVal": "pay_test_0012",
+            "similarity": 0.14285714285714285,
+            "explanation": "Reference comparison: \"RZP-SETTLE-order_test_0013\" vs \"pay_test_0012\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.67",
+            "similarity": 0.67,
+            "explanation": "Top candidate score 0.67 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B_RZP_0014",
+      "source": "bank",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 12,
+      "reasoning": "candidate pool (12 candidates, top score 0.67) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "15134.2 INR",
+            "recordBVal": "14750 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 15134.2 INR vs 14750 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-02",
+            "recordBVal": "2026-06-01",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "RZP-SETTLE-order_test_0014",
+            "recordBVal": "pay_test_0013",
+            "similarity": 0.14285714285714285,
+            "explanation": "Reference comparison: \"RZP-SETTLE-order_test_0014\" vs \"pay_test_0013\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.67",
+            "similarity": 0.67,
+            "explanation": "Top candidate score 0.67 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B_RZP_0015",
+      "source": "bank",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 12,
+      "reasoning": "candidate pool (12 candidates, top score 0.67) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "15866.5 INR",
+            "recordBVal": "15500 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 15866.5 INR vs 15500 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-02",
+            "recordBVal": "2026-06-01",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "RZP-SETTLE-order_test_0015",
+            "recordBVal": "pay_test_0014",
+            "similarity": 0.14285714285714285,
+            "explanation": "Reference comparison: \"RZP-SETTLE-order_test_0015\" vs \"pay_test_0014\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.67",
+            "similarity": 0.67,
+            "explanation": "Top candidate score 0.67 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B_RZP_0016",
+      "source": "bank",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 12,
+      "reasoning": "candidate pool (12 candidates, top score 0.67) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "16598.8 INR",
+            "recordBVal": "16250 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 16598.8 INR vs 16250 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-02",
+            "recordBVal": "2026-06-01",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "RZP-SETTLE-order_test_0016",
+            "recordBVal": "pay_test_0015",
+            "similarity": 0.14285714285714285,
+            "explanation": "Reference comparison: \"RZP-SETTLE-order_test_0016\" vs \"pay_test_0015\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.67",
+            "similarity": 0.67,
+            "explanation": "Top candidate score 0.67 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B_RZP_0017",
+      "source": "bank",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 12,
+      "reasoning": "candidate pool (12 candidates, top score 0.67) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "17331.1 INR",
+            "recordBVal": "17000 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 17331.1 INR vs 17000 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-02",
+            "recordBVal": "2026-06-01",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "RZP-SETTLE-order_test_0017",
+            "recordBVal": "pay_test_0016",
+            "similarity": 0.14285714285714285,
+            "explanation": "Reference comparison: \"RZP-SETTLE-order_test_0017\" vs \"pay_test_0016\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.67",
+            "similarity": 0.67,
+            "explanation": "Top candidate score 0.67 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B_RZP_0018",
+      "source": "bank",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 12,
+      "reasoning": "candidate pool (12 candidates, top score 0.67) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "18063.4 INR",
+            "recordBVal": "17750 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 18063.4 INR vs 17750 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-02",
+            "recordBVal": "2026-06-01",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "RZP-SETTLE-order_test_0018",
+            "recordBVal": "pay_test_0017",
+            "similarity": 0.14285714285714285,
+            "explanation": "Reference comparison: \"RZP-SETTLE-order_test_0018\" vs \"pay_test_0017\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.67",
+            "similarity": 0.67,
+            "explanation": "Top candidate score 0.67 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B_RZP_0019",
+      "source": "bank",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 12,
+      "reasoning": "candidate pool (12 candidates, top score 0.67) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "18795.7 INR",
+            "recordBVal": "18500 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 18795.7 INR vs 18500 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-02",
+            "recordBVal": "2026-06-01",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "RZP-SETTLE-order_test_0019",
+            "recordBVal": "pay_test_0018",
+            "similarity": 0.14285714285714285,
+            "explanation": "Reference comparison: \"RZP-SETTLE-order_test_0019\" vs \"pay_test_0018\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.67",
+            "similarity": 0.67,
+            "explanation": "Top candidate score 0.67 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B_RZP_0020",
+      "source": "bank",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 12,
+      "reasoning": "candidate pool (12 candidates, top score 0.67) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "19528 INR",
+            "recordBVal": "19250 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 19528 INR vs 19250 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-02",
+            "recordBVal": "2026-06-01",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "RZP-SETTLE-order_test_0020",
+            "recordBVal": "pay_test_0019",
+            "similarity": 0.14285714285714285,
+            "explanation": "Reference comparison: \"RZP-SETTLE-order_test_0020\" vs \"pay_test_0019\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.67",
+            "similarity": 0.67,
+            "explanation": "Top candidate score 0.67 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B_RZP_0021",
+      "source": "bank",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 12,
+      "reasoning": "candidate pool (12 candidates, top score 0.67) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "20260.3 INR",
+            "recordBVal": "20000 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 20260.3 INR vs 20000 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-02",
+            "recordBVal": "2026-06-01",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "RZP-SETTLE-order_test_0021",
+            "recordBVal": "pay_test_0020",
+            "similarity": 0.14285714285714285,
+            "explanation": "Reference comparison: \"RZP-SETTLE-order_test_0021\" vs \"pay_test_0020\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.67",
+            "similarity": 0.67,
+            "explanation": "Top candidate score 0.67 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B_RZP_0022",
+      "source": "bank",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 12,
+      "reasoning": "candidate pool (12 candidates, top score 0.67) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "20992.6 INR",
+            "recordBVal": "20750 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 20992.6 INR vs 20750 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-02",
+            "recordBVal": "2026-06-01",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "RZP-SETTLE-order_test_0022",
+            "recordBVal": "pay_test_0021",
+            "similarity": 0.14285714285714285,
+            "explanation": "Reference comparison: \"RZP-SETTLE-order_test_0022\" vs \"pay_test_0021\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.67",
+            "similarity": 0.67,
+            "explanation": "Top candidate score 0.67 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B_RZP_0023",
+      "source": "bank",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 12,
+      "reasoning": "candidate pool (12 candidates, top score 0.67) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "21724.9 INR",
+            "recordBVal": "21500 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 21724.9 INR vs 21500 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-02",
+            "recordBVal": "2026-06-01",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "RZP-SETTLE-order_test_0023",
+            "recordBVal": "pay_test_0022",
+            "similarity": 0.14285714285714285,
+            "explanation": "Reference comparison: \"RZP-SETTLE-order_test_0023\" vs \"pay_test_0022\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.67",
+            "similarity": 0.67,
+            "explanation": "Top candidate score 0.67 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B_RZP_0024",
+      "source": "bank",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 12,
+      "reasoning": "candidate pool (12 candidates, top score 0.67) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "22457.2 INR",
+            "recordBVal": "22250 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 22457.2 INR vs 22250 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-02",
+            "recordBVal": "2026-06-01",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "RZP-SETTLE-order_test_0024",
+            "recordBVal": "pay_test_0023",
+            "similarity": 0.14285714285714285,
+            "explanation": "Reference comparison: \"RZP-SETTLE-order_test_0024\" vs \"pay_test_0023\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.67",
+            "similarity": 0.67,
+            "explanation": "Top candidate score 0.67 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B_RZP_0025",
+      "source": "bank",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 12,
+      "reasoning": "candidate pool (12 candidates, top score 0.67) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "23189.5 INR",
+            "recordBVal": "23000 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 23189.5 INR vs 23000 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-02",
+            "recordBVal": "2026-06-01",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "RZP-SETTLE-order_test_0025",
+            "recordBVal": "pay_test_0024",
+            "similarity": 0.14285714285714285,
+            "explanation": "Reference comparison: \"RZP-SETTLE-order_test_0025\" vs \"pay_test_0024\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.67",
+            "similarity": 0.67,
+            "explanation": "Top candidate score 0.67 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "L_RFND_101",
+      "source": "ledger",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 12,
+      "reasoning": "candidate pool (12 candidates, top score 0.23) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.23,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "-1500 INR",
+            "recordBVal": "5614.3 INR",
+            "similarity": 0.5,
+            "explanation": "Amount comparison: -1500 INR vs 5614.3 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-05",
+            "recordBVal": "2026-06-02",
+            "similarity": 0.9,
+            "explanation": "3 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "rfnd_test_101",
+            "recordBVal": "RZP-SETTLE-order_test_0001",
+            "similarity": 0.14285714285714285,
+            "explanation": "Reference comparison: \"rfnd_test_101\" vs \"RZP-SETTLE-order_test_0001\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.23",
+            "similarity": 0.23,
+            "explanation": "Top candidate score 0.23 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "L_RFND_102",
+      "source": "ledger",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 12,
+      "reasoning": "candidate pool (12 candidates, top score 0.23) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.23,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "-1500 INR",
+            "recordBVal": "5614.3 INR",
+            "similarity": 0.5,
+            "explanation": "Amount comparison: -1500 INR vs 5614.3 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-05",
+            "recordBVal": "2026-06-02",
+            "similarity": 0.9,
+            "explanation": "3 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "rfnd_test_102",
+            "recordBVal": "RZP-SETTLE-order_test_0001",
+            "similarity": 0.14285714285714285,
+            "explanation": "Reference comparison: \"rfnd_test_102\" vs \"RZP-SETTLE-order_test_0001\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.23",
+            "similarity": 0.23,
+            "explanation": "Top candidate score 0.23 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "L_RFND_103",
+      "source": "ledger",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 12,
+      "reasoning": "candidate pool (12 candidates, top score 0.23) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.23,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "-1500 INR",
+            "recordBVal": "5614.3 INR",
+            "similarity": 0.5,
+            "explanation": "Amount comparison: -1500 INR vs 5614.3 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-05",
+            "recordBVal": "2026-06-02",
+            "similarity": 0.9,
+            "explanation": "3 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "rfnd_test_103",
+            "recordBVal": "RZP-SETTLE-order_test_0001",
+            "similarity": 0.14285714285714285,
+            "explanation": "Reference comparison: \"rfnd_test_103\" vs \"RZP-SETTLE-order_test_0001\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.23",
+            "similarity": 0.23,
+            "explanation": "Top candidate score 0.23 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "L_RFND_104",
+      "source": "ledger",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 12,
+      "reasoning": "candidate pool (12 candidates, top score 0.23) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.23,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "-1500 INR",
+            "recordBVal": "5614.3 INR",
+            "similarity": 0.5,
+            "explanation": "Amount comparison: -1500 INR vs 5614.3 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-05",
+            "recordBVal": "2026-06-02",
+            "similarity": 0.9,
+            "explanation": "3 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "rfnd_test_104",
+            "recordBVal": "RZP-SETTLE-order_test_0001",
+            "similarity": 0.14285714285714285,
+            "explanation": "Reference comparison: \"rfnd_test_104\" vs \"RZP-SETTLE-order_test_0001\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.23",
+            "similarity": 0.23,
+            "explanation": "Top candidate score 0.23 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "L_RFND_105",
+      "source": "ledger",
+      "reasonCode": "currency_mismatch",
+      "tier": 2,
+      "candidatesConsidered": 12,
+      "reasoning": "candidate pool (12 candidates, top score 0.23) evaluated; rejected due to confidence below 0.70 threshold or candidate collision",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Calibrated Restraint: Low Confidence / Candidate Ambiguity",
+        "confidence": 0.23,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "-1500 INR",
+            "recordBVal": "5614.3 INR",
+            "similarity": 0.5,
+            "explanation": "Amount comparison: -1500 INR vs 5614.3 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-05",
+            "recordBVal": "2026-06-02",
+            "similarity": 0.9,
+            "explanation": "3 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "rfnd_test_105",
+            "recordBVal": "RZP-SETTLE-order_test_0001",
+            "similarity": 0.14285714285714285,
+            "explanation": "Reference comparison: \"rfnd_test_105\" vs \"RZP-SETTLE-order_test_0001\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top score: 0.23",
+            "similarity": 0.23,
+            "explanation": "Top candidate score 0.23 below 0.70 threshold; flagged as honest exception"
+          }
+        ]
+      }
+    }
+  ],
+  "inputManifest": [
+    {
+      "file": "data\\razorpay\\bank-statement.json",
+      "source": "bank",
+      "totalRows": 30,
+      "validRecords": 30,
+      "sha256": "2cfdf9167ff94f44840a881c33f33ddda74ec8ca2c9137308b67d36a8b8c2a33"
+    },
+    {
+      "file": "data\\razorpay\\internal-ledger.json",
+      "source": "ledger",
+      "totalRows": 35,
+      "validRecords": 35,
+      "sha256": "1316bec5588d5222c939dd76ba6b0b4df75c2ef3da4b396b72c9809678a49874"
+    },
+    {
+      "file": "data\\razorpay\\processor-export.json",
+      "source": "processor",
+      "totalRows": 25,
+      "validRecords": 25,
+      "sha256": "a3c79b11725d9ee7831721cbe6b8941ae183b8ef80cecd8550595fec3f07091b"
+    }
+  ],
+  "cashPosition": {
+    "INR": {
+      "currency": "INR",
+      "reconciledAmount": 350560,
+      "unreconciledAmount": 360047.5,
+      "netPosition": 710607.5,
+      "bankBalance": 710607.5,
+      "internalLedgerBalance": 761250,
+      "processorNodalBalance": 368750,
+      "taxWithheldMdr": 49440,
+      "inTransitVariance": -410690,
+      "reconciledCount": 5,
+      "unreconciledCount": 25,
+      "reconciliationRate": 0.1667,
+      "brs": {
+        "currency": "INR",
+        "openingBankBalance": 0,
+        "clearedDeposits": 350560,
+        "clearedDisbursements": 0,
+        "closingBankBalance": 710607.5,
+        "unreconciledInTransitDeposits": 360047.5,
+        "unreconciledOutstandingPayments": 0,
+        "subledgerBalance": 761250,
+        "processorNodalBalance": 368750,
+        "statutoryAccrualsMdrTds": 49440,
+        "netVariance": -410690
+      }
+    }
+  },
+  "stats": {
+    "totalRecords": 90,
+    "matched": 60,
+    "exceptions": 30,
+    "skippedInvalid": 0,
+    "tier3Calls": 0,
+    "tier3Tokens": 0,
+    "tier3CostUsd": 0
+  }
+}

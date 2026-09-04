@@ -1,0 +1,56 @@
+[
+  {
+    "id": "P9000",
+    "source": "processor",
+    "date": "2026-06-02",
+    "amount": 4263.83,
+    "currency": "USD",
+    "description": "Acme Corp INV-63309",
+    "reference": "INV-63309"
+  },
+  {
+    "id": "P9004",
+    "source": "processor",
+    "date": "2026-06-14",
+    "amount": 837.94,
+    "currency": "USD",
+    "description": "Oscorp INV-94806",
+    "reference": "INV-94806"
+  },
+  {
+    "id": "P9005",
+    "source": "processor",
+    "date": "2026-06-09",
+    "amount": 6491.93,
+    "currency": "USD",
+    "description": "Globex Ltd INV-73592",
+    "reference": "INV-73592"
+  },
+  {
+    "id": "P9003",
+    "source": "processor",
+    "date": "2026-06-27",
+    "amount": 2767.73,
+    "currency": "USD",
+    "description": "Umbrella Inc INV-55719",
+    "reference": "INV-55719"
+  },
+  {
+    "id": "P9002",
+    "source": "processor",
+    "date": "2026-06-26",
+    "amount": 7592.48,
+    "currency": "USD",
+    "description": "Initech LLC INV-38751",
+    "reference": "INV-38751"
+  },
+  {
+    "id": "P9001",
+    "source": "processor",
+    "date": "2026-06-25",
+    "amount": 603.18,
+    "currency": "USD",
+    "description": "Stark Industries INV-57730",
+    "reference": "INV-57730"
+  }
+]

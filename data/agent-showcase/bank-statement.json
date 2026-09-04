@@ -1,0 +1,83 @@
+[
+  {
+    "id": "B-SHOWCASE-101",
+    "source": "bank",
+    "date": "2026-06-15",
+    "amount": 14500,
+    "currency": "USD",
+    "description": "FedWire credit from Acme Systems International for cloud infrastructure PO-ACME-8841",
+    "reference": "FEDWIRE-TX-990142"
+  },
+  {
+    "id": "B-SHOWCASE-102",
+    "source": "bank",
+    "date": "2026-06-18",
+    "amount": 8750,
+    "currency": "USD",
+    "description": "Globex Corporation batch settlement wire covering invoices INV-GBX-101 and INV-GBX-102",
+    "reference": "WIRE-BATCH-4412"
+  },
+  {
+    "id": "B-SHOWCASE-103",
+    "source": "bank",
+    "date": "2026-06-20",
+    "amount": 438200,
+    "currency": "INR",
+    "description": "HDFC Nodal Settl Stark Tech Consulting net 10% TDS & 2.36% gateway fee ST-9910",
+    "reference": "UTR-HDFC-9910842"
+  },
+  {
+    "id": "B-SHOWCASE-104",
+    "source": "bank",
+    "date": "2026-06-22",
+    "amount": 10850,
+    "currency": "USD",
+    "description": "International wire credit Tyrell Robotics Corp for EUR invoice TYR-4412 at 1.085 FX rate",
+    "reference": "SWIFT-EUR-10850"
+  },
+  {
+    "id": "B-SHOWCASE-105",
+    "source": "bank",
+    "date": "2026-06-25",
+    "amount": 6200,
+    "currency": "USD",
+    "description": "ACH payment from Wayn Enterprizes for Q2 security consulting WYN-3301",
+    "reference": "ACH-WYN-3301"
+  },
+  {
+    "id": "B-SHOWCASE-106",
+    "source": "bank",
+    "date": "2026-06-26",
+    "amount": 3000,
+    "currency": "USD",
+    "description": "Initech LLC partial wire tranche 1 for project delta INI-7711",
+    "reference": "WIRE-INI-7711-A"
+  },
+  {
+    "id": "B-SHOWCASE-107",
+    "source": "bank",
+    "date": "2026-06-27",
+    "amount": 2000,
+    "currency": "USD",
+    "description": "Initech LLC partial wire tranche 2 final settlement INI-7711",
+    "reference": "WIRE-INI-7711-B"
+  },
+  {
+    "id": "B-SHOWCASE-901",
+    "source": "bank",
+    "date": "2026-06-28",
+    "amount": 9940,
+    "currency": "USD",
+    "description": "Direct wire credit unknown originator ref missing - unallocated funds",
+    "reference": "SUSPENSE-WIRE-9940"
+  },
+  {
+    "id": "B-SHOWCASE-902",
+    "source": "bank",
+    "date": "2026-06-30",
+    "amount": 150,
+    "currency": "USD",
+    "description": "Monthly treasury wire clearing and account maintenance charge",
+    "reference": "BANK-FEE-JUN26"
+  }
+]

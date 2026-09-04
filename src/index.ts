@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { serveStatic } from "hono/bun";
+import { cors } from "hono/cors";
 import { readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { z } from "zod";
@@ -21,6 +21,16 @@ import type { FinRecord, RunResult } from "./types";
 
 const app = new Hono();
 let running = false;
+
+// Enable CORS for frontend clients
+app.use(
+  "*",
+  cors({
+    origin: "*",
+    allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 // Security headers middleware with Razorpay Checkout allowance
 app.use("*", async (c, next) => {
@@ -346,8 +356,14 @@ app.post("/api/integrations/razorpay/sync", async (c) => {
   }
 });
 
-app.get("/*", serveStatic({ root: "./public" }));
+if (typeof Bun !== "undefined") {
+  try {
+    const { serveStatic } = await import("hono/bun");
+    app.get("/*", serveStatic({ root: "./public" }));
+  } catch {}
+}
 
+export { app };
 export default {
   port: 3000,
   fetch: app.fetch,

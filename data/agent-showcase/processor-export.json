@@ -1,0 +1,20 @@
+[
+  {
+    "id": "P-SHOWCASE-103",
+    "source": "processor",
+    "date": "2026-06-19",
+    "amount": 488200,
+    "currency": "INR",
+    "description": "Razorpay Standard Gateway Capture ST-9910 net 2.36% MDR",
+    "reference": "pay_stark_9910"
+  },
+  {
+    "id": "P-SHOWCASE-101",
+    "source": "processor",
+    "date": "2026-06-14",
+    "amount": 14500,
+    "currency": "USD",
+    "description": "Stripe Enterprise Wire Transfer Acme PO-ACME-8841",
+    "reference": "ch_acme_8841"
+  }
+]

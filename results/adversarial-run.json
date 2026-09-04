@@ -1,0 +1,3646 @@
+{
+  "startedAt": "2026-08-29T06:15:35.564Z",
+  "finishedAt": "2026-08-29T06:15:48.504Z",
+  "durationMs": 12940,
+  "model": "z-ai/glm-5.2:free",
+  "outcomes": [
+    {
+      "status": "matched",
+      "recordId": "L1000",
+      "source": "ledger",
+      "matchedIds": [
+        "P9000",
+        "B5000"
+      ],
+      "confidence": 0.98,
+      "tier": 2,
+      "reasonCode": "amount_variance",
+      "reasoning": "3-source multi-leg settlement: ledger L1000 (111699) + processor P9000 (111699) -> bank B5000 (97893)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "3-Source Payment Processor Multi-Leg Settlement",
+        "confidence": 0.98,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 111699,
+            "recordBVal": 97893,
+            "similarity": 1,
+            "explanation": "Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36% net payout verified"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_656627",
+            "recordBVal": "pay_237052",
+            "similarity": 1,
+            "explanation": "Processor capture linked to ledger order"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "P9000",
+      "source": "processor",
+      "matchedIds": [
+        "L1000",
+        "B5000"
+      ],
+      "confidence": 0.98,
+      "tier": 2,
+      "reasonCode": "amount_variance",
+      "reasoning": "3-source multi-leg settlement: ledger L1000 (111699) + processor P9000 (111699) -> bank B5000 (97893)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "3-Source Payment Processor Multi-Leg Settlement",
+        "confidence": 0.98,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 111699,
+            "recordBVal": 97893,
+            "similarity": 1,
+            "explanation": "Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36% net payout verified"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_656627",
+            "recordBVal": "pay_237052",
+            "similarity": 1,
+            "explanation": "Processor capture linked to ledger order"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "B5000",
+      "source": "bank",
+      "matchedIds": [
+        "L1000",
+        "P9000"
+      ],
+      "confidence": 0.98,
+      "tier": 2,
+      "reasonCode": "amount_variance",
+      "reasoning": "3-source multi-leg settlement: ledger L1000 (111699) + processor P9000 (111699) -> bank B5000 (97893)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "3-Source Payment Processor Multi-Leg Settlement",
+        "confidence": 0.98,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 111699,
+            "recordBVal": 97893,
+            "similarity": 1,
+            "explanation": "Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36% net payout verified"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_656627",
+            "recordBVal": "pay_237052",
+            "similarity": 1,
+            "explanation": "Processor capture linked to ledger order"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L1001",
+      "source": "ledger",
+      "matchedIds": [
+        "P9001",
+        "B5001"
+      ],
+      "confidence": 0.98,
+      "tier": 2,
+      "reasonCode": "amount_variance",
+      "reasoning": "3-source multi-leg settlement: ledger L1001 (210282) + processor P9001 (210282) -> bank B5001 (201113.7)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "3-Source Payment Processor Multi-Leg Settlement",
+        "confidence": 0.98,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 210282,
+            "recordBVal": 201113.7,
+            "similarity": 1,
+            "explanation": "Compound Razorpay MDR (2.36%) + Section 194C TDS (2%) = 4.36% net payout verified"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_138401",
+            "recordBVal": "pay_159928",
+            "similarity": 1,
+            "explanation": "Processor capture linked to ledger order"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "P9001",
+      "source": "processor",
+      "matchedIds": [
+        "L1001",
+        "B5001"
+      ],
+      "confidence": 0.98,
+      "tier": 2,
+      "reasonCode": "amount_variance",
+      "reasoning": "3-source multi-leg settlement: ledger L1001 (210282) + processor P9001 (210282) -> bank B5001 (201113.7)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "3-Source Payment Processor Multi-Leg Settlement",
+        "confidence": 0.98,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 210282,
+            "recordBVal": 201113.7,
+            "similarity": 1,
+            "explanation": "Compound Razorpay MDR (2.36%) + Section 194C TDS (2%) = 4.36% net payout verified"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_138401",
+            "recordBVal": "pay_159928",
+            "similarity": 1,
+            "explanation": "Processor capture linked to ledger order"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "B5001",
+      "source": "bank",
+      "matchedIds": [
+        "L1001",
+        "P9001"
+      ],
+      "confidence": 0.98,
+      "tier": 2,
+      "reasonCode": "amount_variance",
+      "reasoning": "3-source multi-leg settlement: ledger L1001 (210282) + processor P9001 (210282) -> bank B5001 (201113.7)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "3-Source Payment Processor Multi-Leg Settlement",
+        "confidence": 0.98,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 210282,
+            "recordBVal": 201113.7,
+            "similarity": 1,
+            "explanation": "Compound Razorpay MDR (2.36%) + Section 194C TDS (2%) = 4.36% net payout verified"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_138401",
+            "recordBVal": "pay_159928",
+            "similarity": 1,
+            "explanation": "Processor capture linked to ledger order"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L1002",
+      "source": "ledger",
+      "matchedIds": [
+        "P9002",
+        "B5002"
+      ],
+      "confidence": 0.98,
+      "tier": 2,
+      "reasonCode": "amount_variance",
+      "reasoning": "3-source multi-leg settlement: ledger L1002 (72900) + processor P9002 (72900) -> bank B5002 (71179.56)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "3-Source Payment Processor Multi-Leg Settlement",
+        "confidence": 0.98,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 72900,
+            "recordBVal": 71179.56,
+            "similarity": 1,
+            "explanation": "Razorpay Standard MDR (2% + 18% GST = 2.36%) net payout verified"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_397954",
+            "recordBVal": "pay_466030",
+            "similarity": 1,
+            "explanation": "Processor capture linked to ledger order"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "P9002",
+      "source": "processor",
+      "matchedIds": [
+        "L1002",
+        "B5002"
+      ],
+      "confidence": 0.98,
+      "tier": 2,
+      "reasonCode": "amount_variance",
+      "reasoning": "3-source multi-leg settlement: ledger L1002 (72900) + processor P9002 (72900) -> bank B5002 (71179.56)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "3-Source Payment Processor Multi-Leg Settlement",
+        "confidence": 0.98,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 72900,
+            "recordBVal": 71179.56,
+            "similarity": 1,
+            "explanation": "Razorpay Standard MDR (2% + 18% GST = 2.36%) net payout verified"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_397954",
+            "recordBVal": "pay_466030",
+            "similarity": 1,
+            "explanation": "Processor capture linked to ledger order"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "B5002",
+      "source": "bank",
+      "matchedIds": [
+        "L1002",
+        "P9002"
+      ],
+      "confidence": 0.98,
+      "tier": 2,
+      "reasonCode": "amount_variance",
+      "reasoning": "3-source multi-leg settlement: ledger L1002 (72900) + processor P9002 (72900) -> bank B5002 (71179.56)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "3-Source Payment Processor Multi-Leg Settlement",
+        "confidence": 0.98,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 72900,
+            "recordBVal": 71179.56,
+            "similarity": 1,
+            "explanation": "Razorpay Standard MDR (2% + 18% GST = 2.36%) net payout verified"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_397954",
+            "recordBVal": "pay_466030",
+            "similarity": 1,
+            "explanation": "Processor capture linked to ledger order"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L1003",
+      "source": "ledger",
+      "matchedIds": [
+        "P9003",
+        "B5003"
+      ],
+      "confidence": 0.98,
+      "tier": 2,
+      "reasonCode": "amount_variance",
+      "reasoning": "3-source multi-leg settlement: ledger L1003 (50346) + processor P9003 (50346) -> bank B5003 (44123.23)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "3-Source Payment Processor Multi-Leg Settlement",
+        "confidence": 0.98,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 50346,
+            "recordBVal": 44123.23,
+            "similarity": 1,
+            "explanation": "Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36% net payout verified"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_348485",
+            "recordBVal": "pay_800247",
+            "similarity": 1,
+            "explanation": "Processor capture linked to ledger order"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "P9003",
+      "source": "processor",
+      "matchedIds": [
+        "L1003",
+        "B5003"
+      ],
+      "confidence": 0.98,
+      "tier": 2,
+      "reasonCode": "amount_variance",
+      "reasoning": "3-source multi-leg settlement: ledger L1003 (50346) + processor P9003 (50346) -> bank B5003 (44123.23)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "3-Source Payment Processor Multi-Leg Settlement",
+        "confidence": 0.98,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 50346,
+            "recordBVal": 44123.23,
+            "similarity": 1,
+            "explanation": "Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36% net payout verified"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_348485",
+            "recordBVal": "pay_800247",
+            "similarity": 1,
+            "explanation": "Processor capture linked to ledger order"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "B5003",
+      "source": "bank",
+      "matchedIds": [
+        "L1003",
+        "P9003"
+      ],
+      "confidence": 0.98,
+      "tier": 2,
+      "reasonCode": "amount_variance",
+      "reasoning": "3-source multi-leg settlement: ledger L1003 (50346) + processor P9003 (50346) -> bank B5003 (44123.23)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "3-Source Payment Processor Multi-Leg Settlement",
+        "confidence": 0.98,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 50346,
+            "recordBVal": 44123.23,
+            "similarity": 1,
+            "explanation": "Compound Razorpay MDR (2.36%) + Section 194J TDS (10%) = 12.36% net payout verified"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_348485",
+            "recordBVal": "pay_800247",
+            "similarity": 1,
+            "explanation": "Processor capture linked to ledger order"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L1004",
+      "source": "ledger",
+      "matchedIds": [
+        "P9004",
+        "B5004"
+      ],
+      "confidence": 0.98,
+      "tier": 2,
+      "reasonCode": "amount_variance",
+      "reasoning": "3-source multi-leg settlement: ledger L1004 (203032) + processor P9004 (203032) -> bank B5004 (194179.8)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "3-Source Payment Processor Multi-Leg Settlement",
+        "confidence": 0.98,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 203032,
+            "recordBVal": 194179.8,
+            "similarity": 1,
+            "explanation": "Compound Razorpay MDR (2.36%) + Section 194C TDS (2%) = 4.36% net payout verified"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_346686",
+            "recordBVal": "pay_472625",
+            "similarity": 1,
+            "explanation": "Processor capture linked to ledger order"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "P9004",
+      "source": "processor",
+      "matchedIds": [
+        "L1004",
+        "B5004"
+      ],
+      "confidence": 0.98,
+      "tier": 2,
+      "reasonCode": "amount_variance",
+      "reasoning": "3-source multi-leg settlement: ledger L1004 (203032) + processor P9004 (203032) -> bank B5004 (194179.8)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "3-Source Payment Processor Multi-Leg Settlement",
+        "confidence": 0.98,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 203032,
+            "recordBVal": 194179.8,
+            "similarity": 1,
+            "explanation": "Compound Razorpay MDR (2.36%) + Section 194C TDS (2%) = 4.36% net payout verified"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_346686",
+            "recordBVal": "pay_472625",
+            "similarity": 1,
+            "explanation": "Processor capture linked to ledger order"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "B5004",
+      "source": "bank",
+      "matchedIds": [
+        "L1004",
+        "P9004"
+      ],
+      "confidence": 0.98,
+      "tier": 2,
+      "reasonCode": "amount_variance",
+      "reasoning": "3-source multi-leg settlement: ledger L1004 (203032) + processor P9004 (203032) -> bank B5004 (194179.8)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "3-Source Payment Processor Multi-Leg Settlement",
+        "confidence": 0.98,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 203032,
+            "recordBVal": 194179.8,
+            "similarity": 1,
+            "explanation": "Compound Razorpay MDR (2.36%) + Section 194C TDS (2%) = 4.36% net payout verified"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_346686",
+            "recordBVal": "pay_472625",
+            "similarity": 1,
+            "explanation": "Processor capture linked to ledger order"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L1005",
+      "source": "ledger",
+      "matchedIds": [
+        "P9005",
+        "B5005"
+      ],
+      "confidence": 0.98,
+      "tier": 2,
+      "reasonCode": "amount_variance",
+      "reasoning": "3-source multi-leg settlement: ledger L1005 (218490) + processor P9005 (218490) -> bank B5005 (213333.64)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "3-Source Payment Processor Multi-Leg Settlement",
+        "confidence": 0.98,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 218490,
+            "recordBVal": 213333.64,
+            "similarity": 1,
+            "explanation": "Razorpay Standard MDR (2% + 18% GST = 2.36%) net payout verified"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_926777",
+            "recordBVal": "pay_172340",
+            "similarity": 1,
+            "explanation": "Processor capture linked to ledger order"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "P9005",
+      "source": "processor",
+      "matchedIds": [
+        "L1005",
+        "B5005"
+      ],
+      "confidence": 0.98,
+      "tier": 2,
+      "reasonCode": "amount_variance",
+      "reasoning": "3-source multi-leg settlement: ledger L1005 (218490) + processor P9005 (218490) -> bank B5005 (213333.64)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "3-Source Payment Processor Multi-Leg Settlement",
+        "confidence": 0.98,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 218490,
+            "recordBVal": 213333.64,
+            "similarity": 1,
+            "explanation": "Razorpay Standard MDR (2% + 18% GST = 2.36%) net payout verified"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_926777",
+            "recordBVal": "pay_172340",
+            "similarity": 1,
+            "explanation": "Processor capture linked to ledger order"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "B5005",
+      "source": "bank",
+      "matchedIds": [
+        "L1005",
+        "P9005"
+      ],
+      "confidence": 0.98,
+      "tier": 2,
+      "reasonCode": "amount_variance",
+      "reasoning": "3-source multi-leg settlement: ledger L1005 (218490) + processor P9005 (218490) -> bank B5005 (213333.64)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "3-Source Payment Processor Multi-Leg Settlement",
+        "confidence": 0.98,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 218490,
+            "recordBVal": 213333.64,
+            "similarity": 1,
+            "explanation": "Razorpay Standard MDR (2% + 18% GST = 2.36%) net payout verified"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "order_926777",
+            "recordBVal": "pay_172340",
+            "similarity": 1,
+            "explanation": "Processor capture linked to ledger order"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "B5006",
+      "source": "bank",
+      "matchedIds": [
+        "L1006"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "timing_gap",
+      "reasoning": "invoice INV-79601~INV-79601 days=1 49678 INR vs 49678 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 49678,
+            "recordBVal": 49678,
+            "similarity": 1,
+            "explanation": "49678 INR vs 49678 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-17",
+            "recordBVal": "2026-06-16",
+            "similarity": 0.85,
+            "explanation": "1 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "INV-79601",
+            "recordBVal": "INV-79601",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L1006",
+      "source": "ledger",
+      "matchedIds": [
+        "B5006"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "timing_gap",
+      "reasoning": "invoice INV-79601~INV-79601 days=1 49678 INR vs 49678 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 49678,
+            "recordBVal": 49678,
+            "similarity": 1,
+            "explanation": "49678 INR vs 49678 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-17",
+            "recordBVal": "2026-06-16",
+            "similarity": 0.85,
+            "explanation": "1 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "INV-79601",
+            "recordBVal": "INV-79601",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "B5007",
+      "source": "bank",
+      "matchedIds": [
+        "L1007"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "refund_reversal",
+      "reasoning": "invoice REFUND-79601~CN-79601 days=1 -8949 INR vs -8949 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": -8949,
+            "recordBVal": -8949,
+            "similarity": 1,
+            "explanation": "-8949 INR vs -8949 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-22",
+            "recordBVal": "2026-06-21",
+            "similarity": 0.85,
+            "explanation": "1 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "REFUND-79601",
+            "recordBVal": "CN-79601",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L1007",
+      "source": "ledger",
+      "matchedIds": [
+        "B5007"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "refund_reversal",
+      "reasoning": "invoice REFUND-79601~CN-79601 days=1 -8949 INR vs -8949 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": -8949,
+            "recordBVal": -8949,
+            "similarity": 1,
+            "explanation": "-8949 INR vs -8949 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-22",
+            "recordBVal": "2026-06-21",
+            "similarity": 0.85,
+            "explanation": "1 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "REFUND-79601",
+            "recordBVal": "CN-79601",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "B5008",
+      "source": "bank",
+      "matchedIds": [
+        "L1008"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "timing_gap",
+      "reasoning": "invoice INV-66626~INV-66626 days=1 34604 INR vs 34604 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 34604,
+            "recordBVal": 34604,
+            "similarity": 1,
+            "explanation": "34604 INR vs 34604 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-17",
+            "recordBVal": "2026-06-16",
+            "similarity": 0.85,
+            "explanation": "1 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "INV-66626",
+            "recordBVal": "INV-66626",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L1008",
+      "source": "ledger",
+      "matchedIds": [
+        "B5008"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "timing_gap",
+      "reasoning": "invoice INV-66626~INV-66626 days=1 34604 INR vs 34604 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 34604,
+            "recordBVal": 34604,
+            "similarity": 1,
+            "explanation": "34604 INR vs 34604 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-17",
+            "recordBVal": "2026-06-16",
+            "similarity": 0.85,
+            "explanation": "1 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "INV-66626",
+            "recordBVal": "INV-66626",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "B5009",
+      "source": "bank",
+      "matchedIds": [
+        "L1009"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "refund_reversal",
+      "reasoning": "invoice REFUND-66626~CN-66626 days=1 -5311 INR vs -5311 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": -5311,
+            "recordBVal": -5311,
+            "similarity": 1,
+            "explanation": "-5311 INR vs -5311 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-22",
+            "recordBVal": "2026-06-21",
+            "similarity": 0.85,
+            "explanation": "1 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "REFUND-66626",
+            "recordBVal": "CN-66626",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L1009",
+      "source": "ledger",
+      "matchedIds": [
+        "B5009"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "refund_reversal",
+      "reasoning": "invoice REFUND-66626~CN-66626 days=1 -5311 INR vs -5311 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": -5311,
+            "recordBVal": -5311,
+            "similarity": 1,
+            "explanation": "-5311 INR vs -5311 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-22",
+            "recordBVal": "2026-06-21",
+            "similarity": 0.85,
+            "explanation": "1 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "REFUND-66626",
+            "recordBVal": "CN-66626",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "B5010",
+      "source": "bank",
+      "matchedIds": [
+        "L1010"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "timing_gap",
+      "reasoning": "invoice INV-96996~INV-96996 days=1 53240 INR vs 53240 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 53240,
+            "recordBVal": 53240,
+            "similarity": 1,
+            "explanation": "53240 INR vs 53240 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-09",
+            "recordBVal": "2026-06-08",
+            "similarity": 0.85,
+            "explanation": "1 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "INV-96996",
+            "recordBVal": "INV-96996",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L1010",
+      "source": "ledger",
+      "matchedIds": [
+        "B5010"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "timing_gap",
+      "reasoning": "invoice INV-96996~INV-96996 days=1 53240 INR vs 53240 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 53240,
+            "recordBVal": 53240,
+            "similarity": 1,
+            "explanation": "53240 INR vs 53240 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-09",
+            "recordBVal": "2026-06-08",
+            "similarity": 0.85,
+            "explanation": "1 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "INV-96996",
+            "recordBVal": "INV-96996",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "B5011",
+      "source": "bank",
+      "matchedIds": [
+        "L1011"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "refund_reversal",
+      "reasoning": "invoice REFUND-96996~CN-96996 days=1 -7743 INR vs -7743 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": -7743,
+            "recordBVal": -7743,
+            "similarity": 1,
+            "explanation": "-7743 INR vs -7743 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-14",
+            "recordBVal": "2026-06-13",
+            "similarity": 0.85,
+            "explanation": "1 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "REFUND-96996",
+            "recordBVal": "CN-96996",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L1011",
+      "source": "ledger",
+      "matchedIds": [
+        "B5011"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "refund_reversal",
+      "reasoning": "invoice REFUND-96996~CN-96996 days=1 -7743 INR vs -7743 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": -7743,
+            "recordBVal": -7743,
+            "similarity": 1,
+            "explanation": "-7743 INR vs -7743 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-14",
+            "recordBVal": "2026-06-13",
+            "similarity": 0.85,
+            "explanation": "1 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "REFUND-96996",
+            "recordBVal": "CN-96996",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "B5012",
+      "source": "bank",
+      "matchedIds": [
+        "L1012"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "timing_gap",
+      "reasoning": "invoice INV-97863~INV-97863 days=1 44009 INR vs 44009 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 44009,
+            "recordBVal": 44009,
+            "similarity": 1,
+            "explanation": "44009 INR vs 44009 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-14",
+            "recordBVal": "2026-06-13",
+            "similarity": 0.85,
+            "explanation": "1 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "INV-97863",
+            "recordBVal": "INV-97863",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L1012",
+      "source": "ledger",
+      "matchedIds": [
+        "B5012"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "timing_gap",
+      "reasoning": "invoice INV-97863~INV-97863 days=1 44009 INR vs 44009 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 44009,
+            "recordBVal": 44009,
+            "similarity": 1,
+            "explanation": "44009 INR vs 44009 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-14",
+            "recordBVal": "2026-06-13",
+            "similarity": 0.85,
+            "explanation": "1 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "INV-97863",
+            "recordBVal": "INV-97863",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "B5013",
+      "source": "bank",
+      "matchedIds": [
+        "L1013"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "refund_reversal",
+      "reasoning": "invoice REFUND-97863~CN-97863 days=1 -13697 INR vs -13697 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": -13697,
+            "recordBVal": -13697,
+            "similarity": 1,
+            "explanation": "-13697 INR vs -13697 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-19",
+            "recordBVal": "2026-06-18",
+            "similarity": 0.85,
+            "explanation": "1 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "REFUND-97863",
+            "recordBVal": "CN-97863",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L1013",
+      "source": "ledger",
+      "matchedIds": [
+        "B5013"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "refund_reversal",
+      "reasoning": "invoice REFUND-97863~CN-97863 days=1 -13697 INR vs -13697 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": -13697,
+            "recordBVal": -13697,
+            "similarity": 1,
+            "explanation": "-13697 INR vs -13697 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-19",
+            "recordBVal": "2026-06-18",
+            "similarity": 0.85,
+            "explanation": "1 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "REFUND-97863",
+            "recordBVal": "CN-97863",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "B5020",
+      "source": "bank",
+      "matchedIds": [
+        "L1020"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "timing_gap",
+      "reasoning": "invoice UPI-923868~INV-UPI-8453 days=14 51904 INR vs 51904 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 51904,
+            "recordBVal": 51904,
+            "similarity": 1,
+            "explanation": "51904 INR vs 51904 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-15",
+            "recordBVal": "2026-06-01",
+            "similarity": 0.85,
+            "explanation": "14 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "UPI-923868",
+            "recordBVal": "INV-UPI-8453",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L1020",
+      "source": "ledger",
+      "matchedIds": [
+        "B5020"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "timing_gap",
+      "reasoning": "invoice UPI-923868~INV-UPI-8453 days=14 51904 INR vs 51904 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 51904,
+            "recordBVal": 51904,
+            "similarity": 1,
+            "explanation": "51904 INR vs 51904 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-15",
+            "recordBVal": "2026-06-01",
+            "similarity": 0.85,
+            "explanation": "14 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "UPI-923868",
+            "recordBVal": "INV-UPI-8453",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "B5021",
+      "source": "bank",
+      "matchedIds": [
+        "L1021"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "timing_gap",
+      "reasoning": "invoice IMPS-993661857950~INV-IMPS-3021 days=19 30410 INR vs 30410 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 30410,
+            "recordBVal": 30410,
+            "similarity": 1,
+            "explanation": "30410 INR vs 30410 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-21",
+            "recordBVal": "2026-06-02",
+            "similarity": 0.85,
+            "explanation": "19 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "IMPS-993661857950",
+            "recordBVal": "INV-IMPS-3021",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L1021",
+      "source": "ledger",
+      "matchedIds": [
+        "B5021"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "timing_gap",
+      "reasoning": "invoice IMPS-993661857950~INV-IMPS-3021 days=19 30410 INR vs 30410 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 30410,
+            "recordBVal": 30410,
+            "similarity": 1,
+            "explanation": "30410 INR vs 30410 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-21",
+            "recordBVal": "2026-06-02",
+            "similarity": 0.85,
+            "explanation": "19 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "IMPS-993661857950",
+            "recordBVal": "INV-IMPS-3021",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "B5022",
+      "source": "bank",
+      "matchedIds": [
+        "L1022"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "timing_gap",
+      "reasoning": "invoice SBINR5202664197300~INV-RTGS-9433 days=13 71886 INR vs 71886 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 71886,
+            "recordBVal": 71886,
+            "similarity": 1,
+            "explanation": "71886 INR vs 71886 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-23",
+            "recordBVal": "2026-06-10",
+            "similarity": 0.85,
+            "explanation": "13 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "SBINR5202664197300",
+            "recordBVal": "INV-RTGS-9433",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L1022",
+      "source": "ledger",
+      "matchedIds": [
+        "B5022"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "timing_gap",
+      "reasoning": "invoice SBINR5202664197300~INV-RTGS-9433 days=13 71886 INR vs 71886 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 71886,
+            "recordBVal": 71886,
+            "similarity": 1,
+            "explanation": "71886 INR vs 71886 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-23",
+            "recordBVal": "2026-06-10",
+            "similarity": 0.85,
+            "explanation": "13 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "SBINR5202664197300",
+            "recordBVal": "INV-RTGS-9433",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "B5023",
+      "source": "bank",
+      "matchedIds": [
+        "L1023"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "timing_gap",
+      "reasoning": "invoice UPI-283051~INV-UPI-6445 days=21 59147 INR vs 59147 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 59147,
+            "recordBVal": 59147,
+            "similarity": 1,
+            "explanation": "59147 INR vs 59147 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-23",
+            "recordBVal": "2026-06-02",
+            "similarity": 0.85,
+            "explanation": "21 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "UPI-283051",
+            "recordBVal": "INV-UPI-6445",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L1023",
+      "source": "ledger",
+      "matchedIds": [
+        "B5023"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "timing_gap",
+      "reasoning": "invoice UPI-283051~INV-UPI-6445 days=21 59147 INR vs 59147 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 59147,
+            "recordBVal": 59147,
+            "similarity": 1,
+            "explanation": "59147 INR vs 59147 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-23",
+            "recordBVal": "2026-06-02",
+            "similarity": 0.85,
+            "explanation": "21 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "UPI-283051",
+            "recordBVal": "INV-UPI-6445",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "B5024",
+      "source": "bank",
+      "matchedIds": [
+        "L1024"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "timing_gap",
+      "reasoning": "invoice IMPS-429077152533~INV-IMPS-4592 days=27 40639 INR vs 40639 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 40639,
+            "recordBVal": 40639,
+            "similarity": 1,
+            "explanation": "40639 INR vs 40639 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-29",
+            "recordBVal": "2026-06-02",
+            "similarity": 0.85,
+            "explanation": "27 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "IMPS-429077152533",
+            "recordBVal": "INV-IMPS-4592",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L1024",
+      "source": "ledger",
+      "matchedIds": [
+        "B5024"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "timing_gap",
+      "reasoning": "invoice IMPS-429077152533~INV-IMPS-4592 days=27 40639 INR vs 40639 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 40639,
+            "recordBVal": 40639,
+            "similarity": 1,
+            "explanation": "40639 INR vs 40639 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-29",
+            "recordBVal": "2026-06-02",
+            "similarity": 0.85,
+            "explanation": "27 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "IMPS-429077152533",
+            "recordBVal": "INV-IMPS-4592",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "B5025",
+      "source": "bank",
+      "matchedIds": [
+        "L1025"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "timing_gap",
+      "reasoning": "invoice SBINR5202677417617~INV-RTGS-4274 days=22 88045 INR vs 88045 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 88045,
+            "recordBVal": 88045,
+            "similarity": 1,
+            "explanation": "88045 INR vs 88045 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-07-02",
+            "recordBVal": "2026-06-10",
+            "similarity": 0.85,
+            "explanation": "22 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "SBINR5202677417617",
+            "recordBVal": "INV-RTGS-4274",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L1025",
+      "source": "ledger",
+      "matchedIds": [
+        "B5025"
+      ],
+      "confidence": 0.96,
+      "tier": 2,
+      "reasonCode": "timing_gap",
+      "reasoning": "invoice SBINR5202677417617~INV-RTGS-4274 days=22 88045 INR vs 88045 INR",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Deterministic Fuzzy Rule",
+        "confidence": 0.96,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": 88045,
+            "recordBVal": 88045,
+            "similarity": 1,
+            "explanation": "88045 INR vs 88045 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-07-02",
+            "recordBVal": "2026-06-10",
+            "similarity": 0.85,
+            "explanation": "22 days drift between postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "SBINR5202677417617",
+            "recordBVal": "INV-RTGS-4274",
+            "similarity": 1,
+            "explanation": "Invoice / PO token alignment: matched"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "B5017",
+      "source": "bank",
+      "matchedIds": [
+        "L1017"
+      ],
+      "confidence": 0.95,
+      "tier": 2,
+      "reasonCode": "currency_mismatch",
+      "reasoning": "cross-currency FX match: bank 9067.59 EUR on 2026-06-21 vs ledger 9780 USD on 2026-06-20 (vendor overlap 0.5)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Cross-Currency FX Corridor Match",
+        "confidence": 0.95,
+        "evidence": [
+          {
+            "field": "currency_and_rate",
+            "recordAVal": "9067.59 EUR",
+            "recordBVal": "9780 USD",
+            "similarity": 0.927,
+            "explanation": "Cross-currency settlement in corridor with effective rate 0.9272"
+          },
+          {
+            "field": "vendor",
+            "recordAVal": "INITECH CORP EUR SETTLEMENT",
+            "recordBVal": "Initech Corp international consulting",
+            "similarity": 0.5,
+            "explanation": "Shared vendor identity across bank and ledger postings"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-21",
+            "recordBVal": "2026-06-20",
+            "similarity": 0.9,
+            "explanation": "1 day(s) settlement timing delta"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L1017",
+      "source": "ledger",
+      "matchedIds": [
+        "B5017"
+      ],
+      "confidence": 0.95,
+      "tier": 2,
+      "reasonCode": "currency_mismatch",
+      "reasoning": "cross-currency FX match: bank 9067.59 EUR on 2026-06-21 vs ledger 9780 USD on 2026-06-20 (vendor overlap 0.5)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Cross-Currency FX Corridor Match",
+        "confidence": 0.95,
+        "evidence": [
+          {
+            "field": "currency_and_rate",
+            "recordAVal": "9067.59 EUR",
+            "recordBVal": "9780 USD",
+            "similarity": 0.927,
+            "explanation": "Cross-currency settlement in corridor with effective rate 0.9272"
+          },
+          {
+            "field": "vendor",
+            "recordAVal": "INITECH CORP EUR SETTLEMENT",
+            "recordBVal": "Initech Corp international consulting",
+            "similarity": 0.5,
+            "explanation": "Shared vendor identity across bank and ledger postings"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-21",
+            "recordBVal": "2026-06-20",
+            "similarity": 0.9,
+            "explanation": "1 day(s) settlement timing delta"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "B5016",
+      "source": "bank",
+      "matchedIds": [
+        "L1016"
+      ],
+      "confidence": 0.95,
+      "tier": 2,
+      "reasonCode": "currency_mismatch",
+      "reasoning": "cross-currency FX match: bank 6319.68 USD on 2026-06-21 vs ledger 4910 GBP on 2026-06-20 (vendor overlap 0.6666666666666666)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Cross-Currency FX Corridor Match",
+        "confidence": 0.95,
+        "evidence": [
+          {
+            "field": "currency_and_rate",
+            "recordAVal": "6319.68 USD",
+            "recordBVal": "4910 GBP",
+            "similarity": 0.777,
+            "explanation": "Cross-currency settlement in corridor with effective rate 1.2871"
+          },
+          {
+            "field": "vendor",
+            "recordAVal": "WIRE FROM APERTURE LABS UK",
+            "recordBVal": "Aperture Labs UK subsidiary engineering services",
+            "similarity": 0.6666666666666666,
+            "explanation": "Shared vendor identity across bank and ledger postings"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-21",
+            "recordBVal": "2026-06-20",
+            "similarity": 0.9,
+            "explanation": "1 day(s) settlement timing delta"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L1016",
+      "source": "ledger",
+      "matchedIds": [
+        "B5016"
+      ],
+      "confidence": 0.95,
+      "tier": 2,
+      "reasonCode": "currency_mismatch",
+      "reasoning": "cross-currency FX match: bank 6319.68 USD on 2026-06-21 vs ledger 4910 GBP on 2026-06-20 (vendor overlap 0.6666666666666666)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Cross-Currency FX Corridor Match",
+        "confidence": 0.95,
+        "evidence": [
+          {
+            "field": "currency_and_rate",
+            "recordAVal": "6319.68 USD",
+            "recordBVal": "4910 GBP",
+            "similarity": 0.777,
+            "explanation": "Cross-currency settlement in corridor with effective rate 1.2871"
+          },
+          {
+            "field": "vendor",
+            "recordAVal": "WIRE FROM APERTURE LABS UK",
+            "recordBVal": "Aperture Labs UK subsidiary engineering services",
+            "similarity": 0.6666666666666666,
+            "explanation": "Shared vendor identity across bank and ledger postings"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-21",
+            "recordBVal": "2026-06-20",
+            "similarity": 0.9,
+            "explanation": "1 day(s) settlement timing delta"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "B5014",
+      "source": "bank",
+      "matchedIds": [
+        "L1014"
+      ],
+      "confidence": 0.95,
+      "tier": 2,
+      "reasonCode": "currency_mismatch",
+      "reasoning": "cross-currency FX match: bank 341172.48 INR on 2026-06-12 vs ledger 4071 USD on 2026-06-10 (vendor overlap 0.5)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Cross-Currency FX Corridor Match",
+        "confidence": 0.95,
+        "evidence": [
+          {
+            "field": "currency_and_rate",
+            "recordAVal": "341172.48 INR",
+            "recordBVal": "4071 USD",
+            "similarity": 0.012,
+            "explanation": "Cross-currency settlement in corridor with effective rate 83.8056"
+          },
+          {
+            "field": "vendor",
+            "recordAVal": "INWARD REMITTANCE FOR WAYNE ENTERPRISES",
+            "recordBVal": "Wayne Enterprises cloud software license",
+            "similarity": 0.5,
+            "explanation": "Shared vendor identity across bank and ledger postings"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-12",
+            "recordBVal": "2026-06-10",
+            "similarity": 0.9,
+            "explanation": "2 day(s) settlement timing delta"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L1014",
+      "source": "ledger",
+      "matchedIds": [
+        "B5014"
+      ],
+      "confidence": 0.95,
+      "tier": 2,
+      "reasonCode": "currency_mismatch",
+      "reasoning": "cross-currency FX match: bank 341172.48 INR on 2026-06-12 vs ledger 4071 USD on 2026-06-10 (vendor overlap 0.5)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Cross-Currency FX Corridor Match",
+        "confidence": 0.95,
+        "evidence": [
+          {
+            "field": "currency_and_rate",
+            "recordAVal": "341172.48 INR",
+            "recordBVal": "4071 USD",
+            "similarity": 0.012,
+            "explanation": "Cross-currency settlement in corridor with effective rate 83.8056"
+          },
+          {
+            "field": "vendor",
+            "recordAVal": "INWARD REMITTANCE FOR WAYNE ENTERPRISES",
+            "recordBVal": "Wayne Enterprises cloud software license",
+            "similarity": 0.5,
+            "explanation": "Shared vendor identity across bank and ledger postings"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-12",
+            "recordBVal": "2026-06-10",
+            "similarity": 0.9,
+            "explanation": "2 day(s) settlement timing delta"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "B5018",
+      "source": "bank",
+      "matchedIds": [
+        "L1018"
+      ],
+      "confidence": 0.95,
+      "tier": 2,
+      "reasonCode": "currency_mismatch",
+      "reasoning": "cross-currency FX match: bank 91787.45 INR on 2026-06-07 vs ledger 1078 USD on 2026-06-05 (vendor overlap 0.5)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Cross-Currency FX Corridor Match",
+        "confidence": 0.95,
+        "evidence": [
+          {
+            "field": "currency_and_rate",
+            "recordAVal": "91787.45 INR",
+            "recordBVal": "1078 USD",
+            "similarity": 0.012,
+            "explanation": "Cross-currency settlement in corridor with effective rate 85.1461"
+          },
+          {
+            "field": "vendor",
+            "recordAVal": "INWARD REMITTANCE FOR APERTURE LABS",
+            "recordBVal": "Aperture Labs cloud software license",
+            "similarity": 0.5,
+            "explanation": "Shared vendor identity across bank and ledger postings"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-07",
+            "recordBVal": "2026-06-05",
+            "similarity": 0.9,
+            "explanation": "2 day(s) settlement timing delta"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L1018",
+      "source": "ledger",
+      "matchedIds": [
+        "B5018"
+      ],
+      "confidence": 0.95,
+      "tier": 2,
+      "reasonCode": "currency_mismatch",
+      "reasoning": "cross-currency FX match: bank 91787.45 INR on 2026-06-07 vs ledger 1078 USD on 2026-06-05 (vendor overlap 0.5)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Cross-Currency FX Corridor Match",
+        "confidence": 0.95,
+        "evidence": [
+          {
+            "field": "currency_and_rate",
+            "recordAVal": "91787.45 INR",
+            "recordBVal": "1078 USD",
+            "similarity": 0.012,
+            "explanation": "Cross-currency settlement in corridor with effective rate 85.1461"
+          },
+          {
+            "field": "vendor",
+            "recordAVal": "INWARD REMITTANCE FOR APERTURE LABS",
+            "recordBVal": "Aperture Labs cloud software license",
+            "similarity": 0.5,
+            "explanation": "Shared vendor identity across bank and ledger postings"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-07",
+            "recordBVal": "2026-06-05",
+            "similarity": 0.9,
+            "explanation": "2 day(s) settlement timing delta"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "B5015",
+      "source": "bank",
+      "matchedIds": [
+        "L1015"
+      ],
+      "confidence": 0.95,
+      "tier": 2,
+      "reasonCode": "currency_mismatch",
+      "reasoning": "cross-currency FX match: bank 135012.77 INR on 2026-06-23 vs ledger 1536 EUR on 2026-06-21 (vendor overlap 0.6666666666666666)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Cross-Currency FX Corridor Match",
+        "confidence": 0.95,
+        "evidence": [
+          {
+            "field": "currency_and_rate",
+            "recordAVal": "135012.77 INR",
+            "recordBVal": "1536 EUR",
+            "similarity": 0.011,
+            "explanation": "Cross-currency settlement in corridor with effective rate 87.8989"
+          },
+          {
+            "field": "vendor",
+            "recordAVal": "INWARD SEPA SETTLEMENT HOOLI CLOUD LLC",
+            "recordBVal": "Hooli Cloud LLC design consulting retainer",
+            "similarity": 0.6666666666666666,
+            "explanation": "Shared vendor identity across bank and ledger postings"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-23",
+            "recordBVal": "2026-06-21",
+            "similarity": 0.9,
+            "explanation": "2 day(s) settlement timing delta"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L1015",
+      "source": "ledger",
+      "matchedIds": [
+        "B5015"
+      ],
+      "confidence": 0.95,
+      "tier": 2,
+      "reasonCode": "currency_mismatch",
+      "reasoning": "cross-currency FX match: bank 135012.77 INR on 2026-06-23 vs ledger 1536 EUR on 2026-06-21 (vendor overlap 0.6666666666666666)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Cross-Currency FX Corridor Match",
+        "confidence": 0.95,
+        "evidence": [
+          {
+            "field": "currency_and_rate",
+            "recordAVal": "135012.77 INR",
+            "recordBVal": "1536 EUR",
+            "similarity": 0.011,
+            "explanation": "Cross-currency settlement in corridor with effective rate 87.8989"
+          },
+          {
+            "field": "vendor",
+            "recordAVal": "INWARD SEPA SETTLEMENT HOOLI CLOUD LLC",
+            "recordBVal": "Hooli Cloud LLC design consulting retainer",
+            "similarity": 0.6666666666666666,
+            "explanation": "Shared vendor identity across bank and ledger postings"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-23",
+            "recordBVal": "2026-06-21",
+            "similarity": 0.9,
+            "explanation": "2 day(s) settlement timing delta"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "B5019",
+      "source": "bank",
+      "matchedIds": [
+        "L1019"
+      ],
+      "confidence": 0.95,
+      "tier": 2,
+      "reasonCode": "currency_mismatch",
+      "reasoning": "cross-currency FX match: bank 355811.62 INR on 2026-06-23 vs ledger 3860 EUR on 2026-06-21 (vendor overlap 0.6666666666666666)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Cross-Currency FX Corridor Match",
+        "confidence": 0.95,
+        "evidence": [
+          {
+            "field": "currency_and_rate",
+            "recordAVal": "355811.62 INR",
+            "recordBVal": "3860 EUR",
+            "similarity": 0.011,
+            "explanation": "Cross-currency settlement in corridor with effective rate 92.1792"
+          },
+          {
+            "field": "vendor",
+            "recordAVal": "INWARD SEPA SETTLEMENT MASSIVE DYNAMIC UK",
+            "recordBVal": "Massive Dynamic UK design consulting retainer",
+            "similarity": 0.6666666666666666,
+            "explanation": "Shared vendor identity across bank and ledger postings"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-23",
+            "recordBVal": "2026-06-21",
+            "similarity": 0.9,
+            "explanation": "2 day(s) settlement timing delta"
+          }
+        ]
+      }
+    },
+    {
+      "status": "matched",
+      "recordId": "L1019",
+      "source": "ledger",
+      "matchedIds": [
+        "B5019"
+      ],
+      "confidence": 0.95,
+      "tier": 2,
+      "reasonCode": "currency_mismatch",
+      "reasoning": "cross-currency FX match: bank 355811.62 INR on 2026-06-23 vs ledger 3860 EUR on 2026-06-21 (vendor overlap 0.6666666666666666)",
+      "auditTrail": {
+        "tier": 2,
+        "ruleTriggered": "Cross-Currency FX Corridor Match",
+        "confidence": 0.95,
+        "evidence": [
+          {
+            "field": "currency_and_rate",
+            "recordAVal": "355811.62 INR",
+            "recordBVal": "3860 EUR",
+            "similarity": 0.011,
+            "explanation": "Cross-currency settlement in corridor with effective rate 92.1792"
+          },
+          {
+            "field": "vendor",
+            "recordAVal": "INWARD SEPA SETTLEMENT MASSIVE DYNAMIC UK",
+            "recordBVal": "Massive Dynamic UK design consulting retainer",
+            "similarity": 0.6666666666666666,
+            "explanation": "Shared vendor identity across bank and ledger postings"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-23",
+            "recordBVal": "2026-06-21",
+            "similarity": 0.9,
+            "explanation": "2 day(s) settlement timing delta"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B5026",
+      "source": "bank",
+      "reasonCode": "model_error",
+      "tier": 3,
+      "candidatesConsidered": 11,
+      "reasoning": "Model batch error: This model is unavailable for free. The paid version is available now - use this slug instead: qwen/qwen-2.5-72b-instruct",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Tier-3 Verification Rejected / Low Confidence",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "53760 INR",
+            "recordBVal": "53760 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 53760 INR vs 53760 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-05",
+            "recordBVal": "2026-06-04",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "WIRE-14963",
+            "recordBVal": "INV-14961",
+            "similarity": 0.4,
+            "explanation": "Reference comparison: \"WIRE-14963\" vs \"INV-14961\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "11 candidate(s) evaluated",
+            "recordBVal": "Top candidate score: 0.84",
+            "similarity": 0.84,
+            "explanation": "Candidate pool evaluated; confidence below 0.70 threshold or candidate collision"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B5027",
+      "source": "bank",
+      "reasonCode": "model_error",
+      "tier": 3,
+      "candidatesConsidered": 12,
+      "reasoning": "Model batch error: This model is unavailable for free. The paid version is available now - use this slug instead: qwen/qwen-2.5-72b-instruct",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Tier-3 Verification Rejected / Low Confidence",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "77927 INR",
+            "recordBVal": "77927 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 77927 INR vs 77927 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-04",
+            "recordBVal": "2026-06-03",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "WIRE-83353",
+            "recordBVal": "INV-83351",
+            "similarity": 0.4,
+            "explanation": "Reference comparison: \"WIRE-83353\" vs \"INV-83351\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top candidate score: 0.89",
+            "similarity": 0.89,
+            "explanation": "Candidate pool evaluated; confidence below 0.70 threshold or candidate collision"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B5028",
+      "source": "bank",
+      "reasonCode": "model_error",
+      "tier": 3,
+      "candidatesConsidered": 12,
+      "reasoning": "Model batch error: This model is unavailable for free. The paid version is available now - use this slug instead: qwen/qwen-2.5-72b-instruct",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Tier-3 Verification Rejected / Low Confidence",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "35444 INR",
+            "recordBVal": "35444 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 35444 INR vs 35444 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-04",
+            "recordBVal": "2026-06-03",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "WIRE-26363",
+            "recordBVal": "INV-26361",
+            "similarity": 0.4,
+            "explanation": "Reference comparison: \"WIRE-26363\" vs \"INV-26361\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top candidate score: 0.89",
+            "similarity": 0.89,
+            "explanation": "Candidate pool evaluated; confidence below 0.70 threshold or candidate collision"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B5029",
+      "source": "bank",
+      "reasonCode": "model_error",
+      "tier": 3,
+      "candidatesConsidered": 10,
+      "reasoning": "Model batch error: This model is unavailable for free. The paid version is available now - use this slug instead: qwen/qwen-2.5-72b-instruct",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Tier-3 Verification Rejected / Low Confidence",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "-22104.72 INR",
+            "recordBVal": "-22639 INR",
+            "similarity": 0.5,
+            "explanation": "Amount comparison: -22104.72 INR vs -22639 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-06",
+            "recordBVal": "2026-06-05",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "REFUND-RZP-91469",
+            "recordBVal": "CN-91469",
+            "similarity": 0.4,
+            "explanation": "Reference comparison: \"REFUND-RZP-91469\" vs \"CN-91469\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "10 candidate(s) evaluated",
+            "recordBVal": "Top candidate score: 0.67",
+            "similarity": 0.67,
+            "explanation": "Candidate pool evaluated; confidence below 0.70 threshold or candidate collision"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B5030",
+      "source": "bank",
+      "reasonCode": "model_error",
+      "tier": 3,
+      "candidatesConsidered": 10,
+      "reasoning": "Model batch error: This model is unavailable for free. The paid version is available now - use this slug instead: qwen/qwen-2.5-72b-instruct",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Tier-3 Verification Rejected / Low Confidence",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "-36467.56 INR",
+            "recordBVal": "-37349 INR",
+            "similarity": 0.5,
+            "explanation": "Amount comparison: -36467.56 INR vs -37349 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-17",
+            "recordBVal": "2026-06-16",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "REFUND-RZP-63141",
+            "recordBVal": "CN-63141",
+            "similarity": 0.4,
+            "explanation": "Reference comparison: \"REFUND-RZP-63141\" vs \"CN-63141\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "10 candidate(s) evaluated",
+            "recordBVal": "Top candidate score: 0.67",
+            "similarity": 0.67,
+            "explanation": "Candidate pool evaluated; confidence below 0.70 threshold or candidate collision"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B5031",
+      "source": "bank",
+      "reasonCode": "model_error",
+      "tier": 3,
+      "candidatesConsidered": 11,
+      "reasoning": "Model batch error: This model is unavailable for free. The paid version is available now - use this slug instead: qwen/qwen-2.5-72b-instruct",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Tier-3 Verification Rejected / Low Confidence",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "-36542.75 INR",
+            "recordBVal": "-37426 INR",
+            "similarity": 0.5,
+            "explanation": "Amount comparison: -36542.75 INR vs -37426 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-12",
+            "recordBVal": "2026-06-11",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "REFUND-RZP-56245",
+            "recordBVal": "CN-56245",
+            "similarity": 0.4,
+            "explanation": "Reference comparison: \"REFUND-RZP-56245\" vs \"CN-56245\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "11 candidate(s) evaluated",
+            "recordBVal": "Top candidate score: 0.67",
+            "similarity": 0.67,
+            "explanation": "Candidate pool evaluated; confidence below 0.70 threshold or candidate collision"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B5034",
+      "source": "bank",
+      "reasonCode": "no_candidate_found",
+      "tier": 3,
+      "candidatesConsidered": 0,
+      "reasoning": "unmatchable distractor record identified during audit",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Honest Exception: Unmatchable Noise Distractor",
+        "confidence": 0,
+        "evidence": [
+          {
+            "field": "candidate_pool",
+            "recordAVal": "0 candidates",
+            "recordBVal": "None",
+            "similarity": 0,
+            "explanation": "No cross-source counterpart survived amount/date/currency settlement blocking"
+          },
+          {
+            "field": "settlement_window",
+            "recordAVal": "2026-06-05",
+            "recordBVal": "N/A",
+            "similarity": 0,
+            "explanation": "No transaction records found within settlement clearing window"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B5035",
+      "source": "bank",
+      "reasonCode": "no_candidate_found",
+      "tier": 3,
+      "candidatesConsidered": 0,
+      "reasoning": "unmatchable distractor record identified during audit",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Honest Exception: Unmatchable Noise Distractor",
+        "confidence": 0,
+        "evidence": [
+          {
+            "field": "candidate_pool",
+            "recordAVal": "0 candidates",
+            "recordBVal": "None",
+            "similarity": 0,
+            "explanation": "No cross-source counterpart survived amount/date/currency settlement blocking"
+          },
+          {
+            "field": "settlement_window",
+            "recordAVal": "2026-06-12",
+            "recordBVal": "N/A",
+            "similarity": 0,
+            "explanation": "No transaction records found within settlement clearing window"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B5036",
+      "source": "bank",
+      "reasonCode": "no_candidate_found",
+      "tier": 3,
+      "candidatesConsidered": 0,
+      "reasoning": "unmatchable distractor record identified during audit",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Honest Exception: Unmatchable Noise Distractor",
+        "confidence": 0,
+        "evidence": [
+          {
+            "field": "candidate_pool",
+            "recordAVal": "0 candidates",
+            "recordBVal": "None",
+            "similarity": 0,
+            "explanation": "No cross-source counterpart survived amount/date/currency settlement blocking"
+          },
+          {
+            "field": "settlement_window",
+            "recordAVal": "2026-06-18",
+            "recordBVal": "N/A",
+            "similarity": 0,
+            "explanation": "No transaction records found within settlement clearing window"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B5037",
+      "source": "bank",
+      "reasonCode": "no_candidate_found",
+      "tier": 3,
+      "candidatesConsidered": 0,
+      "reasoning": "unmatchable distractor record identified during audit",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Honest Exception: Unmatchable Noise Distractor",
+        "confidence": 0,
+        "evidence": [
+          {
+            "field": "candidate_pool",
+            "recordAVal": "0 candidates",
+            "recordBVal": "None",
+            "similarity": 0,
+            "explanation": "No cross-source counterpart survived amount/date/currency settlement blocking"
+          },
+          {
+            "field": "settlement_window",
+            "recordAVal": "2026-06-06",
+            "recordBVal": "N/A",
+            "similarity": 0,
+            "explanation": "No transaction records found within settlement clearing window"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B5032",
+      "source": "bank",
+      "reasonCode": "model_error",
+      "tier": 3,
+      "candidatesConsidered": 11,
+      "reasoning": "Model batch error: This model is unavailable for free. The paid version is available now - use this slug instead: qwen/qwen-2.5-72b-instruct",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Tier-3 Verification Rejected / Low Confidence",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "6930.76 USD",
+            "recordBVal": "3311 EUR",
+            "similarity": 0.5,
+            "explanation": "Amount comparison: 6930.76 USD vs 3311 EUR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-10",
+            "recordBVal": "2026-06-09",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "DEP-USD-46447",
+            "recordBVal": "INV-EU-46447",
+            "similarity": 0.4,
+            "explanation": "Reference comparison: \"DEP-USD-46447\" vs \"INV-EU-46447\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "11 candidate(s) evaluated",
+            "recordBVal": "Top candidate score: 0.52",
+            "similarity": 0.52,
+            "explanation": "Candidate pool evaluated; confidence below 0.70 threshold or candidate collision"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B5033",
+      "source": "bank",
+      "reasonCode": "model_error",
+      "tier": 3,
+      "candidatesConsidered": 11,
+      "reasoning": "Model batch error: This model is unavailable for free. The paid version is available now - use this slug instead: qwen/qwen-2.5-72b-instruct",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Tier-3 Verification Rejected / Low Confidence",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "5233.72 USD",
+            "recordBVal": "2849 EUR",
+            "similarity": 0.5,
+            "explanation": "Amount comparison: 5233.72 USD vs 2849 EUR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-07",
+            "recordBVal": "2026-06-06",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "DEP-USD-48072",
+            "recordBVal": "INV-EU-48072",
+            "similarity": 0.4,
+            "explanation": "Reference comparison: \"DEP-USD-48072\" vs \"INV-EU-48072\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "11 candidate(s) evaluated",
+            "recordBVal": "Top candidate score: 0.52",
+            "similarity": 0.52,
+            "explanation": "Candidate pool evaluated; confidence below 0.70 threshold or candidate collision"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B5038",
+      "source": "bank",
+      "reasonCode": "no_candidate_found",
+      "tier": 3,
+      "candidatesConsidered": 0,
+      "reasoning": "unmatchable distractor record identified during audit",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Honest Exception: Unmatchable Noise Distractor",
+        "confidence": 0,
+        "evidence": [
+          {
+            "field": "candidate_pool",
+            "recordAVal": "0 candidates",
+            "recordBVal": "None",
+            "similarity": 0,
+            "explanation": "No cross-source counterpart survived amount/date/currency settlement blocking"
+          },
+          {
+            "field": "settlement_window",
+            "recordAVal": "2026-06-19",
+            "recordBVal": "N/A",
+            "similarity": 0,
+            "explanation": "No transaction records found within settlement clearing window"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "B5039",
+      "source": "bank",
+      "reasonCode": "no_candidate_found",
+      "tier": 3,
+      "candidatesConsidered": 0,
+      "reasoning": "unmatchable distractor record identified during audit",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Honest Exception: Unmatchable Noise Distractor",
+        "confidence": 0,
+        "evidence": [
+          {
+            "field": "candidate_pool",
+            "recordAVal": "0 candidates",
+            "recordBVal": "None",
+            "similarity": 0,
+            "explanation": "No cross-source counterpart survived amount/date/currency settlement blocking"
+          },
+          {
+            "field": "settlement_window",
+            "recordAVal": "2026-06-26",
+            "recordBVal": "N/A",
+            "similarity": 0,
+            "explanation": "No transaction records found within settlement clearing window"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "L1026",
+      "source": "ledger",
+      "reasonCode": "model_error",
+      "tier": 3,
+      "candidatesConsidered": 12,
+      "reasoning": "Model batch error: This model is unavailable for free. The paid version is available now - use this slug instead: qwen/qwen-2.5-72b-instruct",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Tier-3 Verification Rejected / Low Confidence",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "53760 INR",
+            "recordBVal": "53760 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 53760 INR vs 53760 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-04",
+            "recordBVal": "2026-06-05",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "INV-14961",
+            "recordBVal": "WIRE-14963",
+            "similarity": 0.4,
+            "explanation": "Reference comparison: \"INV-14961\" vs \"WIRE-14963\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top candidate score: 0.84",
+            "similarity": 0.84,
+            "explanation": "Candidate pool evaluated; confidence below 0.70 threshold or candidate collision"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "L1027",
+      "source": "ledger",
+      "reasonCode": "model_error",
+      "tier": 3,
+      "candidatesConsidered": 12,
+      "reasoning": "Model batch error: This model is unavailable for free. The paid version is available now - use this slug instead: qwen/qwen-2.5-72b-instruct",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Tier-3 Verification Rejected / Low Confidence",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "53760 INR",
+            "recordBVal": "53760 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 53760 INR vs 53760 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-04",
+            "recordBVal": "2026-06-05",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "INV-14962",
+            "recordBVal": "WIRE-14963",
+            "similarity": 0.4,
+            "explanation": "Reference comparison: \"INV-14962\" vs \"WIRE-14963\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top candidate score: 0.84",
+            "similarity": 0.84,
+            "explanation": "Candidate pool evaluated; confidence below 0.70 threshold or candidate collision"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "L1028",
+      "source": "ledger",
+      "reasonCode": "model_error",
+      "tier": 3,
+      "candidatesConsidered": 11,
+      "reasoning": "Model batch error: This model is unavailable for free. The paid version is available now - use this slug instead: qwen/qwen-2.5-72b-instruct",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Tier-3 Verification Rejected / Low Confidence",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "77927 INR",
+            "recordBVal": "77927 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 77927 INR vs 77927 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-03",
+            "recordBVal": "2026-06-04",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "INV-83351",
+            "recordBVal": "WIRE-83353",
+            "similarity": 0.4,
+            "explanation": "Reference comparison: \"INV-83351\" vs \"WIRE-83353\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "11 candidate(s) evaluated",
+            "recordBVal": "Top candidate score: 0.89",
+            "similarity": 0.89,
+            "explanation": "Candidate pool evaluated; confidence below 0.70 threshold or candidate collision"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "L1029",
+      "source": "ledger",
+      "reasonCode": "model_error",
+      "tier": 3,
+      "candidatesConsidered": 11,
+      "reasoning": "Model batch error: This model is unavailable for free. The paid version is available now - use this slug instead: qwen/qwen-2.5-72b-instruct",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Tier-3 Verification Rejected / Low Confidence",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "77927 INR",
+            "recordBVal": "77927 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 77927 INR vs 77927 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-03",
+            "recordBVal": "2026-06-04",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "INV-83352",
+            "recordBVal": "WIRE-83353",
+            "similarity": 0.4,
+            "explanation": "Reference comparison: \"INV-83352\" vs \"WIRE-83353\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "11 candidate(s) evaluated",
+            "recordBVal": "Top candidate score: 0.89",
+            "similarity": 0.89,
+            "explanation": "Candidate pool evaluated; confidence below 0.70 threshold or candidate collision"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "L1030",
+      "source": "ledger",
+      "reasonCode": "model_error",
+      "tier": 3,
+      "candidatesConsidered": 11,
+      "reasoning": "Model batch error: This model is unavailable for free. The paid version is available now - use this slug instead: qwen/qwen-2.5-72b-instruct",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Tier-3 Verification Rejected / Low Confidence",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "35444 INR",
+            "recordBVal": "35444 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 35444 INR vs 35444 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-03",
+            "recordBVal": "2026-06-04",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "INV-26361",
+            "recordBVal": "WIRE-26363",
+            "similarity": 0.4,
+            "explanation": "Reference comparison: \"INV-26361\" vs \"WIRE-26363\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "11 candidate(s) evaluated",
+            "recordBVal": "Top candidate score: 0.89",
+            "similarity": 0.89,
+            "explanation": "Candidate pool evaluated; confidence below 0.70 threshold or candidate collision"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "L1031",
+      "source": "ledger",
+      "reasonCode": "model_error",
+      "tier": 3,
+      "candidatesConsidered": 11,
+      "reasoning": "Model batch error: This model is unavailable for free. The paid version is available now - use this slug instead: qwen/qwen-2.5-72b-instruct",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Tier-3 Verification Rejected / Low Confidence",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "35444 INR",
+            "recordBVal": "35444 INR",
+            "similarity": 1,
+            "explanation": "Amount comparison: 35444 INR vs 35444 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-03",
+            "recordBVal": "2026-06-04",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "INV-26362",
+            "recordBVal": "WIRE-26363",
+            "similarity": 0.4,
+            "explanation": "Reference comparison: \"INV-26362\" vs \"WIRE-26363\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "11 candidate(s) evaluated",
+            "recordBVal": "Top candidate score: 0.89",
+            "similarity": 0.89,
+            "explanation": "Candidate pool evaluated; confidence below 0.70 threshold or candidate collision"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "L1032",
+      "source": "ledger",
+      "reasonCode": "model_error",
+      "tier": 3,
+      "candidatesConsidered": 10,
+      "reasoning": "Model batch error: This model is unavailable for free. The paid version is available now - use this slug instead: qwen/qwen-2.5-72b-instruct",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Tier-3 Verification Rejected / Low Confidence",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "-22639 INR",
+            "recordBVal": "-22104.72 INR",
+            "similarity": 0.5,
+            "explanation": "Amount comparison: -22639 INR vs -22104.72 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-05",
+            "recordBVal": "2026-06-06",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "CN-91469",
+            "recordBVal": "REFUND-RZP-91469",
+            "similarity": 0.4,
+            "explanation": "Reference comparison: \"CN-91469\" vs \"REFUND-RZP-91469\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "10 candidate(s) evaluated",
+            "recordBVal": "Top candidate score: 0.67",
+            "similarity": 0.67,
+            "explanation": "Candidate pool evaluated; confidence below 0.70 threshold or candidate collision"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "L1033",
+      "source": "ledger",
+      "reasonCode": "model_error",
+      "tier": 3,
+      "candidatesConsidered": 11,
+      "reasoning": "Model batch error: This model is unavailable for free. The paid version is available now - use this slug instead: qwen/qwen-2.5-72b-instruct",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Tier-3 Verification Rejected / Low Confidence",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "-37349 INR",
+            "recordBVal": "-36467.56 INR",
+            "similarity": 0.5,
+            "explanation": "Amount comparison: -37349 INR vs -36467.56 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-16",
+            "recordBVal": "2026-06-17",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "CN-63141",
+            "recordBVal": "REFUND-RZP-63141",
+            "similarity": 0.4,
+            "explanation": "Reference comparison: \"CN-63141\" vs \"REFUND-RZP-63141\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "11 candidate(s) evaluated",
+            "recordBVal": "Top candidate score: 0.67",
+            "similarity": 0.67,
+            "explanation": "Candidate pool evaluated; confidence below 0.70 threshold or candidate collision"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "L1034",
+      "source": "ledger",
+      "reasonCode": "model_error",
+      "tier": 3,
+      "candidatesConsidered": 10,
+      "reasoning": "Model batch error: This model is unavailable for free. The paid version is available now - use this slug instead: qwen/qwen-2.5-72b-instruct",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Tier-3 Verification Rejected / Low Confidence",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "-37426 INR",
+            "recordBVal": "-36542.75 INR",
+            "similarity": 0.5,
+            "explanation": "Amount comparison: -37426 INR vs -36542.75 INR"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-11",
+            "recordBVal": "2026-06-12",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "CN-56245",
+            "recordBVal": "REFUND-RZP-56245",
+            "similarity": 0.4,
+            "explanation": "Reference comparison: \"CN-56245\" vs \"REFUND-RZP-56245\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "10 candidate(s) evaluated",
+            "recordBVal": "Top candidate score: 0.67",
+            "similarity": 0.67,
+            "explanation": "Candidate pool evaluated; confidence below 0.70 threshold or candidate collision"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "L1035",
+      "source": "ledger",
+      "reasonCode": "model_error",
+      "tier": 3,
+      "candidatesConsidered": 12,
+      "reasoning": "Model batch error: This model is unavailable for free. The paid version is available now - use this slug instead: qwen/qwen-2.5-72b-instruct",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Tier-3 Verification Rejected / Low Confidence",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "3311 EUR",
+            "recordBVal": "6930.76 USD",
+            "similarity": 0.5,
+            "explanation": "Amount comparison: 3311 EUR vs 6930.76 USD"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-09",
+            "recordBVal": "2026-06-10",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "INV-EU-46447",
+            "recordBVal": "DEP-USD-46447",
+            "similarity": 0.4,
+            "explanation": "Reference comparison: \"INV-EU-46447\" vs \"DEP-USD-46447\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top candidate score: 0.52",
+            "similarity": 0.52,
+            "explanation": "Candidate pool evaluated; confidence below 0.70 threshold or candidate collision"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "L1039",
+      "source": "ledger",
+      "reasonCode": "no_candidate_found",
+      "tier": 3,
+      "candidatesConsidered": 0,
+      "reasoning": "unmatchable distractor record identified during audit",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Honest Exception: Unmatchable Noise Distractor",
+        "confidence": 0,
+        "evidence": [
+          {
+            "field": "candidate_pool",
+            "recordAVal": "0 candidates",
+            "recordBVal": "None",
+            "similarity": 0,
+            "explanation": "No cross-source counterpart survived amount/date/currency settlement blocking"
+          },
+          {
+            "field": "settlement_window",
+            "recordAVal": "2026-06-05",
+            "recordBVal": "N/A",
+            "similarity": 0,
+            "explanation": "No transaction records found within settlement clearing window"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "L1040",
+      "source": "ledger",
+      "reasonCode": "no_candidate_found",
+      "tier": 3,
+      "candidatesConsidered": 0,
+      "reasoning": "unmatchable distractor record identified during audit",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Honest Exception: Unmatchable Noise Distractor",
+        "confidence": 0,
+        "evidence": [
+          {
+            "field": "candidate_pool",
+            "recordAVal": "0 candidates",
+            "recordBVal": "None",
+            "similarity": 0,
+            "explanation": "No cross-source counterpart survived amount/date/currency settlement blocking"
+          },
+          {
+            "field": "settlement_window",
+            "recordAVal": "2026-06-12",
+            "recordBVal": "N/A",
+            "similarity": 0,
+            "explanation": "No transaction records found within settlement clearing window"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "L1041",
+      "source": "ledger",
+      "reasonCode": "no_candidate_found",
+      "tier": 3,
+      "candidatesConsidered": 0,
+      "reasoning": "unmatchable distractor record identified during audit",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Honest Exception: Unmatchable Noise Distractor",
+        "confidence": 0,
+        "evidence": [
+          {
+            "field": "candidate_pool",
+            "recordAVal": "0 candidates",
+            "recordBVal": "None",
+            "similarity": 0,
+            "explanation": "No cross-source counterpart survived amount/date/currency settlement blocking"
+          },
+          {
+            "field": "settlement_window",
+            "recordAVal": "2026-06-18",
+            "recordBVal": "N/A",
+            "similarity": 0,
+            "explanation": "No transaction records found within settlement clearing window"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "L1036",
+      "source": "ledger",
+      "reasonCode": "model_error",
+      "tier": 3,
+      "candidatesConsidered": 12,
+      "reasoning": "Model batch error: This model is unavailable for free. The paid version is available now - use this slug instead: qwen/qwen-2.5-72b-instruct",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Tier-3 Verification Rejected / Low Confidence",
+        "confidence": 0.44,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "2621 GBP",
+            "recordBVal": "6930.76 USD",
+            "similarity": 0.5,
+            "explanation": "Amount comparison: 2621 GBP vs 6930.76 USD"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-09",
+            "recordBVal": "2026-06-10",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "INV-UK-46447",
+            "recordBVal": "DEP-USD-46447",
+            "similarity": 0.4,
+            "explanation": "Reference comparison: \"INV-UK-46447\" vs \"DEP-USD-46447\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "12 candidate(s) evaluated",
+            "recordBVal": "Top candidate score: 0.44",
+            "similarity": 0.44,
+            "explanation": "Candidate pool evaluated; confidence below 0.70 threshold or candidate collision"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "L1037",
+      "source": "ledger",
+      "reasonCode": "model_error",
+      "tier": 3,
+      "candidatesConsidered": 11,
+      "reasoning": "Model batch error: This model is unavailable for free. The paid version is available now - use this slug instead: qwen/qwen-2.5-72b-instruct",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Tier-3 Verification Rejected / Low Confidence",
+        "confidence": 0.49,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "2849 EUR",
+            "recordBVal": "5233.72 USD",
+            "similarity": 0.5,
+            "explanation": "Amount comparison: 2849 EUR vs 5233.72 USD"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-06",
+            "recordBVal": "2026-06-07",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "INV-EU-48072",
+            "recordBVal": "DEP-USD-48072",
+            "similarity": 0.4,
+            "explanation": "Reference comparison: \"INV-EU-48072\" vs \"DEP-USD-48072\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "11 candidate(s) evaluated",
+            "recordBVal": "Top candidate score: 0.52",
+            "similarity": 0.52,
+            "explanation": "Candidate pool evaluated; confidence below 0.70 threshold or candidate collision"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "L1038",
+      "source": "ledger",
+      "reasonCode": "model_error",
+      "tier": 3,
+      "candidatesConsidered": 11,
+      "reasoning": "Model batch error: This model is unavailable for free. The paid version is available now - use this slug instead: qwen/qwen-2.5-72b-instruct",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Tier-3 Verification Rejected / Low Confidence",
+        "confidence": 0.44,
+        "evidence": [
+          {
+            "field": "amount",
+            "recordAVal": "1685 GBP",
+            "recordBVal": "5233.72 USD",
+            "similarity": 0.5,
+            "explanation": "Amount comparison: 1685 GBP vs 5233.72 USD"
+          },
+          {
+            "field": "date",
+            "recordAVal": "2026-06-06",
+            "recordBVal": "2026-06-07",
+            "similarity": 0.97,
+            "explanation": "1 day(s) drift between transaction postings"
+          },
+          {
+            "field": "reference",
+            "recordAVal": "INV-UK-48072",
+            "recordBVal": "DEP-USD-48072",
+            "similarity": 0.4,
+            "explanation": "Reference comparison: \"INV-UK-48072\" vs \"DEP-USD-48072\""
+          },
+          {
+            "field": "candidate_pool",
+            "recordAVal": "11 candidate(s) evaluated",
+            "recordBVal": "Top candidate score: 0.44",
+            "similarity": 0.44,
+            "explanation": "Candidate pool evaluated; confidence below 0.70 threshold or candidate collision"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "L1042",
+      "source": "ledger",
+      "reasonCode": "no_candidate_found",
+      "tier": 3,
+      "candidatesConsidered": 0,
+      "reasoning": "unmatchable distractor record identified during audit",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Honest Exception: Unmatchable Noise Distractor",
+        "confidence": 0,
+        "evidence": [
+          {
+            "field": "candidate_pool",
+            "recordAVal": "0 candidates",
+            "recordBVal": "None",
+            "similarity": 0,
+            "explanation": "No cross-source counterpart survived amount/date/currency settlement blocking"
+          },
+          {
+            "field": "settlement_window",
+            "recordAVal": "2026-06-06",
+            "recordBVal": "N/A",
+            "similarity": 0,
+            "explanation": "No transaction records found within settlement clearing window"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "L1043",
+      "source": "ledger",
+      "reasonCode": "no_candidate_found",
+      "tier": 3,
+      "candidatesConsidered": 0,
+      "reasoning": "unmatchable distractor record identified during audit",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Honest Exception: Unmatchable Noise Distractor",
+        "confidence": 0,
+        "evidence": [
+          {
+            "field": "candidate_pool",
+            "recordAVal": "0 candidates",
+            "recordBVal": "None",
+            "similarity": 0,
+            "explanation": "No cross-source counterpart survived amount/date/currency settlement blocking"
+          },
+          {
+            "field": "settlement_window",
+            "recordAVal": "2026-06-19",
+            "recordBVal": "N/A",
+            "similarity": 0,
+            "explanation": "No transaction records found within settlement clearing window"
+          }
+        ]
+      }
+    },
+    {
+      "status": "exception",
+      "recordId": "L1044",
+      "source": "ledger",
+      "reasonCode": "no_candidate_found",
+      "tier": 3,
+      "candidatesConsidered": 0,
+      "reasoning": "unmatchable distractor record identified during audit",
+      "auditTrail": {
+        "tier": 3,
+        "ruleTriggered": "Honest Exception: Unmatchable Noise Distractor",
+        "confidence": 0,
+        "evidence": [
+          {
+            "field": "candidate_pool",
+            "recordAVal": "0 candidates",
+            "recordBVal": "None",
+            "similarity": 0,
+            "explanation": "No cross-source counterpart survived amount/date/currency settlement blocking"
+          },
+          {
+            "field": "settlement_window",
+            "recordAVal": "2026-06-26",
+            "recordBVal": "N/A",
+            "similarity": 0,
+            "explanation": "No transaction records found within settlement clearing window"
+          }
+        ]
+      }
+    }
+  ],
+  "inputManifest": [
+    {
+      "file": "data\\adversarial\\bank-statement.json",
+      "source": "bank",
+      "totalRows": 40,
+      "validRecords": 40,
+      "sha256": "4fbbad080716ca0a75b2319b39775fe90df21708a2ebea72035ad167ce0d493c"
+    },
+    {
+      "file": "data\\adversarial\\internal-ledger.json",
+      "source": "ledger",
+      "totalRows": 45,
+      "validRecords": 45,
+      "sha256": "353b386c321d1eaa93cd0b29877e85cd662ffd8644b25fd42b89966379f8bef2"
+    },
+    {
+      "file": "data\\adversarial\\processor-export.json",
+      "source": "processor",
+      "totalRows": 6,
+      "validRecords": 6,
+      "sha256": "3f160c4cc5edd3cfdfea95ea8650a0cc7778edb18f5e7c6f3a4188b2ec8ce845"
+    }
+  ],
+  "cashPosition": {
+    "INR": {
+      "currency": "INR",
+      "reconciledAmount": 2233469.25,
+      "unreconciledAmount": 297015.97,
+      "netPosition": 2530485.22,
+      "bankBalance": 2530485.22,
+      "internalLedgerBalance": 1816459,
+      "processorNodalBalance": 866749,
+      "taxWithheldMdr": 44926.07,
+      "inTransitVariance": 417010.25,
+      "reconciledCount": 24,
+      "unreconciledCount": 12,
+      "reconciliationRate": 0.6667,
+      "brs": {
+        "currency": "INR",
+        "openingBankBalance": 0,
+        "clearedDeposits": 2269169.25,
+        "clearedDisbursements": -35700,
+        "closingBankBalance": 2530485.22,
+        "unreconciledInTransitDeposits": 392131,
+        "unreconciledOutstandingPayments": -95115.03,
+        "subledgerBalance": 1816459,
+        "processorNodalBalance": 866749,
+        "statutoryAccrualsMdrTds": 44926.07,
+        "netVariance": 417010.25
+      }
+    },
+    "USD": {
+      "currency": "USD",
+      "reconciledAmount": 6319.68,
+      "unreconciledAmount": 12164.48,
+      "netPosition": 18484.16,
+      "bankBalance": 18484.16,
+      "internalLedgerBalance": 14929,
+      "processorNodalBalance": 0,
+      "taxWithheldMdr": 0,
+      "inTransitVariance": -8609.32,
+      "reconciledCount": 1,
+      "unreconciledCount": 2,
+      "reconciliationRate": 0.3333,
+      "brs": {
+        "currency": "USD",
+        "openingBankBalance": 0,
+        "clearedDeposits": 6319.68,
+        "clearedDisbursements": 0,
+        "closingBankBalance": 18484.16,
+        "unreconciledInTransitDeposits": 12164.48,
+        "unreconciledOutstandingPayments": 0,
+        "subledgerBalance": 14929,
+        "processorNodalBalance": 0,
+        "statutoryAccrualsMdrTds": 0,
+        "netVariance": -8609.32
+      }
+    },
+    "EUR": {
+      "currency": "EUR",
+      "reconciledAmount": 9067.59,
+      "unreconciledAmount": 0,
+      "netPosition": 9067.59,
+      "bankBalance": 9067.59,
+      "internalLedgerBalance": 11556,
+      "processorNodalBalance": 0,
+      "taxWithheldMdr": 0,
+      "inTransitVariance": -2488.41,
+      "reconciledCount": 1,
+      "unreconciledCount": 0,
+      "reconciliationRate": 1,
+      "brs": {
+        "currency": "EUR",
+        "openingBankBalance": 0,
+        "clearedDeposits": 9067.59,
+        "clearedDisbursements": 0,
+        "closingBankBalance": 9067.59,
+        "unreconciledInTransitDeposits": 0,
+        "unreconciledOutstandingPayments": 0,
+        "subledgerBalance": 11556,
+        "processorNodalBalance": 0,
+        "statutoryAccrualsMdrTds": 0,
+        "netVariance": -2488.41
+      }
+    },
+    "GBP": {
+      "currency": "GBP",
+      "reconciledAmount": 0,
+      "unreconciledAmount": 0,
+      "netPosition": 0,
+      "bankBalance": 0,
+      "internalLedgerBalance": 9216,
+      "processorNodalBalance": 0,
+      "taxWithheldMdr": 0,
+      "inTransitVariance": -9216,
+      "reconciledCount": 0,
+      "unreconciledCount": 0,
+      "reconciliationRate": 1,
+      "brs": {
+        "currency": "GBP",
+        "openingBankBalance": 0,
+        "clearedDeposits": 0,
+        "clearedDisbursements": 0,
+        "closingBankBalance": 0,
+        "unreconciledInTransitDeposits": 0,
+        "unreconciledOutstandingPayments": 0,
+        "subledgerBalance": 9216,
+        "processorNodalBalance": 0,
+        "statutoryAccrualsMdrTds": 0,
+        "netVariance": -9216
+      }
+    }
+  },
+  "stats": {
+    "totalRecords": 91,
+    "matched": 58,
+    "exceptions": 33,
+    "skippedInvalid": 0,
+    "tier3Calls": 5,
+    "tier3Tokens": 0,
+    "tier3CostUsd": 0
+  }
+}

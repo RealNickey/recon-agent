@@ -1,0 +1,56 @@
+[
+  {
+    "id": "P9005",
+    "source": "processor",
+    "date": "2026-06-16",
+    "amount": 7856.2,
+    "currency": "USD",
+    "description": "Massive Dynamic INV-27794",
+    "reference": "INV-27794"
+  },
+  {
+    "id": "P9002",
+    "source": "processor",
+    "date": "2026-06-04",
+    "amount": 6606.98,
+    "currency": "USD",
+    "description": "Oscorp INV-42830",
+    "reference": "INV-42830"
+  },
+  {
+    "id": "P9000",
+    "source": "processor",
+    "date": "2026-06-04",
+    "amount": 358.19,
+    "currency": "USD",
+    "description": "Wonka Labs INV-66967",
+    "reference": "INV-66967"
+  },
+  {
+    "id": "P9003",
+    "source": "processor",
+    "date": "2026-06-15",
+    "amount": 2508.66,
+    "currency": "USD",
+    "description": "Acme Corp INV-17476",
+    "reference": "INV-17476"
+  },
+  {
+    "id": "P9001",
+    "source": "processor",
+    "date": "2026-06-29",
+    "amount": 6197.55,
+    "currency": "USD",
+    "description": "Initech LLC INV-57248",
+    "reference": "INV-57248"
+  },
+  {
+    "id": "P9004",
+    "source": "processor",
+    "date": "2026-06-08",
+    "amount": 8979.61,
+    "currency": "USD",
+    "description": "Initech LLC INV-86483",
+    "reference": "INV-86483"
+  }
+]

@@ -1,0 +1,2 @@
+Record ID,Source,Date,Amount,Currency,Reason Code,Candidates Considered,Suggested Action,SLA Priority,Reasoning
+B2,bank,2026-06-02,50,USD,no_candidate_found,0,"Request bank statement trace / counterparty confirmation",P3 - Standard Close,"no cross-source candidate survived amount/date/vendor blocking"

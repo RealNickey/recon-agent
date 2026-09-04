@@ -1,0 +1,272 @@
+[
+  {
+    "id": "B_RZP_0001",
+    "source": "bank",
+    "date": "2026-06-02",
+    "amount": 5614.3,
+    "currency": "INR",
+    "reference": "RZP-SETTLE-order_test_0001",
+    "description": "RAZORPAY NODAL SETTLEMENT NET FOR setl_test_0001 UTR:HDFCR5202606010001"
+  },
+  {
+    "id": "B_RZP_0002",
+    "source": "bank",
+    "date": "2026-06-02",
+    "amount": 6346.6,
+    "currency": "INR",
+    "reference": "RZP-SETTLE-order_test_0002",
+    "description": "RAZORPAY NODAL SETTLEMENT NET FOR setl_test_0002 UTR:HDFCR5202606010002"
+  },
+  {
+    "id": "B_RZP_0003",
+    "source": "bank",
+    "date": "2026-06-02",
+    "amount": 7078.9,
+    "currency": "INR",
+    "reference": "RZP-SETTLE-order_test_0003",
+    "description": "RAZORPAY NODAL SETTLEMENT NET FOR setl_test_0003 UTR:HDFCR5202606010003"
+  },
+  {
+    "id": "B_RZP_0004",
+    "source": "bank",
+    "date": "2026-06-02",
+    "amount": 7811.2,
+    "currency": "INR",
+    "reference": "RZP-SETTLE-order_test_0004",
+    "description": "RAZORPAY NODAL SETTLEMENT NET FOR setl_test_0004 UTR:HDFCR5202606010004"
+  },
+  {
+    "id": "B_RZP_0005",
+    "source": "bank",
+    "date": "2026-06-02",
+    "amount": 8543.5,
+    "currency": "INR",
+    "reference": "RZP-SETTLE-order_test_0005",
+    "description": "RAZORPAY NODAL SETTLEMENT NET FOR setl_test_0005 UTR:HDFCR5202606010005"
+  },
+  {
+    "id": "B_RZP_0006",
+    "source": "bank",
+    "date": "2026-06-02",
+    "amount": 9275.8,
+    "currency": "INR",
+    "reference": "RZP-SETTLE-order_test_0006",
+    "description": "RAZORPAY NODAL SETTLEMENT NET FOR setl_test_0006 UTR:HDFCR5202606010006"
+  },
+  {
+    "id": "B_RZP_0007",
+    "source": "bank",
+    "date": "2026-06-02",
+    "amount": 10008.1,
+    "currency": "INR",
+    "reference": "RZP-SETTLE-order_test_0007",
+    "description": "RAZORPAY NODAL SETTLEMENT NET FOR setl_test_0007 UTR:HDFCR5202606010007"
+  },
+  {
+    "id": "B_RZP_0008",
+    "source": "bank",
+    "date": "2026-06-02",
+    "amount": 10740.4,
+    "currency": "INR",
+    "reference": "RZP-SETTLE-order_test_0008",
+    "description": "RAZORPAY NODAL SETTLEMENT NET FOR setl_test_0008 UTR:HDFCR5202606010008"
+  },
+  {
+    "id": "B_RZP_0009",
+    "source": "bank",
+    "date": "2026-06-02",
+    "amount": 11472.7,
+    "currency": "INR",
+    "reference": "RZP-SETTLE-order_test_0009",
+    "description": "RAZORPAY NODAL SETTLEMENT NET FOR setl_test_0009 UTR:HDFCR5202606010009"
+  },
+  {
+    "id": "B_RZP_0010",
+    "source": "bank",
+    "date": "2026-06-02",
+    "amount": 12205,
+    "currency": "INR",
+    "reference": "RZP-SETTLE-order_test_0010",
+    "description": "RAZORPAY NODAL SETTLEMENT NET FOR setl_test_0010 UTR:HDFCR5202606010010"
+  },
+  {
+    "id": "B_RZP_0011",
+    "source": "bank",
+    "date": "2026-06-02",
+    "amount": 12937.3,
+    "currency": "INR",
+    "reference": "RZP-SETTLE-order_test_0011",
+    "description": "RAZORPAY NODAL SETTLEMENT NET FOR setl_test_0011 UTR:HDFCR5202606010011"
+  },
+  {
+    "id": "B_RZP_0012",
+    "source": "bank",
+    "date": "2026-06-02",
+    "amount": 13669.6,
+    "currency": "INR",
+    "reference": "RZP-SETTLE-order_test_0012",
+    "description": "RAZORPAY NODAL SETTLEMENT NET FOR setl_test_0012 UTR:HDFCR5202606010012"
+  },
+  {
+    "id": "B_RZP_0013",
+    "source": "bank",
+    "date": "2026-06-02",
+    "amount": 14401.9,
+    "currency": "INR",
+    "reference": "RZP-SETTLE-order_test_0013",
+    "description": "RAZORPAY NODAL SETTLEMENT NET FOR setl_test_0013 UTR:HDFCR5202606010013"
+  },
+  {
+    "id": "B_RZP_0014",
+    "source": "bank",
+    "date": "2026-06-02",
+    "amount": 15134.2,
+    "currency": "INR",
+    "reference": "RZP-SETTLE-order_test_0014",
+    "description": "RAZORPAY NODAL SETTLEMENT NET FOR setl_test_0014 UTR:HDFCR5202606010014"
+  },
+  {
+    "id": "B_RZP_0015",
+    "source": "bank",
+    "date": "2026-06-02",
+    "amount": 15866.5,
+    "currency": "INR",
+    "reference": "RZP-SETTLE-order_test_0015",
+    "description": "RAZORPAY NODAL SETTLEMENT NET FOR setl_test_0015 UTR:HDFCR5202606010015"
+  },
+  {
+    "id": "B_RZP_0016",
+    "source": "bank",
+    "date": "2026-06-02",
+    "amount": 16598.8,
+    "currency": "INR",
+    "reference": "RZP-SETTLE-order_test_0016",
+    "description": "RAZORPAY NODAL SETTLEMENT NET FOR setl_test_0016 UTR:HDFCR5202606010016"
+  },
+  {
+    "id": "B_RZP_0017",
+    "source": "bank",
+    "date": "2026-06-02",
+    "amount": 17331.1,
+    "currency": "INR",
+    "reference": "RZP-SETTLE-order_test_0017",
+    "description": "RAZORPAY NODAL SETTLEMENT NET FOR setl_test_0017 UTR:HDFCR5202606010017"
+  },
+  {
+    "id": "B_RZP_0018",
+    "source": "bank",
+    "date": "2026-06-02",
+    "amount": 18063.4,
+    "currency": "INR",
+    "reference": "RZP-SETTLE-order_test_0018",
+    "description": "RAZORPAY NODAL SETTLEMENT NET FOR setl_test_0018 UTR:HDFCR5202606010018"
+  },
+  {
+    "id": "B_RZP_0019",
+    "source": "bank",
+    "date": "2026-06-02",
+    "amount": 18795.7,
+    "currency": "INR",
+    "reference": "RZP-SETTLE-order_test_0019",
+    "description": "RAZORPAY NODAL SETTLEMENT NET FOR setl_test_0019 UTR:HDFCR5202606010019"
+  },
+  {
+    "id": "B_RZP_0020",
+    "source": "bank",
+    "date": "2026-06-02",
+    "amount": 19528,
+    "currency": "INR",
+    "reference": "RZP-SETTLE-order_test_0020",
+    "description": "RAZORPAY NODAL SETTLEMENT NET FOR setl_test_0020 UTR:HDFCR5202606010020"
+  },
+  {
+    "id": "B_RZP_0021",
+    "source": "bank",
+    "date": "2026-06-02",
+    "amount": 20260.3,
+    "currency": "INR",
+    "reference": "RZP-SETTLE-order_test_0021",
+    "description": "RAZORPAY NODAL SETTLEMENT NET FOR setl_test_0021 UTR:HDFCR5202606010021"
+  },
+  {
+    "id": "B_RZP_0022",
+    "source": "bank",
+    "date": "2026-06-02",
+    "amount": 20992.6,
+    "currency": "INR",
+    "reference": "RZP-SETTLE-order_test_0022",
+    "description": "RAZORPAY NODAL SETTLEMENT NET FOR setl_test_0022 UTR:HDFCR5202606010022"
+  },
+  {
+    "id": "B_RZP_0023",
+    "source": "bank",
+    "date": "2026-06-02",
+    "amount": 21724.9,
+    "currency": "INR",
+    "reference": "RZP-SETTLE-order_test_0023",
+    "description": "RAZORPAY NODAL SETTLEMENT NET FOR setl_test_0023 UTR:HDFCR5202606010023"
+  },
+  {
+    "id": "B_RZP_0024",
+    "source": "bank",
+    "date": "2026-06-02",
+    "amount": 22457.2,
+    "currency": "INR",
+    "reference": "RZP-SETTLE-order_test_0024",
+    "description": "RAZORPAY NODAL SETTLEMENT NET FOR setl_test_0024 UTR:HDFCR5202606010024"
+  },
+  {
+    "id": "B_RZP_0025",
+    "source": "bank",
+    "date": "2026-06-02",
+    "amount": 23189.5,
+    "currency": "INR",
+    "reference": "RZP-SETTLE-order_test_0025",
+    "description": "RAZORPAY NODAL SETTLEMENT NET FOR setl_test_0025 UTR:HDFCR5202606010025"
+  },
+  {
+    "id": "B_B2B_201",
+    "source": "bank",
+    "date": "2026-06-10",
+    "amount": 52584,
+    "currency": "INR",
+    "reference": "RZP-SETTLE-order_b2b_201",
+    "description": "RAZORPAY NODAL SETTLEMENT NET B2B TDS 194J FOR order_b2b_201"
+  },
+  {
+    "id": "B_B2B_202",
+    "source": "bank",
+    "date": "2026-06-10",
+    "amount": 61348,
+    "currency": "INR",
+    "reference": "RZP-SETTLE-order_b2b_202",
+    "description": "RAZORPAY NODAL SETTLEMENT NET B2B TDS 194J FOR order_b2b_202"
+  },
+  {
+    "id": "B_B2B_203",
+    "source": "bank",
+    "date": "2026-06-10",
+    "amount": 70112,
+    "currency": "INR",
+    "reference": "RZP-SETTLE-order_b2b_203",
+    "description": "RAZORPAY NODAL SETTLEMENT NET B2B TDS 194J FOR order_b2b_203"
+  },
+  {
+    "id": "B_B2B_204",
+    "source": "bank",
+    "date": "2026-06-10",
+    "amount": 78876,
+    "currency": "INR",
+    "reference": "RZP-SETTLE-order_b2b_204",
+    "description": "RAZORPAY NODAL SETTLEMENT NET B2B TDS 194J FOR order_b2b_204"
+  },
+  {
+    "id": "B_B2B_205",
+    "source": "bank",
+    "date": "2026-06-10",
+    "amount": 87640,
+    "currency": "INR",
+    "reference": "RZP-SETTLE-order_b2b_205",
+    "description": "RAZORPAY NODAL SETTLEMENT NET B2B TDS 194J FOR order_b2b_205"
+  }
+]

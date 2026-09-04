@@ -1,0 +1,362 @@
+[
+  {
+    "id": "B5000",
+    "source": "bank",
+    "date": "2026-06-15",
+    "amount": 97893,
+    "currency": "INR",
+    "description": "RAZORPAY NODAL SETTLEMENT NET FOR FLIPKART INTERNET UTR:HDFCR5202629965897",
+    "reference": "RZP-SETTLE-order_656627"
+  },
+  {
+    "id": "B5001",
+    "source": "bank",
+    "date": "2026-06-08",
+    "amount": 201113.7,
+    "currency": "INR",
+    "description": "RAZORPAY NODAL SETTLEMENT NET FOR WIPRO ENTERPRISE UTR:HDFCR5202665762253",
+    "reference": "RZP-SETTLE-order_138401"
+  },
+  {
+    "id": "B5002",
+    "source": "bank",
+    "date": "2026-06-05",
+    "amount": 71179.56,
+    "currency": "INR",
+    "description": "RAZORPAY NODAL SETTLEMENT NET FOR ZOMATO MEDIA UTR:HDFCR5202692877974",
+    "reference": "RZP-SETTLE-order_397954"
+  },
+  {
+    "id": "B5003",
+    "source": "bank",
+    "date": "2026-06-06",
+    "amount": 44123.23,
+    "currency": "INR",
+    "description": "RAZORPAY NODAL SETTLEMENT NET FOR INFOSYS LIMITED UTR:HDFCR5202695806382",
+    "reference": "RZP-SETTLE-order_348485"
+  },
+  {
+    "id": "B5004",
+    "source": "bank",
+    "date": "2026-06-07",
+    "amount": 194179.8,
+    "currency": "INR",
+    "description": "RAZORPAY NODAL SETTLEMENT NET FOR CRED DREAMPLUG UTR:HDFCR5202635799039",
+    "reference": "RZP-SETTLE-order_346686"
+  },
+  {
+    "id": "B5005",
+    "source": "bank",
+    "date": "2026-06-08",
+    "amount": 213333.64,
+    "currency": "INR",
+    "description": "RAZORPAY NODAL SETTLEMENT NET FOR TCS DIGITAL UTR:HDFCR5202613672448",
+    "reference": "RZP-SETTLE-order_926777"
+  },
+  {
+    "id": "B5006",
+    "source": "bank",
+    "date": "2026-06-17",
+    "amount": 49678,
+    "currency": "INR",
+    "description": "ZOMATO MEDIA PAYMENT INV-79601",
+    "reference": "INV-79601"
+  },
+  {
+    "id": "B5007",
+    "source": "bank",
+    "date": "2026-06-22",
+    "amount": -8949,
+    "currency": "INR",
+    "description": "REFUND REVERSAL FOR CN-79601 ZOMATO MEDIA",
+    "reference": "REFUND-79601"
+  },
+  {
+    "id": "B5008",
+    "source": "bank",
+    "date": "2026-06-17",
+    "amount": 34604,
+    "currency": "INR",
+    "description": "WIPRO ENTERPRISE PAYMENT INV-66626",
+    "reference": "INV-66626"
+  },
+  {
+    "id": "B5009",
+    "source": "bank",
+    "date": "2026-06-22",
+    "amount": -5311,
+    "currency": "INR",
+    "description": "REFUND REVERSAL FOR CN-66626 WIPRO ENTERPRISE",
+    "reference": "REFUND-66626"
+  },
+  {
+    "id": "B5010",
+    "source": "bank",
+    "date": "2026-06-09",
+    "amount": 53240,
+    "currency": "INR",
+    "description": "FRESHWORKS INC PAYMENT INV-96996",
+    "reference": "INV-96996"
+  },
+  {
+    "id": "B5011",
+    "source": "bank",
+    "date": "2026-06-14",
+    "amount": -7743,
+    "currency": "INR",
+    "description": "REFUND REVERSAL FOR CN-96996 FRESHWORKS INC",
+    "reference": "REFUND-96996"
+  },
+  {
+    "id": "B5012",
+    "source": "bank",
+    "date": "2026-06-14",
+    "amount": 44009,
+    "currency": "INR",
+    "description": "FRESHWORKS INC PAYMENT INV-97863",
+    "reference": "INV-97863"
+  },
+  {
+    "id": "B5013",
+    "source": "bank",
+    "date": "2026-06-19",
+    "amount": -13697,
+    "currency": "INR",
+    "description": "REFUND REVERSAL FOR CN-97863 FRESHWORKS INC",
+    "reference": "REFUND-97863"
+  },
+  {
+    "id": "B5014",
+    "source": "bank",
+    "date": "2026-06-12",
+    "amount": 341172.48,
+    "currency": "INR",
+    "description": "INWARD REMITTANCE FOR WAYNE ENTERPRISES",
+    "reference": "FX-INR-55169"
+  },
+  {
+    "id": "B5015",
+    "source": "bank",
+    "date": "2026-06-23",
+    "amount": 135012.77,
+    "currency": "INR",
+    "description": "INWARD SEPA SETTLEMENT HOOLI CLOUD LLC",
+    "reference": "FX-EUR-43606"
+  },
+  {
+    "id": "B5016",
+    "source": "bank",
+    "date": "2026-06-21",
+    "amount": 6319.68,
+    "currency": "USD",
+    "description": "WIRE FROM APERTURE LABS UK",
+    "reference": "WIRE-USD-25628"
+  },
+  {
+    "id": "B5017",
+    "source": "bank",
+    "date": "2026-06-21",
+    "amount": 9067.59,
+    "currency": "EUR",
+    "description": "INITECH CORP EUR SETTLEMENT",
+    "reference": "WIRE-EUR-90915"
+  },
+  {
+    "id": "B5018",
+    "source": "bank",
+    "date": "2026-06-07",
+    "amount": 91787.45,
+    "currency": "INR",
+    "description": "INWARD REMITTANCE FOR APERTURE LABS",
+    "reference": "FX-INR-63835"
+  },
+  {
+    "id": "B5019",
+    "source": "bank",
+    "date": "2026-06-23",
+    "amount": 355811.62,
+    "currency": "INR",
+    "description": "INWARD SEPA SETTLEMENT MASSIVE DYNAMIC UK",
+    "reference": "FX-EUR-81276"
+  },
+  {
+    "id": "B5020",
+    "source": "bank",
+    "date": "2026-06-15",
+    "amount": 51904,
+    "currency": "INR",
+    "description": "UPI CR flipkartinternet@okhdfcbank IN-TRANSIT SETTLEMENT",
+    "reference": "UPI-923868"
+  },
+  {
+    "id": "B5021",
+    "source": "bank",
+    "date": "2026-06-21",
+    "amount": 30410,
+    "currency": "INR",
+    "description": "IMPS CR RRN 993661857950 SETTLEMENT FROM INFOSYS LIMITED",
+    "reference": "IMPS-993661857950"
+  },
+  {
+    "id": "B5022",
+    "source": "bank",
+    "date": "2026-06-23",
+    "amount": 71886,
+    "currency": "INR",
+    "description": "RTGS CR UTR SBINR5202664197300 SWIGGY BUNDL",
+    "reference": "SBINR5202664197300"
+  },
+  {
+    "id": "B5023",
+    "source": "bank",
+    "date": "2026-06-23",
+    "amount": 59147,
+    "currency": "INR",
+    "description": "UPI CR razorpaysoftwarepvtltd@okhdfcbank IN-TRANSIT SETTLEMENT",
+    "reference": "UPI-283051"
+  },
+  {
+    "id": "B5024",
+    "source": "bank",
+    "date": "2026-06-29",
+    "amount": 40639,
+    "currency": "INR",
+    "description": "IMPS CR RRN 429077152533 SETTLEMENT FROM FRESHWORKS INC",
+    "reference": "IMPS-429077152533"
+  },
+  {
+    "id": "B5025",
+    "source": "bank",
+    "date": "2026-07-02",
+    "amount": 88045,
+    "currency": "INR",
+    "description": "RTGS CR UTR SBINR5202677417617 ZOMATO MEDIA",
+    "reference": "SBINR5202677417617"
+  },
+  {
+    "id": "B5026",
+    "source": "bank",
+    "date": "2026-06-05",
+    "amount": 53760,
+    "currency": "INR",
+    "description": "NEFT SETTLEMENT FOR FRESHWORKS INC REF 14963",
+    "reference": "WIRE-14963"
+  },
+  {
+    "id": "B5027",
+    "source": "bank",
+    "date": "2026-06-04",
+    "amount": 77927,
+    "currency": "INR",
+    "description": "NEFT SETTLEMENT FOR ZOHO TECHNOLOGIES REF 83353",
+    "reference": "WIRE-83353"
+  },
+  {
+    "id": "B5028",
+    "source": "bank",
+    "date": "2026-06-04",
+    "amount": 35444,
+    "currency": "INR",
+    "description": "NEFT SETTLEMENT FOR CRED DREAMPLUG REF 26363",
+    "reference": "WIRE-26363"
+  },
+  {
+    "id": "B5029",
+    "source": "bank",
+    "date": "2026-06-06",
+    "amount": -22104.72,
+    "currency": "INR",
+    "description": "GATEWAY REFUND NET OF NON-REFUNDABLE MDR FOR SWIGGY BUNDL",
+    "reference": "REFUND-RZP-91469"
+  },
+  {
+    "id": "B5030",
+    "source": "bank",
+    "date": "2026-06-17",
+    "amount": -36467.56,
+    "currency": "INR",
+    "description": "GATEWAY REFUND NET OF NON-REFUNDABLE MDR FOR RAZORPAY SOFTWARE PVT LTD",
+    "reference": "REFUND-RZP-63141"
+  },
+  {
+    "id": "B5031",
+    "source": "bank",
+    "date": "2026-06-12",
+    "amount": -36542.75,
+    "currency": "INR",
+    "description": "GATEWAY REFUND NET OF NON-REFUNDABLE MDR FOR ZOMATO MEDIA",
+    "reference": "REFUND-RZP-56245"
+  },
+  {
+    "id": "B5032",
+    "source": "bank",
+    "date": "2026-06-10",
+    "amount": 6930.76,
+    "currency": "USD",
+    "description": "CONSOLIDATED CROSS-BORDER SETTLEMENT FROM APERTURE LABS",
+    "reference": "DEP-USD-46447"
+  },
+  {
+    "id": "B5033",
+    "source": "bank",
+    "date": "2026-06-07",
+    "amount": 5233.72,
+    "currency": "USD",
+    "description": "CONSOLIDATED CROSS-BORDER SETTLEMENT FROM GLOBEX INTERNATIONAL",
+    "reference": "DEP-USD-48072"
+  },
+  {
+    "id": "B5034",
+    "source": "bank",
+    "date": "2026-06-05",
+    "amount": 25000,
+    "currency": "INR",
+    "description": "UNIDENTIFIED SUSPENSE PHANTOM ENTRY FOR ZOMATO MEDIA",
+    "reference": "SUSPENSE-5035"
+  },
+  {
+    "id": "B5035",
+    "source": "bank",
+    "date": "2026-06-12",
+    "amount": 30000,
+    "currency": "INR",
+    "description": "UNIDENTIFIED SUSPENSE PHANTOM ENTRY FOR FLIPKART INTERNET",
+    "reference": "SUSPENSE-3373"
+  },
+  {
+    "id": "B5036",
+    "source": "bank",
+    "date": "2026-06-18",
+    "amount": 35000,
+    "currency": "INR",
+    "description": "UNIDENTIFIED SUSPENSE PHANTOM ENTRY FOR INFOSYS LIMITED",
+    "reference": "SUSPENSE-1969"
+  },
+  {
+    "id": "B5037",
+    "source": "bank",
+    "date": "2026-06-06",
+    "amount": 40000,
+    "currency": "INR",
+    "description": "UNIDENTIFIED SUSPENSE PHANTOM ENTRY FOR TCS DIGITAL",
+    "reference": "SUSPENSE-8976"
+  },
+  {
+    "id": "B5038",
+    "source": "bank",
+    "date": "2026-06-19",
+    "amount": 45000,
+    "currency": "INR",
+    "description": "UNIDENTIFIED SUSPENSE PHANTOM ENTRY FOR WIPRO ENTERPRISE",
+    "reference": "SUSPENSE-4550"
+  },
+  {
+    "id": "B5039",
+    "source": "bank",
+    "date": "2026-06-26",
+    "amount": 50000,
+    "currency": "INR",
+    "description": "UNIDENTIFIED SUSPENSE PHANTOM ENTRY FOR PAYTM PAYMENTS BANK",
+    "reference": "SUSPENSE-9658"
+  }
+]

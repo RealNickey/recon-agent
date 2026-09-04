@@ -1,0 +1,29 @@
+[
+  {
+    "id": "P9001",
+    "source": "processor",
+    "date": "2026-06-24",
+    "amount": 4054.06,
+    "currency": "USD",
+    "description": "Cyberdyne Systems INV-94974",
+    "reference": "INV-94974"
+  },
+  {
+    "id": "P9002",
+    "source": "processor",
+    "date": "2026-06-22",
+    "amount": 3813.6,
+    "currency": "USD",
+    "description": "Wonka Labs INV-24489",
+    "reference": "INV-24489"
+  },
+  {
+    "id": "P9000",
+    "source": "processor",
+    "date": "2026-06-06",
+    "amount": 5241.84,
+    "currency": "USD",
+    "description": "Acme Corp INV-41976",
+    "reference": "INV-41976"
+  }
+]

@@ -1,8 +1,5 @@
 node_modules
 .env
 .env.*
-data/
-logs/
-results/
 .DS_Store
-
+.vercel

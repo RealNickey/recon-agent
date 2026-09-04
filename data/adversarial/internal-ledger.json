@@ -1,0 +1,407 @@
+[
+  {
+    "id": "L1000",
+    "source": "ledger",
+    "date": "2026-06-14",
+    "amount": 111699,
+    "currency": "INR",
+    "description": "Flipkart Internet customer checkout sale gross",
+    "reference": "order_656627"
+  },
+  {
+    "id": "L1001",
+    "source": "ledger",
+    "date": "2026-06-07",
+    "amount": 210282,
+    "currency": "INR",
+    "description": "Wipro Enterprise customer checkout sale gross",
+    "reference": "order_138401"
+  },
+  {
+    "id": "L1002",
+    "source": "ledger",
+    "date": "2026-06-04",
+    "amount": 72900,
+    "currency": "INR",
+    "description": "Zomato Media customer checkout sale gross",
+    "reference": "order_397954"
+  },
+  {
+    "id": "L1003",
+    "source": "ledger",
+    "date": "2026-06-05",
+    "amount": 50346,
+    "currency": "INR",
+    "description": "Infosys Limited customer checkout sale gross",
+    "reference": "order_348485"
+  },
+  {
+    "id": "L1004",
+    "source": "ledger",
+    "date": "2026-06-06",
+    "amount": 203032,
+    "currency": "INR",
+    "description": "CRED Dreamplug customer checkout sale gross",
+    "reference": "order_346686"
+  },
+  {
+    "id": "L1005",
+    "source": "ledger",
+    "date": "2026-06-07",
+    "amount": 218490,
+    "currency": "INR",
+    "description": "TCS Digital customer checkout sale gross",
+    "reference": "order_926777"
+  },
+  {
+    "id": "L1006",
+    "source": "ledger",
+    "date": "2026-06-16",
+    "amount": 49678,
+    "currency": "INR",
+    "description": "Zomato Media original subscription sale INV-79601",
+    "reference": "INV-79601"
+  },
+  {
+    "id": "L1007",
+    "source": "ledger",
+    "date": "2026-06-21",
+    "amount": -8949,
+    "currency": "INR",
+    "description": "Zomato Media partial refund credit note CN-79601",
+    "reference": "CN-79601"
+  },
+  {
+    "id": "L1008",
+    "source": "ledger",
+    "date": "2026-06-16",
+    "amount": 34604,
+    "currency": "INR",
+    "description": "Wipro Enterprise original subscription sale INV-66626",
+    "reference": "INV-66626"
+  },
+  {
+    "id": "L1009",
+    "source": "ledger",
+    "date": "2026-06-21",
+    "amount": -5311,
+    "currency": "INR",
+    "description": "Wipro Enterprise partial refund credit note CN-66626",
+    "reference": "CN-66626"
+  },
+  {
+    "id": "L1010",
+    "source": "ledger",
+    "date": "2026-06-08",
+    "amount": 53240,
+    "currency": "INR",
+    "description": "Freshworks Inc original subscription sale INV-96996",
+    "reference": "INV-96996"
+  },
+  {
+    "id": "L1011",
+    "source": "ledger",
+    "date": "2026-06-13",
+    "amount": -7743,
+    "currency": "INR",
+    "description": "Freshworks Inc partial refund credit note CN-96996",
+    "reference": "CN-96996"
+  },
+  {
+    "id": "L1012",
+    "source": "ledger",
+    "date": "2026-06-13",
+    "amount": 44009,
+    "currency": "INR",
+    "description": "Freshworks Inc original subscription sale INV-97863",
+    "reference": "INV-97863"
+  },
+  {
+    "id": "L1013",
+    "source": "ledger",
+    "date": "2026-06-18",
+    "amount": -13697,
+    "currency": "INR",
+    "description": "Freshworks Inc partial refund credit note CN-97863",
+    "reference": "CN-97863"
+  },
+  {
+    "id": "L1014",
+    "source": "ledger",
+    "date": "2026-06-10",
+    "amount": 4071,
+    "currency": "USD",
+    "description": "Wayne Enterprises cloud software license",
+    "reference": "INV-US-55169"
+  },
+  {
+    "id": "L1015",
+    "source": "ledger",
+    "date": "2026-06-21",
+    "amount": 1536,
+    "currency": "EUR",
+    "description": "Hooli Cloud LLC design consulting retainer",
+    "reference": "INV-EU-43606"
+  },
+  {
+    "id": "L1016",
+    "source": "ledger",
+    "date": "2026-06-20",
+    "amount": 4910,
+    "currency": "GBP",
+    "description": "Aperture Labs UK subsidiary engineering services",
+    "reference": "INV-UK-25628"
+  },
+  {
+    "id": "L1017",
+    "source": "ledger",
+    "date": "2026-06-20",
+    "amount": 9780,
+    "currency": "USD",
+    "description": "Initech Corp international consulting",
+    "reference": "INV-INT-90915"
+  },
+  {
+    "id": "L1018",
+    "source": "ledger",
+    "date": "2026-06-05",
+    "amount": 1078,
+    "currency": "USD",
+    "description": "Aperture Labs cloud software license",
+    "reference": "INV-US-63835"
+  },
+  {
+    "id": "L1019",
+    "source": "ledger",
+    "date": "2026-06-21",
+    "amount": 3860,
+    "currency": "EUR",
+    "description": "Massive Dynamic UK design consulting retainer",
+    "reference": "INV-EU-81276"
+  },
+  {
+    "id": "L1020",
+    "source": "ledger",
+    "date": "2026-06-01",
+    "amount": 51904,
+    "currency": "INR",
+    "description": "Flipkart Internet payment invoice via UPI VPA flipkartinternet@okhdfcbank",
+    "reference": "INV-UPI-8453"
+  },
+  {
+    "id": "L1021",
+    "source": "ledger",
+    "date": "2026-06-02",
+    "amount": 30410,
+    "currency": "INR",
+    "description": "Infosys Limited urgent invoice payment RRN: 993661857950",
+    "reference": "INV-IMPS-3021"
+  },
+  {
+    "id": "L1022",
+    "source": "ledger",
+    "date": "2026-06-10",
+    "amount": 71886,
+    "currency": "INR",
+    "description": "Swiggy Bundl project retainer UTR:SBINR5202664197300",
+    "reference": "INV-RTGS-9433"
+  },
+  {
+    "id": "L1023",
+    "source": "ledger",
+    "date": "2026-06-02",
+    "amount": 59147,
+    "currency": "INR",
+    "description": "Razorpay Software Pvt Ltd payment invoice via UPI VPA razorpaysoftwarepvtltd@okhdfcbank",
+    "reference": "INV-UPI-6445"
+  },
+  {
+    "id": "L1024",
+    "source": "ledger",
+    "date": "2026-06-02",
+    "amount": 40639,
+    "currency": "INR",
+    "description": "Freshworks Inc urgent invoice payment RRN: 429077152533",
+    "reference": "INV-IMPS-4592"
+  },
+  {
+    "id": "L1025",
+    "source": "ledger",
+    "date": "2026-06-10",
+    "amount": 88045,
+    "currency": "INR",
+    "description": "Zomato Media project retainer UTR:SBINR5202677417617",
+    "reference": "INV-RTGS-4274"
+  },
+  {
+    "id": "L1026",
+    "source": "ledger",
+    "date": "2026-06-04",
+    "amount": 53760,
+    "currency": "INR",
+    "description": "Freshworks Inc enterprise license division north",
+    "reference": "INV-14961"
+  },
+  {
+    "id": "L1027",
+    "source": "ledger",
+    "date": "2026-06-04",
+    "amount": 53760,
+    "currency": "INR",
+    "description": "Freshworks Inc enterprise license division south",
+    "reference": "INV-14962"
+  },
+  {
+    "id": "L1028",
+    "source": "ledger",
+    "date": "2026-06-03",
+    "amount": 77927,
+    "currency": "INR",
+    "description": "Zoho Technologies enterprise license division north",
+    "reference": "INV-83351"
+  },
+  {
+    "id": "L1029",
+    "source": "ledger",
+    "date": "2026-06-03",
+    "amount": 77927,
+    "currency": "INR",
+    "description": "Zoho Technologies enterprise license division south",
+    "reference": "INV-83352"
+  },
+  {
+    "id": "L1030",
+    "source": "ledger",
+    "date": "2026-06-03",
+    "amount": 35444,
+    "currency": "INR",
+    "description": "CRED Dreamplug enterprise license division north",
+    "reference": "INV-26361"
+  },
+  {
+    "id": "L1031",
+    "source": "ledger",
+    "date": "2026-06-03",
+    "amount": 35444,
+    "currency": "INR",
+    "description": "CRED Dreamplug enterprise license division south",
+    "reference": "INV-26362"
+  },
+  {
+    "id": "L1032",
+    "source": "ledger",
+    "date": "2026-06-05",
+    "amount": -22639,
+    "currency": "INR",
+    "description": "Swiggy Bundl full customer refund credit memo CN-91469",
+    "reference": "CN-91469"
+  },
+  {
+    "id": "L1033",
+    "source": "ledger",
+    "date": "2026-06-16",
+    "amount": -37349,
+    "currency": "INR",
+    "description": "Razorpay Software Pvt Ltd full customer refund credit memo CN-63141",
+    "reference": "CN-63141"
+  },
+  {
+    "id": "L1034",
+    "source": "ledger",
+    "date": "2026-06-11",
+    "amount": -37426,
+    "currency": "INR",
+    "description": "Zomato Media full customer refund credit memo CN-56245",
+    "reference": "CN-56245"
+  },
+  {
+    "id": "L1035",
+    "source": "ledger",
+    "date": "2026-06-09",
+    "amount": 3311,
+    "currency": "EUR",
+    "description": "Aperture Labs EU consulting services invoice",
+    "reference": "INV-EU-46447"
+  },
+  {
+    "id": "L1036",
+    "source": "ledger",
+    "date": "2026-06-09",
+    "amount": 2621,
+    "currency": "GBP",
+    "description": "Aperture Labs UK engineering services invoice",
+    "reference": "INV-UK-46447"
+  },
+  {
+    "id": "L1037",
+    "source": "ledger",
+    "date": "2026-06-06",
+    "amount": 2849,
+    "currency": "EUR",
+    "description": "Globex International EU consulting services invoice",
+    "reference": "INV-EU-48072"
+  },
+  {
+    "id": "L1038",
+    "source": "ledger",
+    "date": "2026-06-06",
+    "amount": 1685,
+    "currency": "GBP",
+    "description": "Globex International UK engineering services invoice",
+    "reference": "INV-UK-48072"
+  },
+  {
+    "id": "L1039",
+    "source": "ledger",
+    "date": "2026-06-05",
+    "amount": 25000,
+    "currency": "INR",
+    "description": "Razorpay Software Pvt Ltd cancelled quote draft 410",
+    "reference": "QUOTE-1634"
+  },
+  {
+    "id": "L1040",
+    "source": "ledger",
+    "date": "2026-06-12",
+    "amount": 30000,
+    "currency": "INR",
+    "description": "Zoho Technologies cancelled quote draft 253",
+    "reference": "QUOTE-2966"
+  },
+  {
+    "id": "L1041",
+    "source": "ledger",
+    "date": "2026-06-18",
+    "amount": 35000,
+    "currency": "INR",
+    "description": "Freshworks Inc cancelled quote draft 723",
+    "reference": "QUOTE-3830"
+  },
+  {
+    "id": "L1042",
+    "source": "ledger",
+    "date": "2026-06-06",
+    "amount": 40000,
+    "currency": "INR",
+    "description": "Swiggy Bundl cancelled quote draft 884",
+    "reference": "QUOTE-9421"
+  },
+  {
+    "id": "L1043",
+    "source": "ledger",
+    "date": "2026-06-19",
+    "amount": 45000,
+    "currency": "INR",
+    "description": "Zomato Media cancelled quote draft 252",
+    "reference": "QUOTE-3603"
+  },
+  {
+    "id": "L1044",
+    "source": "ledger",
+    "date": "2026-06-26",
+    "amount": 50000,
+    "currency": "INR",
+    "description": "Flipkart Internet cancelled quote draft 604",
+    "reference": "QUOTE-3786"
+  }
+]

@@ -1,0 +1,74 @@
+[
+  {
+    "id": "L-SHOWCASE-101",
+    "source": "ledger",
+    "date": "2026-06-14",
+    "amount": 14500,
+    "currency": "USD",
+    "description": "Acme Corp Cloud Infrastructure Hosting Retainer",
+    "reference": "PO-ACME-8841"
+  },
+  {
+    "id": "L-SHOWCASE-102A",
+    "source": "ledger",
+    "date": "2026-06-16",
+    "amount": 5000,
+    "currency": "USD",
+    "description": "Globex Ltd Enterprise Software License June",
+    "reference": "INV-GBX-101"
+  },
+  {
+    "id": "L-SHOWCASE-102B",
+    "source": "ledger",
+    "date": "2026-06-17",
+    "amount": 3750,
+    "currency": "USD",
+    "description": "Globex Ltd Onsite Implementation Services",
+    "reference": "INV-GBX-102"
+  },
+  {
+    "id": "L-SHOWCASE-103",
+    "source": "ledger",
+    "date": "2026-06-19",
+    "amount": 500000,
+    "currency": "INR",
+    "description": "Stark Industries Engineering Consulting Contract",
+    "reference": "ST-9910"
+  },
+  {
+    "id": "L-SHOWCASE-104",
+    "source": "ledger",
+    "date": "2026-06-21",
+    "amount": 10000,
+    "currency": "EUR",
+    "description": "Tyrell Corp AI Robotics Subsystem Deliverable",
+    "reference": "TYR-4412"
+  },
+  {
+    "id": "L-SHOWCASE-105",
+    "source": "ledger",
+    "date": "2026-06-23",
+    "amount": 6200,
+    "currency": "USD",
+    "description": "Wayne Enterprises Cyber Security Assessment Q2",
+    "reference": "WYN-3301"
+  },
+  {
+    "id": "L-SHOWCASE-106",
+    "source": "ledger",
+    "date": "2026-06-24",
+    "amount": 5000,
+    "currency": "USD",
+    "description": "Initech LLC Full-Stack Application Upgrade",
+    "reference": "INI-7711"
+  },
+  {
+    "id": "L-SHOWCASE-903",
+    "source": "ledger",
+    "date": "2026-06-29",
+    "amount": 18450,
+    "currency": "USD",
+    "description": "Draft Pending Approval - Unverified Vendor Memo",
+    "reference": "DRAFT-MEMO-99"
+  }
+]

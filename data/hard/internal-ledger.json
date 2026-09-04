@@ -1,0 +1,1010 @@
+[
+  {
+    "id": "L1075",
+    "source": "ledger",
+    "date": "2026-06-19",
+    "amount": 857.15,
+    "currency": "USD",
+    "description": "Stark Industries order INV-66314",
+    "reference": "INV-66314"
+  },
+  {
+    "id": "L1004",
+    "source": "ledger",
+    "date": "2026-06-01",
+    "amount": 2194.69,
+    "currency": "USD",
+    "description": "Hooli invoice INV-40334",
+    "reference": "INV-40334"
+  },
+  {
+    "id": "L1094",
+    "source": "ledger",
+    "date": "2026-06-29",
+    "amount": 821.45,
+    "currency": "USD",
+    "description": "Tyrell Corp uncollected invoice INV-75837",
+    "reference": "INV-75837"
+  },
+  {
+    "id": "L1097",
+    "source": "ledger",
+    "date": "2026-06-07",
+    "amount": 782.42,
+    "currency": "USD",
+    "description": "Stark Industries overseas consulting",
+    "reference": "TX-INT-89913"
+  },
+  {
+    "id": "L1101",
+    "source": "ledger",
+    "date": "2026-06-04",
+    "amount": -2311.9,
+    "currency": "USD",
+    "description": "Initech LLC return adjustment INV-51299",
+    "reference": "INV-51299"
+  },
+  {
+    "id": "L1078",
+    "source": "ledger",
+    "date": "2026-06-10",
+    "amount": 290.98,
+    "currency": "USD",
+    "description": "Soylent Co order INV-20869",
+    "reference": "INV-20869"
+  },
+  {
+    "id": "L1008",
+    "source": "ledger",
+    "date": "2026-06-14",
+    "amount": 8213.79,
+    "currency": "USD",
+    "description": "Massive Dynamic invoice INV-79385",
+    "reference": "INV-79385"
+  },
+  {
+    "id": "L1102",
+    "source": "ledger",
+    "date": "2026-06-09",
+    "amount": -1818.24,
+    "currency": "USD",
+    "description": "Oscorp return adjustment INV-82431",
+    "reference": "INV-82431"
+  },
+  {
+    "id": "L1041",
+    "source": "ledger",
+    "date": "2026-06-07",
+    "amount": 365.93,
+    "currency": "USD",
+    "description": "Wonka Labs project milestone INV-64468",
+    "reference": "INV-64468"
+  },
+  {
+    "id": "L1017",
+    "source": "ledger",
+    "date": "2026-06-16",
+    "amount": 1904.78,
+    "currency": "USD",
+    "description": "Cyberdyne Systems invoice INV-76677",
+    "reference": "INV-76677"
+  },
+  {
+    "id": "L1044",
+    "source": "ledger",
+    "date": "2026-06-07",
+    "amount": 1260.39,
+    "currency": "USD",
+    "description": "Wonka Labs project milestone INV-59251",
+    "reference": "INV-59251"
+  },
+  {
+    "id": "L1018",
+    "source": "ledger",
+    "date": "2026-06-03",
+    "amount": 1521.49,
+    "currency": "USD",
+    "description": "Globex Ltd invoice INV-98553",
+    "reference": "INV-98553"
+  },
+  {
+    "id": "L1103",
+    "source": "ledger",
+    "date": "2026-06-21",
+    "amount": -1851.04,
+    "currency": "USD",
+    "description": "Globex Ltd return adjustment INV-57178",
+    "reference": "INV-57178"
+  },
+  {
+    "id": "L1074",
+    "source": "ledger",
+    "date": "2026-06-19",
+    "amount": 1160.94,
+    "currency": "USD",
+    "description": "Stark Industries order INV-38955",
+    "reference": "INV-38955"
+  },
+  {
+    "id": "L1029",
+    "source": "ledger",
+    "date": "2026-06-18",
+    "amount": 866.98,
+    "currency": "USD",
+    "description": "Wonka Labs monthly retainer PO-297203",
+    "reference": "PO-297203"
+  },
+  {
+    "id": "L1051",
+    "source": "ledger",
+    "date": "2026-06-20",
+    "amount": 286.4,
+    "currency": "USD",
+    "description": "Hooli project milestone INV-71938",
+    "reference": "INV-71938"
+  },
+  {
+    "id": "L1055",
+    "source": "ledger",
+    "date": "2026-06-20",
+    "amount": 761.64,
+    "currency": "USD",
+    "description": "Hooli project milestone INV-65483",
+    "reference": "INV-65483"
+  },
+  {
+    "id": "L1045",
+    "source": "ledger",
+    "date": "2026-06-23",
+    "amount": 143.39,
+    "currency": "USD",
+    "description": "Stark Industries project milestone INV-30051",
+    "reference": "INV-30051"
+  },
+  {
+    "id": "L1038",
+    "source": "ledger",
+    "date": "2026-07-01",
+    "amount": 2534.81,
+    "currency": "USD",
+    "description": "Soylent Co delivery fee INV-98910",
+    "reference": "INV-98910"
+  },
+  {
+    "id": "L1028",
+    "source": "ledger",
+    "date": "2026-06-15",
+    "amount": 4159.57,
+    "currency": "USD",
+    "description": "Vandelay Industries monthly retainer PO-107843",
+    "reference": "PO-107843"
+  },
+  {
+    "id": "L1036",
+    "source": "ledger",
+    "date": "2026-06-01",
+    "amount": 551.98,
+    "currency": "USD",
+    "description": "Wayne Enterprises delivery fee INV-61379",
+    "reference": "INV-61379"
+  },
+  {
+    "id": "L1061",
+    "source": "ledger",
+    "date": "2026-06-18",
+    "amount": 422.89,
+    "currency": "USD",
+    "description": "Wonka Labs project milestone INV-79979",
+    "reference": "INV-79979"
+  },
+  {
+    "id": "L1027",
+    "source": "ledger",
+    "date": "2026-06-18",
+    "amount": 3835.27,
+    "currency": "USD",
+    "description": "Globex Ltd monthly retainer PO-939099",
+    "reference": "PO-939099"
+  },
+  {
+    "id": "L1088",
+    "source": "ledger",
+    "date": "2026-06-09",
+    "amount": 1378.55,
+    "currency": "USD",
+    "description": "Wonka Labs order INV-99335",
+    "reference": "INV-99335"
+  },
+  {
+    "id": "L1023",
+    "source": "ledger",
+    "date": "2026-06-06",
+    "amount": 7347.51,
+    "currency": "USD",
+    "description": "Acme Corp invoice INV-17609",
+    "reference": "INV-17609"
+  },
+  {
+    "id": "L1046",
+    "source": "ledger",
+    "date": "2026-06-23",
+    "amount": 1290.07,
+    "currency": "USD",
+    "description": "Stark Industries project milestone INV-42620",
+    "reference": "INV-42620"
+  },
+  {
+    "id": "L1077",
+    "source": "ledger",
+    "date": "2026-06-19",
+    "amount": 1232.77,
+    "currency": "USD",
+    "description": "Stark Industries order INV-73549",
+    "reference": "INV-73549"
+  },
+  {
+    "id": "L1021",
+    "source": "ledger",
+    "date": "2026-06-04",
+    "amount": 5562.25,
+    "currency": "USD",
+    "description": "Aperture Science invoice INV-20497",
+    "reference": "INV-20497"
+  },
+  {
+    "id": "L1066",
+    "source": "ledger",
+    "date": "2026-06-20",
+    "amount": 295.09,
+    "currency": "USD",
+    "description": "Tyrell Corp project milestone INV-36288",
+    "reference": "INV-36288"
+  },
+  {
+    "id": "L1084",
+    "source": "ledger",
+    "date": "2026-06-17",
+    "amount": 1128.18,
+    "currency": "USD",
+    "description": "Tyrell Corp order INV-74986",
+    "reference": "INV-74986"
+  },
+  {
+    "id": "L1095",
+    "source": "ledger",
+    "date": "2026-06-09",
+    "amount": 2288.09,
+    "currency": "USD",
+    "description": "Aperture Science overseas consulting",
+    "reference": "TX-INT-27097"
+  },
+  {
+    "id": "L1015",
+    "source": "ledger",
+    "date": "2026-06-15",
+    "amount": 486.01,
+    "currency": "USD",
+    "description": "Aperture Science invoice INV-45174",
+    "reference": "INV-45174"
+  },
+  {
+    "id": "L1108",
+    "source": "ledger",
+    "date": "2026-06-13",
+    "amount": 5457.79,
+    "currency": "USD",
+    "description": "Wayne Enterprises invoice INV-35262",
+    "reference": "INV-35262"
+  },
+  {
+    "id": "L1056",
+    "source": "ledger",
+    "date": "2026-06-18",
+    "amount": 186.05,
+    "currency": "USD",
+    "description": "Wonka Labs project milestone INV-94277",
+    "reference": "INV-94277"
+  },
+  {
+    "id": "L1053",
+    "source": "ledger",
+    "date": "2026-06-20",
+    "amount": 1148.07,
+    "currency": "USD",
+    "description": "Hooli project milestone INV-87327",
+    "reference": "INV-87327"
+  },
+  {
+    "id": "L1068",
+    "source": "ledger",
+    "date": "2026-06-27",
+    "amount": 505.8,
+    "currency": "USD",
+    "description": "Hooli project milestone INV-27006",
+    "reference": "INV-27006"
+  },
+  {
+    "id": "L1090",
+    "source": "ledger",
+    "date": "2026-06-06",
+    "amount": 4548.37,
+    "currency": "USD",
+    "description": "Wonka Labs uncollected invoice INV-93413",
+    "reference": "INV-93413"
+  },
+  {
+    "id": "L1031",
+    "source": "ledger",
+    "date": "2026-06-27",
+    "amount": 1669.4,
+    "currency": "USD",
+    "description": "Cyberdyne Systems monthly retainer PO-401506",
+    "reference": "PO-401506"
+  },
+  {
+    "id": "L1049",
+    "source": "ledger",
+    "date": "2026-06-23",
+    "amount": 1019.34,
+    "currency": "USD",
+    "description": "Stark Industries project milestone INV-49554",
+    "reference": "INV-49554"
+  },
+  {
+    "id": "L1082",
+    "source": "ledger",
+    "date": "2026-06-17",
+    "amount": 264.61,
+    "currency": "USD",
+    "description": "Tyrell Corp order INV-79346",
+    "reference": "INV-79346"
+  },
+  {
+    "id": "L1080",
+    "source": "ledger",
+    "date": "2026-06-10",
+    "amount": 577.46,
+    "currency": "USD",
+    "description": "Soylent Co order INV-12857",
+    "reference": "INV-12857"
+  },
+  {
+    "id": "L1058",
+    "source": "ledger",
+    "date": "2026-06-18",
+    "amount": 483.56,
+    "currency": "USD",
+    "description": "Wonka Labs project milestone INV-41255",
+    "reference": "INV-41255"
+  },
+  {
+    "id": "L1104",
+    "source": "ledger",
+    "date": "2026-06-16",
+    "amount": -1803.89,
+    "currency": "USD",
+    "description": "Tyrell Corp return adjustment INV-94776",
+    "reference": "INV-94776"
+  },
+  {
+    "id": "L1040",
+    "source": "ledger",
+    "date": "2026-06-07",
+    "amount": 795.53,
+    "currency": "USD",
+    "description": "Wonka Labs project milestone INV-72383",
+    "reference": "INV-72383"
+  },
+  {
+    "id": "L1063",
+    "source": "ledger",
+    "date": "2026-06-20",
+    "amount": 896.79,
+    "currency": "USD",
+    "description": "Tyrell Corp project milestone INV-76444",
+    "reference": "INV-76444"
+  },
+  {
+    "id": "L1096",
+    "source": "ledger",
+    "date": "2026-06-03",
+    "amount": 652.19,
+    "currency": "USD",
+    "description": "Aperture Science overseas consulting",
+    "reference": "TX-INT-85356"
+  },
+  {
+    "id": "L1107",
+    "source": "ledger",
+    "date": "2026-06-21",
+    "amount": 5168.11,
+    "currency": "USD",
+    "description": "Massive Dynamic invoice INV-22421",
+    "reference": "INV-22421"
+  },
+  {
+    "id": "L1011",
+    "source": "ledger",
+    "date": "2026-06-14",
+    "amount": 2841.82,
+    "currency": "USD",
+    "description": "Globex Ltd invoice INV-58135",
+    "reference": "INV-58135"
+  },
+  {
+    "id": "L1081",
+    "source": "ledger",
+    "date": "2026-06-10",
+    "amount": 843.87,
+    "currency": "USD",
+    "description": "Soylent Co order INV-68221",
+    "reference": "INV-68221"
+  },
+  {
+    "id": "L1060",
+    "source": "ledger",
+    "date": "2026-06-18",
+    "amount": 1410.24,
+    "currency": "USD",
+    "description": "Wonka Labs project milestone INV-44480",
+    "reference": "INV-44480"
+  },
+  {
+    "id": "L1085",
+    "source": "ledger",
+    "date": "2026-06-17",
+    "amount": 1265.41,
+    "currency": "USD",
+    "description": "Tyrell Corp order INV-21335",
+    "reference": "INV-21335"
+  },
+  {
+    "id": "L1032",
+    "source": "ledger",
+    "date": "2026-06-04",
+    "amount": 4059.7,
+    "currency": "USD",
+    "description": "Oscorp monthly retainer PO-539916",
+    "reference": "PO-539916"
+  },
+  {
+    "id": "L1006",
+    "source": "ledger",
+    "date": "2026-06-22",
+    "amount": 3813.6,
+    "currency": "USD",
+    "description": "Wonka Labs invoice INV-24489",
+    "reference": "INV-24489"
+  },
+  {
+    "id": "L1099",
+    "source": "ledger",
+    "date": "2026-06-06",
+    "amount": 4105.37,
+    "currency": "USD",
+    "description": "Oscorp overseas consulting",
+    "reference": "TX-INT-80564"
+  },
+  {
+    "id": "L1013",
+    "source": "ledger",
+    "date": "2026-06-10",
+    "amount": 608.16,
+    "currency": "USD",
+    "description": "Umbrella Inc invoice INV-41812",
+    "reference": "INV-41812"
+  },
+  {
+    "id": "L1037",
+    "source": "ledger",
+    "date": "2026-06-01",
+    "amount": 551.98,
+    "currency": "USD",
+    "description": "Wayne Enterprises delivery fee INV-29216",
+    "reference": "INV-29216"
+  },
+  {
+    "id": "L1047",
+    "source": "ledger",
+    "date": "2026-06-23",
+    "amount": 364.74,
+    "currency": "USD",
+    "description": "Stark Industries project milestone INV-96701",
+    "reference": "INV-96701"
+  },
+  {
+    "id": "L1105",
+    "source": "ledger",
+    "date": "2026-06-15",
+    "amount": -1801.35,
+    "currency": "USD",
+    "description": "Globex Ltd return adjustment INV-54403",
+    "reference": "INV-54403"
+  },
+  {
+    "id": "L1111",
+    "source": "ledger",
+    "date": "2026-06-08",
+    "amount": 256.07,
+    "currency": "USD",
+    "description": "Massive Dynamic invoice INV-91105",
+    "reference": "INV-91105"
+  },
+  {
+    "id": "L1089",
+    "source": "ledger",
+    "date": "2026-06-09",
+    "amount": 962.03,
+    "currency": "USD",
+    "description": "Wonka Labs order INV-78555",
+    "reference": "INV-78555"
+  },
+  {
+    "id": "L1024",
+    "source": "ledger",
+    "date": "2026-07-01",
+    "amount": 6720.03,
+    "currency": "USD",
+    "description": "Tyrell Corp invoice INV-24881",
+    "reference": "INV-24881"
+  },
+  {
+    "id": "L1109",
+    "source": "ledger",
+    "date": "2026-06-27",
+    "amount": 1022.11,
+    "currency": "USD",
+    "description": "Hooli invoice INV-74655",
+    "reference": "INV-74655"
+  },
+  {
+    "id": "L1048",
+    "source": "ledger",
+    "date": "2026-06-23",
+    "amount": 827.67,
+    "currency": "USD",
+    "description": "Stark Industries project milestone INV-62753",
+    "reference": "INV-62753"
+  },
+  {
+    "id": "L1067",
+    "source": "ledger",
+    "date": "2026-06-20",
+    "amount": 1129.78,
+    "currency": "USD",
+    "description": "Tyrell Corp project milestone INV-99653",
+    "reference": "INV-99653"
+  },
+  {
+    "id": "L1087",
+    "source": "ledger",
+    "date": "2026-06-09",
+    "amount": 636.93,
+    "currency": "USD",
+    "description": "Wonka Labs order INV-98752",
+    "reference": "INV-98752"
+  },
+  {
+    "id": "L1073",
+    "source": "ledger",
+    "date": "2026-06-19",
+    "amount": 1530.04,
+    "currency": "USD",
+    "description": "Stark Industries order INV-38007",
+    "reference": "INV-38007"
+  },
+  {
+    "id": "L1012",
+    "source": "ledger",
+    "date": "2026-06-08",
+    "amount": 5509.59,
+    "currency": "USD",
+    "description": "Acme Corp invoice INV-26824",
+    "reference": "INV-26824"
+  },
+  {
+    "id": "L1098",
+    "source": "ledger",
+    "date": "2026-06-09",
+    "amount": 4008.65,
+    "currency": "USD",
+    "description": "Umbrella Inc overseas consulting",
+    "reference": "TX-INT-71853"
+  },
+  {
+    "id": "L1072",
+    "source": "ledger",
+    "date": "2026-06-27",
+    "amount": 1260.01,
+    "currency": "USD",
+    "description": "Hooli project milestone INV-51358",
+    "reference": "INV-51358"
+  },
+  {
+    "id": "L1026",
+    "source": "ledger",
+    "date": "2026-06-07",
+    "amount": 3172.95,
+    "currency": "USD",
+    "description": "Hooli monthly retainer PO-937478",
+    "reference": "PO-937478"
+  },
+  {
+    "id": "L1069",
+    "source": "ledger",
+    "date": "2026-06-27",
+    "amount": 933.69,
+    "currency": "USD",
+    "description": "Hooli project milestone INV-99045",
+    "reference": "INV-99045"
+  },
+  {
+    "id": "L1091",
+    "source": "ledger",
+    "date": "2026-06-10",
+    "amount": 3847.38,
+    "currency": "USD",
+    "description": "Oscorp uncollected invoice INV-69953",
+    "reference": "INV-69953"
+  },
+  {
+    "id": "L1093",
+    "source": "ledger",
+    "date": "2026-06-25",
+    "amount": 3647.92,
+    "currency": "USD",
+    "description": "Massive Dynamic uncollected invoice INV-48295",
+    "reference": "INV-48295"
+  },
+  {
+    "id": "L1010",
+    "source": "ledger",
+    "date": "2026-06-11",
+    "amount": 3931.48,
+    "currency": "USD",
+    "description": "Initech LLC invoice INV-61211",
+    "reference": "INV-61211"
+  },
+  {
+    "id": "L1009",
+    "source": "ledger",
+    "date": "2026-06-27",
+    "amount": 7076,
+    "currency": "USD",
+    "description": "Wayne Enterprises invoice INV-60840",
+    "reference": "INV-60840"
+  },
+  {
+    "id": "L1025",
+    "source": "ledger",
+    "date": "2026-06-16",
+    "amount": 4210.46,
+    "currency": "USD",
+    "description": "Stark Industries invoice INV-48987",
+    "reference": "INV-48987"
+  },
+  {
+    "id": "L1057",
+    "source": "ledger",
+    "date": "2026-06-18",
+    "amount": 661.86,
+    "currency": "USD",
+    "description": "Wonka Labs project milestone INV-34482",
+    "reference": "INV-34482"
+  },
+  {
+    "id": "L1092",
+    "source": "ledger",
+    "date": "2026-06-12",
+    "amount": 1742.11,
+    "currency": "USD",
+    "description": "Initech LLC uncollected invoice INV-25261",
+    "reference": "INV-25261"
+  },
+  {
+    "id": "L1062",
+    "source": "ledger",
+    "date": "2026-06-20",
+    "amount": 170.2,
+    "currency": "USD",
+    "description": "Tyrell Corp project milestone INV-18937",
+    "reference": "INV-18937"
+  },
+  {
+    "id": "L1083",
+    "source": "ledger",
+    "date": "2026-06-17",
+    "amount": 1614.38,
+    "currency": "USD",
+    "description": "Tyrell Corp order INV-78796",
+    "reference": "INV-78796"
+  },
+  {
+    "id": "L1064",
+    "source": "ledger",
+    "date": "2026-06-20",
+    "amount": 414.63,
+    "currency": "USD",
+    "description": "Tyrell Corp project milestone INV-64165",
+    "reference": "INV-64165"
+  },
+  {
+    "id": "L1042",
+    "source": "ledger",
+    "date": "2026-06-07",
+    "amount": 1479.34,
+    "currency": "USD",
+    "description": "Wonka Labs project milestone INV-27562",
+    "reference": "INV-27562"
+  },
+  {
+    "id": "L1039",
+    "source": "ledger",
+    "date": "2026-07-01",
+    "amount": 2534.81,
+    "currency": "USD",
+    "description": "Soylent Co delivery fee INV-87590",
+    "reference": "INV-87590"
+  },
+  {
+    "id": "L1106",
+    "source": "ledger",
+    "date": "2026-06-09",
+    "amount": -650.42,
+    "currency": "USD",
+    "description": "Massive Dynamic return adjustment INV-56397",
+    "reference": "INV-56397"
+  },
+  {
+    "id": "L1030",
+    "source": "ledger",
+    "date": "2026-06-06",
+    "amount": 4832.18,
+    "currency": "USD",
+    "description": "Globex Ltd monthly retainer PO-927988",
+    "reference": "PO-927988"
+  },
+  {
+    "id": "L1054",
+    "source": "ledger",
+    "date": "2026-06-20",
+    "amount": 411.78,
+    "currency": "USD",
+    "description": "Hooli project milestone INV-80368",
+    "reference": "INV-80368"
+  },
+  {
+    "id": "L1043",
+    "source": "ledger",
+    "date": "2026-06-07",
+    "amount": 509.88,
+    "currency": "USD",
+    "description": "Wonka Labs project milestone INV-77696",
+    "reference": "INV-77696"
+  },
+  {
+    "id": "L1003",
+    "source": "ledger",
+    "date": "2026-06-20",
+    "amount": 495.83,
+    "currency": "USD",
+    "description": "Umbrella Inc invoice INV-17401",
+    "reference": "INV-17401"
+  },
+  {
+    "id": "L1034",
+    "source": "ledger",
+    "date": "2026-06-04",
+    "amount": 1155.94,
+    "currency": "USD",
+    "description": "Initech LLC delivery fee INV-70714",
+    "reference": "INV-70714"
+  },
+  {
+    "id": "L1079",
+    "source": "ledger",
+    "date": "2026-06-10",
+    "amount": 1429.4,
+    "currency": "USD",
+    "description": "Soylent Co order INV-97593",
+    "reference": "INV-97593"
+  },
+  {
+    "id": "L1001",
+    "source": "ledger",
+    "date": "2026-06-06",
+    "amount": 5241.84,
+    "currency": "USD",
+    "description": "Acme Corp invoice INV-41976",
+    "reference": "INV-41976"
+  },
+  {
+    "id": "L1005",
+    "source": "ledger",
+    "date": "2026-06-24",
+    "amount": 4054.06,
+    "currency": "USD",
+    "description": "Cyberdyne Systems invoice INV-94974",
+    "reference": "INV-94974"
+  },
+  {
+    "id": "L1076",
+    "source": "ledger",
+    "date": "2026-06-19",
+    "amount": 756.25,
+    "currency": "USD",
+    "description": "Stark Industries order INV-12246",
+    "reference": "INV-12246"
+  },
+  {
+    "id": "L1100",
+    "source": "ledger",
+    "date": "2026-06-09",
+    "amount": 4522.13,
+    "currency": "USD",
+    "description": "Oscorp overseas consulting",
+    "reference": "TX-INT-16509"
+  },
+  {
+    "id": "L1019",
+    "source": "ledger",
+    "date": "2026-06-05",
+    "amount": 530.19,
+    "currency": "USD",
+    "description": "Massive Dynamic invoice INV-14901",
+    "reference": "INV-14901"
+  },
+  {
+    "id": "L1014",
+    "source": "ledger",
+    "date": "2026-06-03",
+    "amount": 254.72,
+    "currency": "USD",
+    "description": "Acme Corp invoice INV-28148",
+    "reference": "INV-28148"
+  },
+  {
+    "id": "L1070",
+    "source": "ledger",
+    "date": "2026-06-27",
+    "amount": 971.53,
+    "currency": "USD",
+    "description": "Hooli project milestone INV-22843",
+    "reference": "INV-22843"
+  },
+  {
+    "id": "L1002",
+    "source": "ledger",
+    "date": "2026-06-02",
+    "amount": 121.86,
+    "currency": "USD",
+    "description": "Stark Industries invoice INV-45861",
+    "reference": "INV-45861"
+  },
+  {
+    "id": "L1110",
+    "source": "ledger",
+    "date": "2026-06-09",
+    "amount": 654.33,
+    "currency": "USD",
+    "description": "Globex Ltd invoice INV-13127",
+    "reference": "INV-13127"
+  },
+  {
+    "id": "L1071",
+    "source": "ledger",
+    "date": "2026-06-27",
+    "amount": 1395.3,
+    "currency": "USD",
+    "description": "Hooli project milestone INV-36852",
+    "reference": "INV-36852"
+  },
+  {
+    "id": "L1035",
+    "source": "ledger",
+    "date": "2026-06-04",
+    "amount": 1155.94,
+    "currency": "USD",
+    "description": "Initech LLC delivery fee INV-44858",
+    "reference": "INV-44858"
+  },
+  {
+    "id": "L1059",
+    "source": "ledger",
+    "date": "2026-06-18",
+    "amount": 1441.8,
+    "currency": "USD",
+    "description": "Wonka Labs project milestone INV-14591",
+    "reference": "INV-14591"
+  },
+  {
+    "id": "L1016",
+    "source": "ledger",
+    "date": "2026-06-04",
+    "amount": 4441.36,
+    "currency": "USD",
+    "description": "Massive Dynamic invoice INV-52299",
+    "reference": "INV-52299"
+  },
+  {
+    "id": "L1007",
+    "source": "ledger",
+    "date": "2026-06-17",
+    "amount": 7069.01,
+    "currency": "USD",
+    "description": "Stark Industries invoice INV-15470",
+    "reference": "INV-15470"
+  },
+  {
+    "id": "L1022",
+    "source": "ledger",
+    "date": "2026-06-08",
+    "amount": 4185.86,
+    "currency": "USD",
+    "description": "Umbrella Inc invoice INV-36174",
+    "reference": "INV-36174"
+  },
+  {
+    "id": "L1033",
+    "source": "ledger",
+    "date": "2026-06-15",
+    "amount": 4092.13,
+    "currency": "USD",
+    "description": "Oscorp monthly retainer PO-799696",
+    "reference": "PO-799696"
+  },
+  {
+    "id": "L1020",
+    "source": "ledger",
+    "date": "2026-06-11",
+    "amount": 5745.4,
+    "currency": "USD",
+    "description": "Cyberdyne Systems invoice INV-89832",
+    "reference": "INV-89832"
+  },
+  {
+    "id": "L1050",
+    "source": "ledger",
+    "date": "2026-06-20",
+    "amount": 614.3,
+    "currency": "USD",
+    "description": "Hooli project milestone INV-26294",
+    "reference": "INV-26294"
+  },
+  {
+    "id": "L1065",
+    "source": "ledger",
+    "date": "2026-06-20",
+    "amount": 1475.99,
+    "currency": "USD",
+    "description": "Tyrell Corp project milestone INV-67716",
+    "reference": "INV-67716"
+  },
+  {
+    "id": "L1086",
+    "source": "ledger",
+    "date": "2026-06-09",
+    "amount": 217.96,
+    "currency": "USD",
+    "description": "Wonka Labs order INV-76260",
+    "reference": "INV-76260"
+  },
+  {
+    "id": "L1000",
+    "source": "ledger",
+    "date": "2026-06-24",
+    "amount": 5731.3,
+    "currency": "USD",
+    "description": "Vandelay Industries invoice INV-51097",
+    "reference": "INV-51097"
+  },
+  {
+    "id": "L1052",
+    "source": "ledger",
+    "date": "2026-06-20",
+    "amount": 581.16,
+    "currency": "USD",
+    "description": "Hooli project milestone INV-96638",
+    "reference": "INV-96638"
+  }
+]
