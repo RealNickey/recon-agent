@@ -16,7 +16,6 @@ import {
   BuildingIcon,
   LayoutIcon,
   RazorpayXIcon,
-  AcceptPaymentsIcon,
   SubscriptionsIcon,
   AwardIcon,
   RazorSense,
@@ -27,7 +26,6 @@ export type NavTab =
   | "dashboard"
   | "ledger"
   | "brs"
-  | "razorpay"
   | "controller"
   | "crossval"
   | "traces";
@@ -70,7 +68,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: "data/holdout", label: "Holdout set", tag: "Seed 777" },
     { id: "data/hard", label: "Hard edge-cases", tag: "Seed 999" },
     { id: "data/adversarial", label: "Adversarial set", tag: "Seed 2026" },
-    { id: "data/razorpay", label: "Razorpay sync", tag: "50+ items" },
   ];
 
   return (
@@ -147,7 +144,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             />
           </SideNavSection>
 
-          <SideNavSection title="INTELLIGENCE & GATEWAYS">
+          <SideNavSection title="INTELLIGENCE & AGENTS">
             <SideNavLink
               as={CustomLink}
               title="AI controller"
@@ -161,16 +158,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
               onClick={(e: React.MouseEvent) => {
                 e.preventDefault();
                 onSelectTab("controller");
-              }}
-            />
-            <SideNavLink
-              as={CustomLink}
-              title="Razorpay checkout"
-              icon={AcceptPaymentsIcon}
-              isActive={activeTab === "razorpay"}
-              onClick={(e: React.MouseEvent) => {
-                e.preventDefault();
-                onSelectTab("razorpay");
               }}
             />
             <SideNavLink

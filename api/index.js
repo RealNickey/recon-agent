@@ -47068,10 +47068,11 @@ function getAvailableProviderTargets() {
     const glmModels = [
       "z-ai/glm-5.2",
       "z-ai/glm-5.2:free",
-      "thudm/glm-4-9b-chat",
-      "thudm/glm-4-9b-chat:free",
-      "thudm/glm-z1-32b",
-      "thudm/glm-z1-32b:free"
+      "z-ai/glm-4.5",
+      "z-ai/glm-4.7-flash",
+      "zhipuai/glm-4-flash",
+      "zhipuai/glm-4-flash:free",
+      "zhipuai/glm-4-plus"
     ];
     for (const m of glmModels) {
       if (m !== userModel) {
@@ -60856,6 +60857,7 @@ function createReconciliationToolLoopAgent(model, instructions = AGENT_SYSTEM_IN
     model,
     instructions,
     tools,
+    maxOutputTokens: 2000,
     stopWhen: isStepCount(MAX_AGENT_STEPS),
     output: output_exports.object({
       schema: Tier3BatchDecisionSchema,
@@ -63253,6 +63255,7 @@ ${focusRecord ? `- Focus Record: ${JSON.stringify(focusRecord)}
 
 Execute any necessary grounded tools, verify accounting math, and provide a thorough, evidence-backed answer.`,
         tools: aiTools,
+        maxOutputTokens: 2000,
         stopWhen: isStepCount(5),
         abortSignal: AbortSignal.timeout(timeoutMs)
       });

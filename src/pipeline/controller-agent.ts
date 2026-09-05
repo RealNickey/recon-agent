@@ -1171,6 +1171,7 @@ ${focusRecord ? `- Focus Record: ${JSON.stringify(focusRecord)}\n- Focus Outcome
           system: systemPrompt,
           prompt: `User Question: ${prompt}\n\nExecute any necessary grounded tools, verify accounting math, and provide a thorough, evidence-backed answer.`,
           tools: aiTools,
+          maxOutputTokens: 2000,
           stopWhen: stepCountIs(5),
           abortSignal: AbortSignal.timeout(timeoutMs),
         });

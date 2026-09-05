@@ -294,6 +294,7 @@ export function createReconciliationToolLoopAgent(
     model,
     instructions,
     tools,
+    maxOutputTokens: 2000,
     stopWhen: isStepCount(MAX_AGENT_STEPS),
     output: Output.object({
       schema: Tier3BatchDecisionSchema,

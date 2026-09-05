@@ -4,7 +4,6 @@ import { Sidebar, type NavTab } from "@/components/layout/Sidebar";
 import { Header } from "@/components/layout/Header";
 import { DashboardView } from "@/components/financial/DashboardView";
 import { ReconLedgerView } from "@/components/ledger/ReconLedgerView";
-import { RazorpayHubView } from "@/components/razorpay/RazorpayHubView";
 import { BrsView } from "@/components/financial/BrsView";
 import { AiControllerChatView } from "@/components/controller/AiControllerChatView";
 import { CrossValMatrixView } from "@/components/telemetry/CrossValMatrixView";
@@ -191,15 +190,6 @@ export function App() {
               onSelectTierFilter={setSelectedTierFilter}
               onExplainMatch={handleExplainMatch}
               onExportCsv={handleExportCsv}
-            />
-          )}
-
-          {activeTab === "razorpay" && (
-            <RazorpayHubView
-              onSyncComplete={() => {
-                handleSelectDataset("data/razorpay");
-                handleRunPipeline();
-              }}
             />
           )}
 

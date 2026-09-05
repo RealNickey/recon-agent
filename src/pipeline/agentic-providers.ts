@@ -83,10 +83,11 @@ export function getAvailableProviderTargets(): ProviderTarget[] {
     const glmModels = [
       "z-ai/glm-5.2",
       "z-ai/glm-5.2:free",
-      "thudm/glm-4-9b-chat",
-      "thudm/glm-4-9b-chat:free",
-      "thudm/glm-z1-32b",
-      "thudm/glm-z1-32b:free",
+      "z-ai/glm-4.5",
+      "z-ai/glm-4.7-flash",
+      "zhipuai/glm-4-flash",
+      "zhipuai/glm-4-flash:free",
+      "zhipuai/glm-4-plus",
     ];
 
     for (const m of glmModels) {

@@ -12,7 +12,6 @@ import {
   Badge,
   LayoutIcon,
   SubscriptionsIcon,
-  AcceptPaymentsIcon,
   BuildingIcon,
   RazorpayXIcon,
   AwardIcon,
@@ -84,12 +83,6 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       subtitle: "Side-by-side transaction comparison & field diffs",
     },
     {
-      id: "razorpay" as NavTab,
-      title: "Razorpay Gateway & Checkout",
-      icon: AcceptPaymentsIcon,
-      subtitle: "Standard Web Checkout SDK, Orders, Payments, MDR deduction",
-    },
-    {
       id: "brs" as NavTab,
       title: "Bank Reconciliation Statement (BRS)",
       icon: BuildingIcon,
@@ -120,7 +113,6 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
     { id: "data/holdout", title: "Holdout Blind (Seed 777)", badge: "Holdout 1.0000" },
     { id: "data/hard", title: "Hard Edge-Cases (Seed 999)", badge: "Hard Seed" },
     { id: "data/adversarial", title: "Adversarial Evaluation (Seed 2026)", badge: "Stress Test" },
-    { id: "data/razorpay", title: "Razorpay Ingestion Dataset", badge: "50+ Recs" },
   ];
 
   const filteredNav = useMemo(() => {

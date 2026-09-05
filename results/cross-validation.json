@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-29T08:43:27.133Z",
+  "timestamp": "2026-09-05T16:25:27.411Z",
   "totalRuns": 10,
   "modesEvaluated": [
     "standard",
@@ -32,7 +32,7 @@
       "recall": 1,
       "precision": 1,
       "fpr": 0,
-      "durationMs": 299,
+      "durationMs": 316,
       "tier1": 59,
       "tier2": 100,
       "tier3": 0
@@ -48,7 +48,7 @@
       "recall": 1,
       "precision": 1,
       "fpr": 0,
-      "durationMs": 222,
+      "durationMs": 224,
       "tier1": 63,
       "tier2": 96,
       "tier3": 0
@@ -64,7 +64,7 @@
       "recall": 1,
       "precision": 1,
       "fpr": 0,
-      "durationMs": 215,
+      "durationMs": 261,
       "tier1": 65,
       "tier2": 98,
       "tier3": 0
@@ -80,7 +80,7 @@
       "recall": 1,
       "precision": 1,
       "fpr": 0,
-      "durationMs": 201,
+      "durationMs": 253,
       "tier1": 65,
       "tier2": 94,
       "tier3": 0
@@ -96,7 +96,7 @@
       "recall": 1,
       "precision": 1,
       "fpr": 0,
-      "durationMs": 198,
+      "durationMs": 208,
       "tier1": 64,
       "tier2": 95,
       "tier3": 0
@@ -112,7 +112,7 @@
       "recall": 1,
       "precision": 1,
       "fpr": 0,
-      "durationMs": 413,
+      "durationMs": 425,
       "tier1": 37,
       "tier2": 124,
       "tier3": 0
@@ -128,7 +128,7 @@
       "recall": 1,
       "precision": 1,
       "fpr": 0,
-      "durationMs": 387,
+      "durationMs": 385,
       "tier1": 37,
       "tier2": 120,
       "tier3": 0
@@ -144,7 +144,7 @@
       "recall": 1,
       "precision": 1,
       "fpr": 0,
-      "durationMs": 400,
+      "durationMs": 414,
       "tier1": 39,
       "tier2": 125,
       "tier3": 0
@@ -160,7 +160,7 @@
       "recall": 1,
       "precision": 1,
       "fpr": 0,
-      "durationMs": 404,
+      "durationMs": 536,
       "tier1": 37,
       "tier2": 122,
       "tier3": 0
@@ -176,7 +176,7 @@
       "recall": 1,
       "precision": 1,
       "fpr": 0,
-      "durationMs": 400,
+      "durationMs": 546,
       "tier1": 35,
       "tier2": 124,
       "tier3": 0
